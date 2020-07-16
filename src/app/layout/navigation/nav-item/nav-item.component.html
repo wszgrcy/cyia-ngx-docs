@@ -1,0 +1,18 @@
+<div class="nav-item__container" [ngClass]="classes">
+  <a [routerLink]="'/doc/'+node.url" title="{{node.tooltip}}" class="vertical-menu-item spring" mat-button
+    [color]="(classes.selected)?'primary':''">
+    <button mat-icon-button [disableRipple]="true" *ngIf="node.icon">
+      <mat-icon>{{node.icon}}</mat-icon>
+    </button>
+    <a mat-button disableRipple [style.display]="isWide?'':'none'">{{node.title}}</a>
+  </a>
+  <!-- 有子节点显示 -->
+  <button mat-icon-button class="rotating-icon" *ngIf="node.children&&isWide" (click)="headerClicked()"
+    [color]="(classes.expanded)?'primary':''">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+</div>
+<div class="children-nav-menu" [ngClass]="classes">
+  <aio-nav-item *ngFor="let node of nodeChildren" [isWide]="isWide" [isParentExpanded]="isExpanded" [node]="node"
+    [selectedNode]="selectedNode" (childSelected)="onEmitSelected()"></aio-nav-item>
+</div>
