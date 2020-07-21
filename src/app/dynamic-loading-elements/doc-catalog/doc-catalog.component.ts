@@ -38,49 +38,21 @@ class CatalogTree {
   styleUrls: ['./doc-catalog.component.scss'],
 })
 export class DocCatalogComponent implements OnInit {
+  /**
+   * todo 视区高度获取
+   */
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    /**组件的元素引用 */
-    private elementRef: ElementRef,
-    // private _navigationFocusService: NavigationFocusService,
-    @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
     private store: Store,
     private cd: ChangeDetectorRef
   ) {
     this.url = this.router.url.replace(/#.*/, '');
-    this.hostElement = elementRef.nativeElement;
-    this.subscriptions.add(
-      this.router.events
-        .pipe(
-          filter(
-            (event: Event): event is NavigationEnd =>
-              event instanceof NavigationEnd
-          )
-        )
-        .subscribe(() => {
-          const rootUrl = router.url.split('#')[0];
-          if (rootUrl !== this._rootUrl) {
-            this._rootUrl = rootUrl;
-          }
-        })
-    );
-
-    this.subscriptions.add(
-      this.activatedRoute.fragment.subscribe((fragment) => {
-        this._urlFragment = fragment;
-
-        const target = document.getElementById(this._urlFragment);
-        if (target) {
-          target.scrollIntoView();
-        }
-      })
-    );
   }
   @ViewChild(MatTree, { static: true }) matTree: MatTree<CatalogTree>;
   url: string;
   catalogList: CatalogTree[];
+  /** 滚动的容器 */
   scrollContainer: HTMLElement;
   headersElement: NodeListOf<HTMLHeadingElement>;
   rootNode: CatalogTree;
@@ -91,24 +63,8 @@ export class DocCatalogComponent implements OnInit {
     selector: string;
   };
 
-  /**
-   * doc 等待初始化信号进行初始化目录
-   * doc 初始化后判断位置
-   * 监听容器滚动变更位置
-   */
-  // /**滚动容器的选择器 */
-  // @Input() container: string;
   /**文档的元素 */
   docElement: HTMLElement;
-  // _links: Link[] = [];
-  /**当前路由的地址 */
-  _rootUrl = this.router.url.split('#')[0];
-  /**滚动容器 */
-  // private _scrollContainer: any;
-  /**id */
-  private _urlFragment = '';
-  private subscriptions = new Subscription();
-  hostElement: HTMLElement;
 
   treeControl = new FlatTreeControl<CatalogTree>(
     (node) => node.level,
@@ -120,7 +76,6 @@ export class DocCatalogComponent implements OnInit {
       if (this.map.has(node)) {
         const treenode = this.map.get(node);
         treenode.active = node.active;
-        // console.log(this.map.get(node));
         return treenode;
       }
       const treenode = {
@@ -165,16 +120,11 @@ export class DocCatalogComponent implements OnInit {
       });
   }
 
-  // ngAfterViewInit() {
-  //   this.updateScrollPosition();
-  // }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // this.updateScrollPosition();
-  }
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
-  }
+
+  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnDestroy(): void {}
+  /** 订阅滚动更新位置 */
   updateScrollPosition(): void {
     fromEvent(this.scrollContainer, 'scroll')
       .pipe(debounceTime(50))
@@ -202,7 +152,7 @@ export class DocCatalogComponent implements OnInit {
    */
   initHeaders() {
     const headers: NodeListOf<HTMLHeadingElement> = this.docElement.querySelectorAll(
-      'h1[id],h2[id],h3[id],h4[id],h5[id],h6[id],h1,h2,h3,h4,h5,h6'
+      'h1,h2,h3,h4,h5,h6'
     );
 
     this.headersElement = headers;
@@ -240,16 +190,14 @@ export class DocCatalogComponent implements OnInit {
           break;
         }
       }
-
     });
     this.catalogList = links;
     this.dataSource.data = root.children;
     this.treeControl.expandAll();
   }
 
-  /**恢复位置 */
+  /** 恢复位置 */
   restorePosition(selector: string) {
-
     this.docElement.querySelector(selector).scrollIntoView();
   }
 

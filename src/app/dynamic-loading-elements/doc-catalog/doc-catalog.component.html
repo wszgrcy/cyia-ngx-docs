@@ -3,7 +3,7 @@
     <a mat-button [routerLink]="[url]" [fragment]="node.name" [color]="node.active?'primary':''">{{node.name}}</a>
   </mat-tree-node>
   <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+    <button mat-icon-button matTreeNodeToggle>
       <mat-icon>
         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
       </mat-icon>
@@ -11,4 +11,3 @@
     <a mat-button [routerLink]="[url]" [fragment]="node.name" [color]="node.active?'primary':''">{{node.name}}</a>
   </mat-tree-node>
 </mat-tree>
-<!-- <a [routerLink]="[ '/path', routeParam ]">name</a> -->
