@@ -41,10 +41,10 @@ export class RendererRouterComponent implements OnInit {
     this.store
       .pipe(
         selectRouterData,
-        map(
-          (list) =>
-            list[this.router.url.replace(/^\/doc/, '').replace(/#.*/, '')]
-        ),
+        map((list) => {
+          console.log('查询', this.router.url);
+          return list[this.router.url.replace(/^\/doc/, '').replace(/#.*/, '')];
+        }),
         filter((e) => !!e)
       )
       .subscribe(async (list: RouterDataEntity[]) => {

@@ -1,0 +1,9 @@
+{% macro propertyList(propertyList) %}
+{% include "./property-list.html" %}
+{% endmacro %}
+
+<article>
+  <header>{{typeLink.name}} </header>
+  <div>{{typeLink.description}}</div>
+  {{propertyList(typeLink.propertyList)}}
+</article>

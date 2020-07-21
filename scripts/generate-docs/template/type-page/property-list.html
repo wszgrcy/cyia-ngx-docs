@@ -1,0 +1,16 @@
+{% macro propertyItem(propertyItem) %}
+{% include "property.html" %}
+{% endmacro %}
+<table>
+  <thead>
+    <tr>
+      <td>属性</td>
+      <td>类型</td>
+      <td>描述</td>
+    </tr>
+  </thead>
+
+  {% for item in propertyList %}
+  {{propertyItem(item)}}
+  {% endfor %}
+</table>

@@ -3,6 +3,10 @@
     {
         "title": "CyiaRepositoryModule",
         "url": "overview/repository"
+    },
+    {
+        "title": "CyiaLoadingHintModule",
+        "url": "overview/loading-hint"
     }
 ]
 }

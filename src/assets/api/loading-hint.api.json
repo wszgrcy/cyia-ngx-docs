@@ -16,12 +16,12 @@
                         "property": [
                             {
                                 "title": "简介",
-                                "url": "overview/repository",
+                                "url": "overview/loading-hint",
                                 "selected": false
                             },
                             {
                                 "title": "接口",
-                                "url": "api/repository",
+                                "url": "api/loading-hint",
                                 "selected": true
                             }
                         ]

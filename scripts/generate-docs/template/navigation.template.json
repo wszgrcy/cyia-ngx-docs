@@ -1,0 +1,3 @@
+{
+    "sideNav":{{doc.sideNavToJson|json}}
+}

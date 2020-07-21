@@ -7,6 +7,12 @@
 - 首先,通过文档生成模块,生成显示文档所需的数据
 > 使用ng官网生成文档使用的`dgeni`
 - 然后,项目构建后,即可想数据渲染为网页
+### 生成文档依赖
+- `docs-overview` 后跟md文件用来提供文件简介
+- `docs-module` 标记是一个模块文档
+- `docs-service` 标记是一个服务文档
+- `docs-decorator` 标记是一个装饰器文档
+- `main-package.ts`文件中配置`源码路径`及`readTypeScriptModules.sourceFiles`指定需要生成文档的模块
 ## 未实现部分
 - 对于开发实例显示的支持
 - 搜索的实现
