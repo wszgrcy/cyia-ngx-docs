@@ -1,27 +1,14 @@
 # CyiaNgxDocs
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.3.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- 以下内容均为开发时的实现思路,如果与各位开发者的想法有出入,请及时联系供我改进
+## 说明
+- 这是一个供`ng library`开发的依赖包生成文档的项目
+- 文档以`模块`为目录(`@NgModel`),分为`简介`及`接口`两部分
+## 原理
+- 首先,通过文档生成模块,生成显示文档所需的数据
+> 使用ng官网生成文档使用的`dgeni`
+- 然后,项目构建后,即可想数据渲染为网页
+## 未实现部分
+- 对于开发实例显示的支持
+- 搜索的实现
+- 页脚数据展示
+- 生成数据部分代码迁移(目前展示部分在cyia-ngx-common中有相关例子)
