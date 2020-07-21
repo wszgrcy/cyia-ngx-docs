@@ -13,6 +13,7 @@ import { selectRouterData } from '../selector/router-data.selector';
 })
 export class DynamicLoadingElementsService {
   loadedElement = {};
+  // loadingElement = {};
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
 
@@ -21,21 +22,22 @@ export class DynamicLoadingElementsService {
   ) {}
 
   private async _loadingElement(rendererData) {
-    if (this.loadedElement[rendererData.selector]) return;
-    let findElemkent = LAZY_ROUTES.find(
+    if (this.loadedElement[rendererData.selector]) { return; }
+    this.loadedElement[rendererData.selector] = true;
+    const findElemkent = LAZY_ROUTES.find(
       (item) => item.selector == rendererData.selector
     );
     if (!findElemkent) {
       return;
     }
-    let module = await findElemkent.loadChildren();
+    const module = await findElemkent.loadChildren();
     let ngModuleFactory: NgModuleFactory<any>;
     if (module instanceof NgModuleFactory) {
       ngModuleFactory = module;
     } else {
       ngModuleFactory = await this.compiler.compileModuleAsync(module);
     }
-    let moduleRef = ngModuleFactory.create(this.injector);
+    const moduleRef = ngModuleFactory.create(this.injector);
     moduleRef.injector;
     const injector = moduleRef.injector;
     const customElementComponent = moduleRef.instance.entry;
@@ -43,17 +45,15 @@ export class DynamicLoadingElementsService {
     const CustomElement = createCustomElement(customElementComponent, {
       injector,
     });
-    console.log(rendererData.selector);
-    if (this.loadedElement[rendererData.selector]) return;
+    // console.log(rendererData.selector);
+    // if (this.loadedElement[rendererData.selector]) return;
     try {
       customElements!.define(rendererData.selector, CustomElement);
     } catch (error) {
-      console.log('报错',error)
+      console.log('报错', error);
     }
     this.loadedElement[rendererData.selector] = true;
-    return customElements.whenDefined(rendererData.selector).then(() => {
-     
-    });
+    return customElements.whenDefined(rendererData.selector).then(() => {});
   }
 
   async generateElement(list: any[]) {

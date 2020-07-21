@@ -1,357 +1,416 @@
 [
     {
-        "selector": "doc-tabs",
-        "property": [
+        "selector": "flex-layout",
+        "property": {
+            "flexList": [
+                "1 1 0",
+                "0 0 130px"
+            ]
+        },
+        "children": [
             {
-                "title": "简介",
-                "url": "overview/repository",
-                "selected": false
-            },
-            {
-                "title": "接口",
-                "url": "api/repository",
-                "selected": true
-            }
-        ]
-    },
-    {
-        "selector": "h2",
-        "content": "服务"
-    },
-    {
-        "selector": "service-name",
-        "content": "CyiaRepositoryService"
-    },
-    {
-        "selector": "service-description",
-        "content": "仓库服务,访问实体,返回数据"
-    },
-    {
-        "selector": "method-table",
-        "property": [
-            {
-                "name": "findOne",
-                "description": "查找一个数据",
-                "docParameters": [
+                "selector": "doc-content",
+                "children": [
                     {
-                        "name": "entity",
-                        "isOptional": false,
-                        "defaultValue": "Type<T>",
-                        "type": "Type<T>",
-                        "isRestParam": false,
-                        "description": "类数据源装饰器装饰的实体",
-                        "parameter": "Type<T>"
+                        "selector": "doc-tabs",
+                        "property": [
+                            {
+                                "title": "简介",
+                                "url": "overview/repository",
+                                "selected": false
+                            },
+                            {
+                                "title": "接口",
+                                "url": "api/repository",
+                                "selected": true
+                            }
+                        ]
                     },
                     {
-                        "name": "params",
-                        "isOptional": true,
-                        "defaultValue": "any[]",
-                        "type": "any[]",
-                        "isRestParam": true,
-                        "description": "source传入参数(可传入多个)",
-                        "parameter": "any[]"
-                    }
-                ],
-                "returnType": "Observable<T>"
-            },
-            {
-                "name": "findMany",
-                "description": "查找多个数据",
-                "docParameters": [
-                    {
-                        "name": "entity",
-                        "isOptional": false,
-                        "defaultValue": "Type<T>",
-                        "type": "Type<T>",
-                        "isRestParam": false,
-                        "description": "类数据源装饰器装饰的实体",
-                        "parameter": "Type<T>"
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h2",
+                            "content": "服务"
+                        }
                     },
                     {
-                        "name": "params",
-                        "isOptional": true,
-                        "defaultValue": "any[]",
-                        "type": "any[]",
-                        "isRestParam": true,
-                        "description": "source传入参数(可传入多个)",
-                        "parameter": "any[]"
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h3",
+                            "content": "CyiaRepositoryService"
+                        }
+                    },
+                    {
+                        "selector": "p",
+                        "content": "仓库服务,访问实体,返回数据"
+                    },
+                    {
+                        "selector": "method-table",
+                        "property": [
+                            {
+                                "name": "findOne",
+                                "description": "查找一个数据",
+                                "docParameters": [
+                                    {
+                                        "name": "entity",
+                                        "isOptional": false,
+                                        "defaultValue": "Type<T>",
+                                        "type": "Type<T>",
+                                        "isRestParam": false,
+                                        "description": "类数据源装饰器装饰的实体",
+                                        "parameter": "Type<T>"
+                                    },
+                                    {
+                                        "name": "params",
+                                        "isOptional": true,
+                                        "defaultValue": "any[]",
+                                        "type": "any[]",
+                                        "isRestParam": true,
+                                        "description": "source传入参数(可传入多个)",
+                                        "parameter": "any[]"
+                                    }
+                                ],
+                                "returnType": "Observable<T>"
+                            },
+                            {
+                                "name": "findMany",
+                                "description": "查找多个数据",
+                                "docParameters": [
+                                    {
+                                        "name": "entity",
+                                        "isOptional": false,
+                                        "defaultValue": "Type<T>",
+                                        "type": "Type<T>",
+                                        "isRestParam": false,
+                                        "description": "类数据源装饰器装饰的实体",
+                                        "parameter": "Type<T>"
+                                    },
+                                    {
+                                        "name": "params",
+                                        "isOptional": true,
+                                        "defaultValue": "any[]",
+                                        "type": "any[]",
+                                        "isRestParam": true,
+                                        "description": "source传入参数(可传入多个)",
+                                        "parameter": "any[]"
+                                    }
+                                ],
+                                "returnType": "Observable<T[]>"
+                            }
+                        ]
+                    },
+                    {
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h2",
+                            "content": "装饰器"
+                        }
+                    },
+                    {
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h3",
+                            "content": "PropertyDataSource"
+                        }
+                    },
+                    {
+                        "selector": "p",
+                        "content": "属性数据源,定义属性从哪里取得数据(如果该属性没有或需要修改)"
+                    },
+                    {
+                        "selector": "property-table",
+                        "property": [
+                            {
+                                "name": "options",
+                                "isOptional": false,
+                                "defaultValue": "PropertyDataSourceOptions<RESULT>",
+                                "type": "PropertyDataSourceOptions<RESULT>",
+                                "isRestParam": false,
+                                "description": "",
+                                "parameter": "PropertyDataSourceOptions<RESULT>",
+                                "typeLink": {
+                                    "propertyList": [
+                                        {
+                                            "name": "source",
+                                            "description": "所有的属性数据来源,多个时,只取第一个,即最靠近属性的一个",
+                                            "type": "(httpClient: HttpClient, injector: Injector, parentResult: any) => Observable<any>"
+                                        },
+                                        {
+                                            "name": "cascade",
+                                            "description": "级联标志",
+                                            "type": "boolean"
+                                        },
+                                        {
+                                            "name": "inherit",
+                                            "description": "是否继承",
+                                            "type": "boolean"
+                                        },
+                                        {
+                                            "name": "entity",
+                                            "description": "如果返回数据是结构化实体需要\n定义实体且只有实体,查找实体的source,不使用自身的source",
+                                            "type": "Type<any>"
+                                        },
+                                        {
+                                            "name": "itemSelect",
+                                            "description": "分发到各item中使用",
+                                            "type": "(item: any, key: string, index: number, result: RESULT extends Observable<any> ? never : RESULT, httpClient: HttpClient, injector: Injector) => Observable<...>"
+                                        }
+                                    ],
+                                    "name": "PropertyDataSourceOptions",
+                                    "description": ""
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h3",
+                            "content": "ClassDataSource"
+                        }
+                    },
+                    {
+                        "selector": "p",
+                        "content": "类数据来源,定义装饰类从哪里取得数据"
+                    },
+                    {
+                        "selector": "property-table",
+                        "property": [
+                            {
+                                "name": "options",
+                                "isOptional": false,
+                                "defaultValue": "ClassDataSourceOptions",
+                                "type": "ClassDataSourceOptions",
+                                "isRestParam": false,
+                                "description": "相关参数",
+                                "parameter": "ClassDataSourceOptions",
+                                "typeLink": {
+                                    "propertyList": [
+                                        {
+                                            "name": "source",
+                                            "description": "数据来源",
+                                            "type": "(httpClient: HttpClient, injector: Injector, ...args: any[]) => Observable<any>"
+                                        },
+                                        {
+                                            "name": "inherit",
+                                            "description": "是否继承父级,true时直接使用父级source",
+                                            "type": "boolean"
+                                        }
+                                    ],
+                                    "name": "ClassDataSourceOptions",
+                                    "description": ""
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h3",
+                            "content": "StronglyTyped"
+                        }
+                    },
+                    {
+                        "selector": "p",
+                        "content": "强类型化,使用返回的属性生成传入类的实例"
+                    },
+                    {
+                        "selector": "property-table",
+                        "property": [
+                            {
+                                "name": "entity",
+                                "isOptional": false,
+                                "defaultValue": "Type<T>",
+                                "type": "Type<T>",
+                                "isRestParam": false,
+                                "description": "",
+                                "parameter": "Type<T>"
+                            }
+                        ]
+                    },
+                    {
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h3",
+                            "content": "PropertyDataSourceStandalone"
+                        }
+                    },
+                    {
+                        "selector": "p",
+                        "content": "对返回列表(加入是)中的每条数据的该属性进行单独处理,没有统一的返回"
+                    },
+                    {
+                        "selector": "property-table",
+                        "property": [
+                            {
+                                "name": "options",
+                                "isOptional": false,
+                                "defaultValue": "PropertyDataSourceStandaloneOptions<any>",
+                                "type": "PropertyDataSourceStandaloneOptions<any>",
+                                "isRestParam": false,
+                                "description": "",
+                                "parameter": "PropertyDataSourceStandaloneOptions<any>",
+                                "typeLink": {
+                                    "propertyList": [
+                                        {
+                                            "name": "source",
+                                            "description": "数据来源",
+                                            "type": "(item: any, key: string, index: number, result: any, httpClient: HttpClient, injector: Injector) => Observable<any>"
+                                        },
+                                        {
+                                            "name": "cascade",
+                                            "description": "级联标志",
+                                            "type": "boolean"
+                                        },
+                                        {
+                                            "name": "entity",
+                                            "description": "实体化类",
+                                            "type": "Type<T>"
+                                        }
+                                    ],
+                                    "name": "PropertyDataSourceStandaloneOptions",
+                                    "description": ""
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h3",
+                            "content": "ClassInherit"
+                        }
+                    },
+                    {
+                        "selector": "p",
+                        "content": "类继承,用于继承上一个类的数据来源"
+                    },
+                    {
+                        "selector": "property-table",
+                        "property": []
+                    },
+                    {
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h3",
+                            "content": "PropertyInherit"
+                        }
+                    },
+                    {
+                        "selector": "p",
+                        "content": "属性继承,如果使用,需要设置在里属性最近的位置,使用后数据来源会从继承中获得,"
+                    },
+                    {
+                        "selector": "property-table",
+                        "property": []
+                    },
+                    {
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h3",
+                            "content": "PropertyDefaultValue"
+                        }
+                    },
+                    {
+                        "selector": "p",
+                        "content": "设置属性在某种情况下的的默认值"
+                    },
+                    {
+                        "selector": "property-table",
+                        "property": [
+                            {
+                                "name": "value",
+                                "isOptional": false,
+                                "defaultValue": "T",
+                                "type": "T",
+                                "isRestParam": false,
+                                "description": "",
+                                "parameter": "T"
+                            },
+                            {
+                                "name": "options",
+                                "isOptional": true,
+                                "defaultValue": "PropertyDefaultValueOptions",
+                                "type": "PropertyDefaultValueOptions",
+                                "isRestParam": false,
+                                "description": "",
+                                "parameter": "PropertyDefaultValueOptions",
+                                "typeLink": {
+                                    "propertyList": [
+                                        {
+                                            "name": "isNull",
+                                            "description": "是否为null",
+                                            "type": "boolean"
+                                        },
+                                        {
+                                            "name": "isUndefined",
+                                            "description": "是否为undefined",
+                                            "type": "boolean"
+                                        },
+                                        {
+                                            "name": "isZero",
+                                            "description": "是否为0",
+                                            "type": "boolean"
+                                        },
+                                        {
+                                            "name": "isNaN",
+                                            "description": "是否为nan",
+                                            "type": "boolean"
+                                        },
+                                        {
+                                            "name": "isEmptyString",
+                                            "description": "是否为空字符串",
+                                            "type": "boolean"
+                                        },
+                                        {
+                                            "name": "equalToFalse",
+                                            "description": "是否==false",
+                                            "type": "boolean"
+                                        },
+                                        {
+                                            "name": "callback",
+                                            "description": "自定义是否使用默认值的函数",
+                                            "type": "(value: any) => boolean"
+                                        }
+                                    ],
+                                    "name": "PropertyDefaultValueOptions",
+                                    "description": ""
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h3",
+                            "content": "PropertyFormatValue"
+                        }
+                    },
+                    {
+                        "selector": "p",
+                        "content": "格式化该属性"
+                    },
+                    {
+                        "selector": "property-table",
+                        "property": [
+                            {
+                                "name": "format",
+                                "isOptional": false,
+                                "defaultValue": "> any",
+                                "type": "(value: any) => any",
+                                "isRestParam": false,
+                                "description": "",
+                                "parameter": "(value: any) => any"
+                            }
+                        ]
                     }
-                ],
-                "returnType": "Observable<T[]>"
-            }
-        ]
-    },
-    {
-        "selector": "decorator-name",
-        "content": "PropertyDataSource"
-    },
-    {
-        "selector": "decorator-description",
-        "content": "属性数据源,定义属性从哪里取得数据(如果该属性没有或需要修改)"
-    },
-    {
-        "selector": "property-table",
-        "property": [
-            {
-                "name": "options",
-                "isOptional": false,
-                "defaultValue": "PropertyDataSourceOptions<RESULT>",
-                "type": "PropertyDataSourceOptions<RESULT>",
-                "isRestParam": false,
-                "description": "",
-                "parameter": "PropertyDataSourceOptions<RESULT>",
-                "typeLink": {
-                    "propertyList": [
-                        {
-                            "name": "source",
-                            "description": "所有的属性数据来源,多个时,只取第一个,即最靠近属性的一个",
-                            "type": "(httpClient: HttpClient, injector: Injector, parentResult: any) => Observable<any>"
-                        },
-                        {
-                            "name": "cascade",
-                            "description": "级联标志",
-                            "type": "boolean"
-                        },
-                        {
-                            "name": "inherit",
-                            "description": "是否继承",
-                            "type": "boolean"
-                        },
-                        {
-                            "name": "entity",
-                            "description": "如果返回数据是结构化实体需要\n定义实体且只有实体,查找实体的source,不使用自身的source",
-                            "type": "Type<any>"
-                        },
-                        {
-                            "name": "itemSelect",
-                            "description": "分发到各item中使用",
-                            "type": "(item: any, key: string, index: number, result: RESULT extends Observable<any> ? never : RESULT, httpClient: HttpClient, injector: Injector) => Observable<...>"
-                        }
-                    ],
-                    "name": "PropertyDataSourceOptions",
-                    "description": ""
-                }
-            }
-        ]
-    },
-    {
-        "selector": "decorator-name",
-        "content": "ClassDataSource"
-    },
-    {
-        "selector": "decorator-description",
-        "content": "类数据来源,定义装饰类从哪里取得数据"
-    },
-    {
-        "selector": "property-table",
-        "property": [
-            {
-                "name": "options",
-                "isOptional": false,
-                "defaultValue": "ClassDataSourceOptions",
-                "type": "ClassDataSourceOptions",
-                "isRestParam": false,
-                "description": "相关参数",
-                "parameter": "ClassDataSourceOptions",
-                "typeLink": {
-                    "propertyList": [
-                        {
-                            "name": "source",
-                            "description": "数据来源",
-                            "type": "(httpClient: HttpClient, injector: Injector, ...args: any[]) => Observable<any>"
-                        },
-                        {
-                            "name": "inherit",
-                            "description": "是否继承父级,true时直接使用父级source",
-                            "type": "boolean"
-                        }
-                    ],
-                    "name": "ClassDataSourceOptions",
-                    "description": ""
-                }
-            }
-        ]
-    },
-    {
-        "selector": "decorator-name",
-        "content": "StronglyTyped"
-    },
-    {
-        "selector": "decorator-description",
-        "content": "强类型化,使用返回的属性生成传入类的实例"
-    },
-    {
-        "selector": "property-table",
-        "property": [
-            {
-                "name": "entity",
-                "isOptional": false,
-                "defaultValue": "Type<T>",
-                "type": "Type<T>",
-                "isRestParam": false,
-                "description": "",
-                "parameter": "Type<T>"
-            }
-        ]
-    },
-    {
-        "selector": "decorator-name",
-        "content": "PropertyDataSourceStandalone"
-    },
-    {
-        "selector": "decorator-description",
-        "content": "对返回列表(加入是)中的每条数据的该属性进行单独处理,没有统一的返回"
-    },
-    {
-        "selector": "property-table",
-        "property": [
-            {
-                "name": "options",
-                "isOptional": false,
-                "defaultValue": "PropertyDataSourceStandaloneOptions<any>",
-                "type": "PropertyDataSourceStandaloneOptions<any>",
-                "isRestParam": false,
-                "description": "",
-                "parameter": "PropertyDataSourceStandaloneOptions<any>",
-                "typeLink": {
-                    "propertyList": [
-                        {
-                            "name": "source",
-                            "description": "数据来源",
-                            "type": "(item: any, key: string, index: number, result: any, httpClient: HttpClient, injector: Injector) => Observable<any>"
-                        },
-                        {
-                            "name": "cascade",
-                            "description": "级联标志",
-                            "type": "boolean"
-                        },
-                        {
-                            "name": "entity",
-                            "description": "实体化类",
-                            "type": "Type<T>"
-                        }
-                    ],
-                    "name": "PropertyDataSourceStandaloneOptions",
-                    "description": ""
-                }
-            }
-        ]
-    },
-    {
-        "selector": "decorator-name",
-        "content": "ClassInherit"
-    },
-    {
-        "selector": "decorator-description",
-        "content": "类继承,用于继承上一个类的数据来源"
-    },
-    {
-        "selector": "property-table",
-        "property": []
-    },
-    {
-        "selector": "decorator-name",
-        "content": "PropertyInherit"
-    },
-    {
-        "selector": "decorator-description",
-        "content": "属性继承,如果使用,需要设置在里属性最近的位置,使用后数据来源会从继承中获得,"
-    },
-    {
-        "selector": "property-table",
-        "property": []
-    },
-    {
-        "selector": "decorator-name",
-        "content": "PropertyDefaultValue"
-    },
-    {
-        "selector": "decorator-description",
-        "content": "设置属性在某种情况下的的默认值"
-    },
-    {
-        "selector": "property-table",
-        "property": [
-            {
-                "name": "value",
-                "isOptional": false,
-                "defaultValue": "T",
-                "type": "T",
-                "isRestParam": false,
-                "description": "",
-                "parameter": "T"
+                ]
             },
             {
-                "name": "options",
-                "isOptional": true,
-                "defaultValue": "PropertyDefaultValueOptions",
-                "type": "PropertyDefaultValueOptions",
-                "isRestParam": false,
-                "description": "",
-                "parameter": "PropertyDefaultValueOptions",
-                "typeLink": {
-                    "propertyList": [
-                        {
-                            "name": "isNull",
-                            "description": "是否为null",
-                            "type": "boolean"
-                        },
-                        {
-                            "name": "isUndefined",
-                            "description": "是否为undefined",
-                            "type": "boolean"
-                        },
-                        {
-                            "name": "isZero",
-                            "description": "是否为0",
-                            "type": "boolean"
-                        },
-                        {
-                            "name": "isNaN",
-                            "description": "是否为nan",
-                            "type": "boolean"
-                        },
-                        {
-                            "name": "isEmptyString",
-                            "description": "是否为空字符串",
-                            "type": "boolean"
-                        },
-                        {
-                            "name": "equalToFalse",
-                            "description": "是否==false",
-                            "type": "boolean"
-                        },
-                        {
-                            "name": "callback",
-                            "description": "自定义是否使用默认值的函数",
-                            "type": "(value: any) => boolean"
-                        }
-                    ],
-                    "name": "PropertyDefaultValueOptions",
-                    "description": ""
+                "selector": "doc-catalog",
+                "property": {
+                    "selector": "doc-content"
                 }
-            }
-        ]
-    },
-    {
-        "selector": "decorator-name",
-        "content": "PropertyFormatValue"
-    },
-    {
-        "selector": "decorator-description",
-        "content": "格式化该属性"
-    },
-    {
-        "selector": "property-table",
-        "property": [
-            {
-                "name": "format",
-                "isOptional": false,
-                "defaultValue": "> any",
-                "type": "(value: any) => any",
-                "isRestParam": false,
-                "description": "",
-                "parameter": "(value: any) => any"
             }
         ]
     }

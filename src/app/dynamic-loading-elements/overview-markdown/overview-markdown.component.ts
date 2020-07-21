@@ -5,52 +5,72 @@ import {
   SimpleChanges,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Output,
+  EventEmitter,
+  HostBinding,
 } from '@angular/core';
 import md from 'markdown-it';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { TableExtend } from './plugins/table.extend';
+import { DynamicLoadingElementsService } from '../dynamic-loading-elements.service';
+import { take } from 'rxjs/operators';
 @Component({
   selector: 'overview-markdown',
   templateUrl: './overview-markdown.component.html',
   styleUrls: ['./overview-markdown.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'ceshi',
+    rendererFinish: 'true',
+  },
 })
 export class OverviewMarkdownComponent implements OnInit {
-  // set
+  waitingLoadElement: Promise<void[]>[] = [];
   @Input() ngInputProperty;
-  // (val) {
-  //   console.log(val);
-  // }
   rendererValue: SafeHtml;
+  @Input() @Output() rendererFinish = new EventEmitter();
   constructor(
     private domSanitizer: DomSanitizer,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private dynamicLoadingElements: DynamicLoadingElementsService
   ) {}
 
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    console.log('变更检测');
-    this.renderer()
+    console.log(this.rendererFinish);
+    this.renderer();
   }
 
-  renderer() {
-    // console.log(this.tempValue);
-    let mdres = md({
+  async renderer() {
+    const mdres = md({
       html: true,
     });
-    // console.log(mdres);
-    // mdres.core.ruler.after('linkify', 'style-renderer', (s) => {
-    //   s.tokens.forEach((token) => {
-    //     if (this.mdClassMap[token.tag]) {
-    //       token.attrJoin('class', this.mdClassMap[token.tag])
-    //     }
-    //   })
-    // })
+    mdres.use(TableExtend);
+    mdres.renderer.rules.table_open = (tokens, idx, options, env, self) => {
+      const token = tokens[idx];
+      const attrStr = token.attrs
+        .map((item) => `${item[0]}='${item[1]}'`)
+        .join(' ');
+      console.log(attrStr);
+      this.waitingLoadElement.push(
+        this.dynamicLoadingElements.generateElement([
+          { selector: 'base-table' },
+        ])
+      );
+      return `<${token.tag} ${attrStr}>`;
+    };
+    await Promise.all(this.waitingLoadElement);
     this.rendererValue = this.domSanitizer.bypassSecurityTrustHtml(
       mdres.render(this.ngInputProperty)
     );
     // console.log(this.value, this.rendererValue);
-    this.cd.markForCheck();
+    this.cd.detectChanges();
+
+    console.log('结束');
+    this.rendererFinish.emit();
   }
+  // @HostBinding('rendererFinish')
+  // rendererFinish1() {
+  //   return this.rendererFinish.pipe(take(1)).toPromise();
+  // }
 }

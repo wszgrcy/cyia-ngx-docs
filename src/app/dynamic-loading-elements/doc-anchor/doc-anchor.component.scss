@@ -1,0 +1,16 @@
+:host {
+  position: relative;
+  display: block;
+  // display: flex;
+  a {
+    transform: translateX(-100%);
+    position: absolute;
+    visibility: hidden;
+    padding-right: 8px;
+  }
+  &:hover {
+    a {
+      visibility: visible;
+    }
+  }
+}

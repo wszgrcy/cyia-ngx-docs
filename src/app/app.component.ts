@@ -5,7 +5,7 @@ import { NavigationEntity } from './resource-entity/navigation.entity';
 import * as navigation from '@rxactions/navigation.actions';
 import { selectLeftSideNav } from './selector/navigation.selector';
 import { Router, NavigationStart } from '@angular/router';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { RouterDataEntity } from '@resource-entity/router-data.entity';
 import * as routerData from '@rxactions/router-data.actions';
 import { of } from 'rxjs';
@@ -15,6 +15,7 @@ import { of } from 'rxjs';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  currentUrl = '';
   constructor(
     private store: Store,
     private repository: CyiaRepositoryService,
@@ -28,7 +29,20 @@ export class AppComponent {
         filter((e) => e instanceof NavigationStart),
         filter((e: NavigationStart) => e.url.startsWith('/doc')),
         map((e: NavigationStart) => e.url.replace(/^\/doc/, '')),
-        switchMap((e) =>
+        map((url) => {
+          console.log('链接', url);
+          const urlTree = this.router.parseUrl(url);
+          urlTree.fragment = undefined;
+          console.log(urlTree.fragment);
+          if (urlTree.toString() === this.currentUrl) {
+            return undefined;
+          }
+          console.log('执行')
+          this.currentUrl = urlTree.toString();
+          return urlTree.toString();
+        }),
+        filter(Boolean),
+        switchMap((e: string) =>
           this.repository
             .findMany(RouterDataEntity, e)
             .pipe(map((result) => ({ link: e, list: result })))

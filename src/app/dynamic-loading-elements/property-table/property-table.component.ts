@@ -9,10 +9,10 @@ export class PropertyTableComponent implements OnInit {
 
   @Input() ngInputProperty;
   constructor() {}
-  rowList = ['name','type', 'description', 'isOptional', 'defaultValue'];
+  rowList = ['name', 'type', 'description', 'isOptional', 'defaultValue'];
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.ngInputProperty);
+    // console.log(this.ngInputProperty);
   }
 
 }

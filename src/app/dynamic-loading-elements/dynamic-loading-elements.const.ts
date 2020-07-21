@@ -71,4 +71,44 @@ export const LAZY_ROUTES: SelectorRoute[] = [
         '@dynamic-loading-elements/decorator-description/decorator-description.module'
       ).then((e) => e.DecoratorDescriptionModule),
   },
+  {
+    path: 'lazyLoader/doc-catalog',
+    selector: 'doc-catalog',
+    loadChildren: () =>
+      import('@dynamic-loading-elements/doc-catalog/doc-catalog.module').then(
+        (e) => e.DocCatalogModule
+      ),
+  },
+  {
+    path: 'lazyLoader/flex-layout',
+    selector: 'flex-layout',
+    loadChildren: () =>
+      import('@dynamic-loading-elements/flex-layout/flex-layout.module').then(
+        (e) => e.FlexLayoutModule
+      ),
+  },
+  {
+    path: 'lazyLoader/doc-content',
+    selector: 'doc-content',
+    loadChildren: () =>
+      import('@dynamic-loading-elements/doc-content/doc-content.module').then(
+        (e) => e.DocContentModule
+      ),
+  },
+  {
+    path: 'lazyLoader/doc-anchor',
+    selector: 'doc-anchor',
+    loadChildren: () =>
+      import('@dynamic-loading-elements/doc-anchor/doc-anchor.module').then(
+        (e) => e.DocAnchorModule
+      ),
+  },
+  {
+    path: 'lazyLoader/base-table',
+    selector: 'base-table',
+    loadChildren: () =>
+      import('../components/base-table/base-table.module').then(
+        (e) => e.BaseTableModule
+      ),
+  },
 ];

@@ -9,6 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { leftSidenavReducer } from '@rxreducer/left-sidenav.reducer';
 import { navigationReducer } from '@rxreducer/navigation.reducer';
 import { routerDataReducer } from '@rxreducer/router-data.reducer';
+import { docRendererReducer } from '@rxreducer/doc-renderer.reducer';
 import { CyiaRepositoryModule } from 'cyia-ngx-common/repository';
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +24,7 @@ import { CyiaRepositoryModule } from 'cyia-ngx-common/repository';
         leftSidenav: leftSidenavReducer,
         navigation: navigationReducer,
         routerData: routerDataReducer,
+        docRenderer: docRendererReducer,
       },
       {
         runtimeChecks: {

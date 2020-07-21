@@ -1,6 +1,19 @@
 :host {
   display: block;
-  mat-sidenav{
-      min-width: 260px;
+  mat-sidenav {
+    min-width: 260px;
+  }
+  //用来粘性定位调整
+  .mat-drawer-container {
+    overflow: visible;
+  }
+  .mat-drawer {
+    overflow: visible;
+    & ::ng-deep .mat-drawer-inner-container {
+      overflow: visible;
+    }
+  }
+  mat-sidenav-content {
+    overflow: visible;
   }
 }
