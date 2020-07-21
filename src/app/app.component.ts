@@ -9,6 +9,10 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { RouterDataEntity } from '@resource-entity/router-data.entity';
 import * as routerData from '@rxactions/router-data.actions';
 import { of } from 'rxjs';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import * as leftsidenav from '@rxactions/left-sidenav.acitons';
+import * as catalog from '@rxactions/catalog.acitons';
+import { selectCatalog } from './selector/catalog.selector';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,10 +20,39 @@ import { of } from 'rxjs';
 })
 export class AppComponent {
   currentUrl = '';
+  layoutMap = new Map([
+    [
+      '(max-width: 599px)',
+      async (e: BreakpointState) => {
+        this.store.dispatch(leftsidenav.CHANGE_MODE({ value: 'over' }));
+        this.store.dispatch(leftsidenav.CLOSE());
+        await this.store.pipe(selectCatalog).toPromise();
+        this.store.dispatch(catalog.CLOSE());
+      },
+    ],
+    [
+      '(min-width: 600px) and (max-width: 1279px)',
+      async (e: BreakpointState) => {
+        this.store.dispatch(leftsidenav.CHANGE_MODE({ value: 'side' }));
+        this.store.dispatch(leftsidenav.OPEN());
+        await this.store.pipe(selectCatalog).toPromise();
+        this.store.dispatch(catalog.CLOSE());
+      },
+    ],
+    [
+      '(min-width: 1280px)',
+      async (e: BreakpointState) => {
+        this.store.dispatch(leftsidenav.CHANGE_MODE({ value: 'side' }));
+        this.store.dispatch(leftsidenav.OPEN());
+        this.store.dispatch(catalog.OPEN());
+      },
+    ],
+  ]);
   constructor(
     private store: Store,
     private repository: CyiaRepositoryService,
-    private router: Router
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.repository.findOne(NavigationEntity).subscribe((entity) => {
       this.store.dispatch(navigation.INIT({ value: entity }));
@@ -37,7 +70,7 @@ export class AppComponent {
           if (urlTree.toString() === this.currentUrl) {
             return undefined;
           }
-          console.log('执行')
+          console.log('执行');
           this.currentUrl = urlTree.toString();
           return urlTree.toString();
         }),
@@ -54,5 +87,16 @@ export class AppComponent {
         console.log('路由事件', e);
         // this.store.dispatch()
       });
+  }
+  ngOnInit(): void {
+    this.mediaChange();
+  }
+  mediaChange() {
+    this.layoutMap.forEach((value, key) => {
+      this.breakpointObserver
+        .observe(key)
+        .pipe(filter((val) => val.matches))
+        .subscribe(value);
+    });
   }
 }

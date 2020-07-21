@@ -8,3 +8,7 @@ export const INIT = createAction(
 export const OPEN = createAction(`${LEFT_SIDENAV}open`);
 export const CLOSE = createAction(`${LEFT_SIDENAV}close`);
 export const TOGGLE = createAction(`${LEFT_SIDENAV}toggle`);
+export const CHANGE_MODE = createAction(
+  `${LEFT_SIDENAV}changemode`,
+  props<{ value: MatSidenav['mode'] }>()
+);

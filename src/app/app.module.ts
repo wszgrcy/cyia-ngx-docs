@@ -11,6 +11,7 @@ import { navigationReducer } from '@rxreducer/navigation.reducer';
 import { routerDataReducer } from '@rxreducer/router-data.reducer';
 import { docRendererReducer } from '@rxreducer/doc-renderer.reducer';
 import { CyiaRepositoryModule } from 'cyia-ngx-common/repository';
+import { catalogReducer } from '@rxreducer/catalog.reducer';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -25,6 +26,7 @@ import { CyiaRepositoryModule } from 'cyia-ngx-common/repository';
         navigation: navigationReducer,
         routerData: routerDataReducer,
         docRenderer: docRendererReducer,
+        catalog: catalogReducer,
       },
       {
         runtimeChecks: {

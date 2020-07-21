@@ -7,6 +7,7 @@ import {
   SimpleChanges,
   ChangeDetectorRef,
   ViewChild,
+  HostBinding,
 } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Event } from '@angular/router';
 import { Subscription, fromEvent } from 'rxjs';
@@ -21,7 +22,7 @@ import {
   MatTree,
 } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
-
+import * as catalog from '@rxactions/catalog.acitons';
 /**目录树节点 */
 class CatalogTree {
   level: number = 0;
@@ -45,9 +46,11 @@ export class DocCatalogComponent implements OnInit {
     private router: Router,
     private renderer: Renderer2,
     private store: Store,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private state: Store
   ) {
     this.url = this.router.url.replace(/#.*/, '');
+    this.state.dispatch(catalog.INIT({ value: this }));
   }
   @ViewChild(MatTree, { static: true }) matTree: MatTree<CatalogTree>;
   url: string;
@@ -96,6 +99,7 @@ export class DocCatalogComponent implements OnInit {
     (node) => node.children
   );
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  @HostBinding('style.display') display = 'block';
   ngOnInit(): void {
     const urlTree = this.router.parseUrl(this.router.url);
     this.store
@@ -119,8 +123,6 @@ export class DocCatalogComponent implements OnInit {
         this.updateScrollPosition();
       });
   }
-
-
 
   ngOnChanges(changes: SimpleChanges): void {}
   ngOnDestroy(): void {}
@@ -202,4 +204,12 @@ export class DocCatalogComponent implements OnInit {
   }
 
   hasChild = (_: number, node: CatalogTree) => node.expandable;
+  open() {
+    console.log('打开');
+    this.display = 'block';
+  }
+  close() {
+    console.log('关闭');
+    this.display = 'none';
+  }
 }
