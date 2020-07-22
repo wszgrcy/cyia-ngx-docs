@@ -10,6 +10,6 @@ import { MatTableModule } from '@angular/material/table';
   ],
   declarations: [PropertyTableComponent]
 })
-export class PropertyTableModule { 
-  entry=PropertyTableComponent
+export class PropertyTableModule {
+  entry = PropertyTableComponent;
 }

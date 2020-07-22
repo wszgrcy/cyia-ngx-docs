@@ -16,10 +16,10 @@ function getLine(state: StateBlock, line: number) {
 }
 /**分割头 */
 function escapedSplit(str: string) {
-  let result = [],
-    pos = 0,
-    max = str.length,
-    ch,
+  const result = [];
+  let pos = 0;
+  const max = str.length;
+  let ch,
     escapes = 0,
     lastPos = 0,
     backTicked = false,
@@ -66,16 +66,11 @@ function escapedSplit(str: string) {
   return result;
 }
 
-function matTable(
-  state: StateBlock,
-  startLine: number,
-  endLine: number,
-  silent: boolean
-) {
+function matTable(state: StateBlock, startLine: number, endLine: number, silent: boolean) {
   // console.log(state, startLine, endLine, silent);
   //   debugger;
 
-  let ch, pos, nextLine, columnCount, tableLines, tbodyLines;
+  let ch, pos, nextLine, columnCount;
 
   // doc 表格至少2行(最后会硬插一行)
   if (startLine + 2 > endLine) {
@@ -110,12 +105,7 @@ function matTable(
   while (pos < state.eMarks[nextLine]) {
     ch = state.src.charCodeAt(pos);
     // doc 如果这行的下一行中没有
-    if (
-      ch !== 0x7c /* | */ &&
-      ch !== 0x2d /* - */ &&
-      ch !== 0x3a /* : */ &&
-      !isSpace(ch)
-    ) {
+    if (ch !== 0x7c /* | */ && ch !== 0x2d /* - */ && ch !== 0x3a /* : */ && !isSpace(ch)) {
       return false;
     }
 

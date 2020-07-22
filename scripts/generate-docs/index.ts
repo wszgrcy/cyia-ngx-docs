@@ -1,5 +1,4 @@
 import { Dgeni } from 'dgeni';
-// const Dgeni = require('dgeni')
 import docsPackage from './script/main-package';
 const dgeni = new Dgeni([docsPackage]);
 

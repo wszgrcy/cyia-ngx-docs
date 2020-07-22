@@ -4,7 +4,11 @@
     top: 20px;
     background: transparent;
   }
-  .mat-tree-node{
-      min-height: 0;
+  .mat-tree-node {
+    min-height: 0;
+  }
+  a {
+    padding: 0;
+    min-width: 0;
   }
 }

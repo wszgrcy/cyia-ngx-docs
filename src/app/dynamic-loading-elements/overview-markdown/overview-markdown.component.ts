@@ -14,6 +14,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TableExtend } from './plugins/table.extend';
 import { DynamicLoadingElementsService } from '../dynamic-loading-elements.service';
 import { take } from 'rxjs/operators';
+import { OnChanges } from '@angular/core';
 @Component({
   selector: 'overview-markdown',
   templateUrl: './overview-markdown.component.html',
@@ -24,7 +25,7 @@ import { take } from 'rxjs/operators';
     rendererFinish: 'true',
   },
 })
-export class OverviewMarkdownComponent implements OnInit {
+export class OverviewMarkdownComponent implements OnInit, OnChanges {
   waitingLoadElement: Promise<void[]>[] = [];
   @Input() ngInputProperty;
   rendererValue: SafeHtml;
@@ -48,21 +49,13 @@ export class OverviewMarkdownComponent implements OnInit {
     mdres.use(TableExtend);
     mdres.renderer.rules.table_open = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
-      const attrStr = token.attrs
-        .map((item) => `${item[0]}='${item[1]}'`)
-        .join(' ');
+      const attrStr = token.attrs.map((item) => `${item[0]}='${item[1]}'`).join(' ');
       console.log(attrStr);
-      this.waitingLoadElement.push(
-        this.dynamicLoadingElements.generateElement([
-          { selector: 'base-table' },
-        ])
-      );
+      this.waitingLoadElement.push(this.dynamicLoadingElements.generateElement([{ selector: 'base-table' }]));
       return `<${token.tag} ${attrStr}>`;
     };
     await Promise.all(this.waitingLoadElement);
-    this.rendererValue = this.domSanitizer.bypassSecurityTrustHtml(
-      mdres.render(this.ngInputProperty)
-    );
+    this.rendererValue = this.domSanitizer.bypassSecurityTrustHtml(mdres.render(this.ngInputProperty));
     // console.log(this.value, this.rendererValue);
     this.cd.detectChanges();
 

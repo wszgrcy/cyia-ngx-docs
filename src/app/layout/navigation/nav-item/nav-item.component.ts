@@ -36,7 +36,7 @@ export class NavItemComponent implements OnChanges {
 
     if (changes.selectedNode && this.selectedNode) {
       // console.log('节点判断', this.node, this.selectedNode)
-      if (this.selectedNode.url == this.node.url) {
+      if (this.selectedNode.url === this.node.url) {
         // console.log('节点应该选中', this.node);
         this.isSelected = true;
         this.emitSelected();

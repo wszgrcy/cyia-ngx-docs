@@ -8,12 +8,13 @@ import {
   ChangeDetectorRef,
   ViewChild,
   HostBinding,
+  OnDestroy,
 } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Event } from '@angular/router';
 import { Subscription, fromEvent } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { debounceTime, filter, take, map } from 'rxjs/operators';
-import { Renderer2 } from '@angular/core';
+import { Renderer2, OnChanges } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { selectDocRenderer } from '../../selector/doc-renderer.selector';
 import {
@@ -38,7 +39,7 @@ class CatalogTree {
   templateUrl: './doc-catalog.component.html',
   styleUrls: ['./doc-catalog.component.scss'],
 })
-export class DocCatalogComponent implements OnInit {
+export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * todo 视区高度获取
    */

@@ -1,9 +1,4 @@
-import {
-  Component,
-  Input,
-  SimpleChanges,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, SimpleChanges, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NavigationNode } from '@resource-entity/navigation.entity';
 import { CyiaRepositoryService } from 'cyia-ngx-common/repository';
@@ -11,23 +6,18 @@ import { NavigationEntity } from '../../../resource-entity/navigation.entity';
 import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { selectLeftSideNav } from '../../../selector/navigation.selector';
-import * as navigation from "@rxactions/navigation.actions";
+import * as navigation from '@rxactions/navigation.actions';
 @Component({
   selector: 'left-sidenav-menu',
-  template: ` <aio-nav-item
-    *ngFor="let node of nodes|async"
-    [node]="node"
-    [selectedNode]="selectedNode"
-    [isWide]="isWide"
-  >
+  template: ` <aio-nav-item *ngFor="let node of nodes | async" [node]="node" [selectedNode]="selectedNode" [isWide]="isWide">
   </aio-nav-item>`,
   styleUrls: ['./nav-menu.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LeftSidenavMenuComponent {
+export class LeftSidenavMenuComponent implements OnChanges {
   @Input() selectedNode: NavigationNode;
   @Input() isWide = true;
-  nodes = this.store.pipe(selectLeftSideNav)
+  nodes = this.store.pipe(selectLeftSideNav);
   // get filteredNodes() {
   //   return this.nodes ? this.nodes.filter((n) => !n.hidden) : [];
   // }

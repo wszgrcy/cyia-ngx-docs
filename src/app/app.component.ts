@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { CyiaRepositoryService } from 'cyia-ngx-common/repository';
 import { NavigationEntity } from './resource-entity/navigation.entity';
@@ -18,7 +18,7 @@ import { selectCatalog } from './selector/catalog.selector';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   currentUrl = '';
   layoutMap = new Map([
     [
@@ -75,11 +75,7 @@ export class AppComponent {
           return urlTree.toString();
         }),
         filter(Boolean),
-        switchMap((e: string) =>
-          this.repository
-            .findMany(RouterDataEntity, e)
-            .pipe(map((result) => ({ link: e, list: result })))
-        )
+        switchMap((e: string) => this.repository.findMany(RouterDataEntity, e).pipe(map((result) => ({ link: e, list: result }))))
       )
 
       .subscribe((e) => {

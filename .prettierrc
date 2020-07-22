@@ -1,0 +1,14 @@
+{
+  "singleQuote": true,
+  "printWidth": 140,
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "printWidth": 10000
+      }
+    }
+  ],
+  "endOfLine": "lf",
+  "arrowParens": "always"
+}

@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { JsonParse } from '../../decorators/json-parse.decorator';
 @Component({
   selector: 'base-table',
   templateUrl: './base-table.component.html',
   styleUrls: ['./base-table.component.css'],
 })
-export class BaseTableComponent implements OnInit {
+export class BaseTableComponent implements OnInit, OnChanges {
   @Input() headers = undefined;
   @Input() aligns = '';
   @Input() data = '';

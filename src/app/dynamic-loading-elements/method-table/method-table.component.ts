@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'method-table',
   templateUrl: './method-table.component.html',
   styleUrls: ['./method-table.component.scss'],
 })
-export class MethodTableComponent implements OnInit {
+export class MethodTableComponent implements OnInit, OnChanges {
   @Input() ngInputProperty;
   constructor() {}
   columnList = ['名字', '方法', '传入参数', '返回值'];

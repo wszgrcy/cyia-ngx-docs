@@ -1,4 +1,4 @@
-import { Renderer2, ViewChild } from '@angular/core';
+import { Renderer2, ViewChild, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   Component,
@@ -13,7 +13,7 @@ import {
   templateUrl: './doc-anchor.component.html',
   styleUrls: ['./doc-anchor.component.scss'],
 })
-export class DocAnchorComponent implements OnInit {
+export class DocAnchorComponent implements OnInit, OnChanges {
   @Input() ngInputProperty: { tag: string; content: string };
   hostElement: HTMLElement;
   @ViewChild('anchorContainer', { static: true }) anchorContainer: ElementRef;

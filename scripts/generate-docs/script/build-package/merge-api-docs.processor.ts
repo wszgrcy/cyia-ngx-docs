@@ -47,7 +47,7 @@ export class MergeApiDocsProcess implements Processor {
       return item;
     });
     const modules: DocModule[] = this.docsDataService.getDocModules();
-    let navigation = this.getNavigation(modules);
+    const navigation = this.getNavigation(modules);
     return [
       ...modules.map((module) => {
         return {
@@ -61,18 +61,24 @@ export class MergeApiDocsProcess implements Processor {
                   selector: 'doc-content',
                   children: [
                     this.getTabsElement(module.folder, 'overview'),
-                    { selector: 'overview-markdown', property: fs.readFileSync(module.markdownPath).toString() },
+                    {
+                      selector: 'overview-markdown',
+                      property: fs.readFileSync(module.markdownPath).toString(),
+                    },
                   ],
                 },
-                { selector: 'doc-catalog', property: { selector: 'doc-content' } },
+                {
+                  selector: 'doc-catalog',
+                  property: { selector: 'doc-content' },
+                },
               ],
             },
           ],
         };
       }),
       ...(modules.map((item) => {
-        let servicesFilter = services.filter((item) => item.importLib === item.importLib);
-        let decoratorsFilter = decorators.filter((item) => item.importLib === item.importLib);
+        const servicesFilter = services.filter((doc) => doc.importLib === item.importLib);
+        const decoratorsFilter = decorators.filter((doc) => doc.importLib === item.importLib);
         //   obj.path = 'api';
         // obj.name = item.name;
         return {
@@ -89,27 +95,35 @@ export class MergeApiDocsProcess implements Processor {
                   selector: 'doc-content',
                   children: ([
                     this.getTabsElement(item.folder, 'api'),
-                    {
-                      selector: 'doc-anchor',
-                      property: {
-                        tag: 'h2',
-                        content: '服务',
-                      },
-                    },
+                    servicesFilter.length
+                      ? {
+                          selector: 'doc-anchor',
+                          property: {
+                            tag: 'h2',
+                            content: '服务',
+                          },
+                        }
+                      : undefined,
                   ] as DocBase['toJson'])
                     .concat(...servicesFilter.map(({ toJson }) => toJson))
                     .concat([
-                      {
-                        selector: 'doc-anchor',
-                        property: {
-                          tag: 'h2',
-                          content: '装饰器',
-                        },
-                      },
+                      decoratorsFilter.length
+                        ? {
+                            selector: 'doc-anchor',
+                            property: {
+                              tag: 'h2',
+                              content: '装饰器',
+                            },
+                          }
+                        : undefined,
                     ])
-                    .concat(...decoratorsFilter.map(({ toJson }) => toJson)),
+                    .concat(...decoratorsFilter.map(({ toJson }) => toJson))
+                    .filter(Boolean),
                 },
-                { selector: 'doc-catalog', property: { selector: 'doc-content' } },
+                {
+                  selector: 'doc-catalog',
+                  property: { selector: 'doc-content' },
+                },
               ],
             },
           ],
@@ -121,7 +135,7 @@ export class MergeApiDocsProcess implements Processor {
   mergeApiDocs() {}
 
   getNavigation(modules: DocModule[]) {
-    let docNavigation = new DocNavigation();
+    const docNavigation = new DocNavigation();
     docNavigation.id = 'navigation';
     docNavigation.aliases = ['navigation'];
     docNavigation.name = 'navigation';
@@ -142,8 +156,16 @@ export class MergeApiDocsProcess implements Processor {
     return {
       selector: 'doc-tabs',
       property: [
-        { title: '简介', url: `overview/${name}`, selected: prefix == 'overview' ? true : false },
-        { title: '接口', url: `api/${name}`, selected: prefix == 'api' ? true : false },
+        {
+          title: '简介',
+          url: `overview/${name}`,
+          selected: prefix === 'overview' ? true : false,
+        },
+        {
+          title: '接口',
+          url: `api/${name}`,
+          selected: prefix === 'api' ? true : false,
+        },
       ],
     };
   }

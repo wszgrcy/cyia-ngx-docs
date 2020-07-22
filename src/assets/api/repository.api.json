@@ -102,28 +102,6 @@
                     {
                         "selector": "doc-anchor",
                         "property": {
-                            "tag": "h3",
-                            "content": "LoadingHintService"
-                        }
-                    },
-                    {
-                        "selector": "p",
-                        "content": "点击后 加入map\n等待可以执行后(延时),启动组件,\n等待关闭信号,关闭组件\n\n当操作多个时,可以选择策略:后面的覆盖前面的,最先的一个,或者全部完成,或者自定义策略"
-                    },
-                    {
-                        "selector": "method-table",
-                        "property": [
-                            {
-                                "name": "start",
-                                "description": "默认启动方法",
-                                "docParameters": [],
-                                "returnType": ""
-                            }
-                        ]
-                    },
-                    {
-                        "selector": "doc-anchor",
-                        "property": {
                             "tag": "h2",
                             "content": "装饰器"
                         }
@@ -423,31 +401,6 @@
                                 "isRestParam": false,
                                 "description": "",
                                 "parameter": "(value: any) => any"
-                            }
-                        ]
-                    },
-                    {
-                        "selector": "doc-anchor",
-                        "property": {
-                            "tag": "h3",
-                            "content": "LoadingHint"
-                        }
-                    },
-                    {
-                        "selector": "p",
-                        "content": "载入提示装饰器"
-                    },
-                    {
-                        "selector": "property-table",
-                        "property": [
-                            {
-                                "name": "option",
-                                "isOptional": false,
-                                "defaultValue": "CyiaLoadHintOption",
-                                "type": "CyiaLoadHintOption",
-                                "isRestParam": false,
-                                "description": "",
-                                "parameter": "CyiaLoadHintOption"
                             }
                         ]
                     }

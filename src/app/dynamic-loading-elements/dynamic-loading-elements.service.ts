@@ -25,7 +25,7 @@ export class DynamicLoadingElementsService {
     if (this.loadedElement[rendererData.selector]) { return; }
     this.loadedElement[rendererData.selector] = true;
     const findElemkent = LAZY_ROUTES.find(
-      (item) => item.selector == rendererData.selector
+      (item) => item.selector === rendererData.selector
     );
     if (!findElemkent) {
       return;
@@ -38,7 +38,6 @@ export class DynamicLoadingElementsService {
       ngModuleFactory = await this.compiler.compileModuleAsync(module);
     }
     const moduleRef = ngModuleFactory.create(this.injector);
-    moduleRef.injector;
     const injector = moduleRef.injector;
     const customElementComponent = moduleRef.instance.entry;
     // if (this.loadedElement[rendererData.selector]) return;
@@ -48,7 +47,7 @@ export class DynamicLoadingElementsService {
     // console.log(rendererData.selector);
     // if (this.loadedElement[rendererData.selector]) return;
     try {
-      customElements!.define(rendererData.selector, CustomElement);
+      customElements.define(rendererData.selector, CustomElement);
     } catch (error) {
       console.log('报错', error);
     }

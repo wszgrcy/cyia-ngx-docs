@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "update": "ng update --all --force",
-    "docs": "ts-node --project ./scripts/generate-docs/tsconfig.json ./scripts/generate-docs/index.ts"
+    "docs": "ts-node --project ./scripts/generate-docs/tsconfig.json ./scripts/generate-docs/index.ts",
+    "fix": "ng lint"
   },
   "private": true,
   "dependencies": {
