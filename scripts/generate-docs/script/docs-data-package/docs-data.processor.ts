@@ -3,6 +3,7 @@ import { Processor } from 'dgeni';
 import { HANDING_DOCS_DATA } from '../const/run-time';
 import { MODULE_TAG, DECORATOR_TAG, SERVICE_TAG } from '../const/comment-tag';
 import { TSconfigService } from './tsconfig.service';
+import { LIBRARY_TSCONFIG_NAME } from '../const/doc-type';
 
 export function docsDataProcessor(docsDataService, tsconfigService) {
   return new DocsDataProcessor(docsDataService, tsconfigService);
@@ -12,7 +13,7 @@ class DocsDataProcessor implements Processor {
   $runBefore = [HANDING_DOCS_DATA];
   constructor(private docsDataService: DocsDataService, private tsconfigService: TSconfigService) {}
   async $process(docs: any[]) {
-    await this.tsconfigService.read();
+    await this.tsconfigService.read(LIBRARY_TSCONFIG_NAME);
     this.docsDataService.setDocTypes(docs);
     for (const doc of docs) {
       const tags: any[] = doc.tags.tags;

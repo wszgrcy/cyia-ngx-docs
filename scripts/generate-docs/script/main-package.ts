@@ -1,10 +1,8 @@
 import * as path from 'path';
 import { Package } from 'dgeni';
 import { ReadTypeScriptModules } from 'dgeni-packages/typescript/processors/readTypeScriptModules';
+import { SOURCECODE_PATH, TO_BE_GENERATED_FILES } from './const/path';
 
-/**源码路径 */
-const SOURCECODE_PATH = path.resolve(__dirname, '../../../../cyia-ngx-common/lib/src');
-// console.log('源码路径', SOURCECODE_PATH);
 /**文档导出目录 */
 const DOCSOUT_PATH = path.resolve(__dirname, '../../../src/assets');
 // console.log('导出路径', DOCSOUT_PATH);
@@ -28,16 +26,7 @@ export default new Package('cyia-ngx-docs', [BUILD_PACKAGE])
     // 隐藏private变量
     readTypeScriptModules.hidePrivateMembers = true;
     // typescript 入口
-    readTypeScriptModules.sourceFiles = [
-      './repository/decorator/index.ts',
-      './repository/type/**/*',
-      './repository/repository.service.ts',
-      './repository/repository.module.ts',
-      './loading-hint/loading-hint.module.ts',
-      './loading-hint/loading-hint.decorator.ts',
-      './loading-hint/loading-hint.service.ts',
-      './loading-hint/type.ts',
-    ];
+    readTypeScriptModules.sourceFiles = TO_BE_GENERATED_FILES;
     // readTypeScriptModules.ignoreExportsMatching = [/index\.ts/, '__esModule']
     // readTypeScriptModules.sortClassMembers = true
   });

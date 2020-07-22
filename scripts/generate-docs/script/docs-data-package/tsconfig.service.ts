@@ -1,7 +1,7 @@
 import { CompilerOptions } from 'typescript';
 import * as fs from 'fs';
 import * as path from 'path';
-import { LIB_PATH } from '../const/path';
+import { LIB_PATH, IMPORT_PATH } from '../const/path';
 import * as ts from 'typescript';
 import { FileInfo } from 'dgeni-packages/typescript/services/TsParser/FileInfo';
 import * as glob from 'glob';
@@ -50,6 +50,6 @@ export class TSconfigService {
     if (patternPath) {
       return this.pathMap.get(patternPath);
     }
-    return 'cyia-ngx-common';
+    return IMPORT_PATH;
   }
 }
