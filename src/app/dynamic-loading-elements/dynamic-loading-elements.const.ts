@@ -24,22 +24,6 @@ export const LAZY_ROUTES: SelectorRoute[] = [
       ).then((e) => e.OverviewMarkdownModule),
   },
   {
-    path: 'lazyLoader/service-name',
-    selector: 'service-name',
-    loadChildren: () =>
-      import('@dynamic-loading-elements/service-name/service-name.module').then(
-        (e) => e.ServiceNameModule
-      ),
-  },
-  {
-    path: 'lazyLoader/service-description',
-    selector: 'service-description',
-    loadChildren: () =>
-      import(
-        '@dynamic-loading-elements/service-description/service-description.module'
-      ).then((e) => e.ServiceDescriptionModule),
-  },
-  {
     path: 'lazyLoader/method-table',
     selector: 'method-table',
     loadChildren: () =>
@@ -54,22 +38,6 @@ export const LAZY_ROUTES: SelectorRoute[] = [
       import(
         '@dynamic-loading-elements/property-table/property-table.module'
       ).then((e) => e.PropertyTableModule),
-  },
-  {
-    path: 'lazyLoader/decorator-name',
-    selector: 'decorator-name',
-    loadChildren: () =>
-      import(
-        '@dynamic-loading-elements/decorator-name/decorator-name.module'
-      ).then((e) => e.DecoratorNameModule),
-  },
-  {
-    path: 'lazyLoader/decorator-description',
-    selector: 'decorator-description',
-    loadChildren: () =>
-      import(
-        '@dynamic-loading-elements/decorator-description/decorator-description.module'
-      ).then((e) => e.DecoratorDescriptionModule),
   },
   {
     path: 'lazyLoader/doc-catalog',
