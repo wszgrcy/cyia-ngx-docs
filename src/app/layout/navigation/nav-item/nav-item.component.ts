@@ -1,12 +1,9 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  Output,
-  EventEmitter,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { NavigationNode } from '@resource-entity/navigation.entity';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { merge, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
 @Component({
   selector: 'aio-nav-item',
   templateUrl: 'nav-item.component.html',
@@ -30,8 +27,11 @@ export class NavItemComponent implements OnChanges {
     expanded?: boolean;
   } = {};
   nodeChildren: NavigationNode[];
-
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef) {}
   ngOnChanges(changes: SimpleChanges) {
+    if (this.node && changes['node'] && changes['node'].firstChange) {
+      this.routerHighlight();
+    }
     this.nodeChildren = (this.node && this.node.children) || [];
 
     if (changes.selectedNode && this.selectedNode) {
@@ -46,7 +46,7 @@ export class NavItemComponent implements OnChanges {
       }
     }
     // console.log('设置值', this.isSelected)
-    this.setClasses();
+    // this.setClasses();
   }
 
   setClasses() {
@@ -57,7 +57,9 @@ export class NavItemComponent implements OnChanges {
       selected: this.isSelected,
     };
   }
-
+  setSelected(bool: boolean) {
+    this.classes.selected = bool;
+  }
   /**
    * 箭头点击
    *
@@ -66,7 +68,7 @@ export class NavItemComponent implements OnChanges {
    */
   headerClicked() {
     this.isExpanded = !this.isExpanded;
-    this.setClasses();
+    // this.setClasses();
   }
   emitSelected() {
     // !this.childSelected && (this.childSelected = new EventEmitter())
@@ -76,7 +78,25 @@ export class NavItemComponent implements OnChanges {
     // console.log('收到事件', this.node)
     this.isSelected = true;
     this.isExpanded = true;
-    this.setClasses();
+    // this.setClasses();
     this.emitSelected();
+  }
+  /**路由高亮 */
+  routerHighlight() {
+    const tree = this.router.parseUrl(this.router.url);
+    tree.fragment = undefined;
+
+    merge(
+      of(tree.toString()),
+      this.router.events.pipe(
+        filter((e) => e instanceof NavigationEnd),
+        map((e: NavigationEnd) => e.url)
+      )
+    ).subscribe((e) => {
+      const compare = [this.node.url, ...(this.node.tabs || []).map((item) => item.url)].find(
+        (str) => this.router.parseUrl(str).toString() === this.router.parseUrl(e).toString()
+      );
+      this.setSelected(!!compare);
+    });
   }
 }

@@ -5,6 +5,7 @@ export class NavigationNode {
   icon: string;
   tooltip: string;
   children: NavigationNode[];
+  tabs: any[];
 }
 @ClassDataSource({
   source: (http) => {

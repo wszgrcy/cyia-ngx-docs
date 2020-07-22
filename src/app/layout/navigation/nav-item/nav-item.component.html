@@ -1,6 +1,6 @@
 <div class="nav-item__container" [ngClass]="classes">
   <a [routerLink]="node.url" title="{{node.tooltip}}" class="vertical-menu-item spring" mat-button
-    [color]="(classes.selected)?'primary':''">
+    [color]="classes.selected?'primary':''">
     <button mat-icon-button [disableRipple]="true" *ngIf="node.icon">
       <mat-icon>{{node.icon}}</mat-icon>
     </button>
