@@ -6,12 +6,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarModule } from './layout/toolbar/toolbar.module';
 import { MainModule } from './layout/main/main.module';
 import { StoreModule } from '@ngrx/store';
-import { leftSidenavReducer } from '@rxreducer/left-sidenav.reducer';
-import { navigationReducer } from '@rxreducer/navigation.reducer';
-import { routerDataReducer } from '@rxreducer/router-data.reducer';
-import { docRendererReducer } from '@rxreducer/doc-renderer.reducer';
+import { leftSidenavReducer } from '@rxreducers/left-sidenav.reducer';
+import { navigationReducer } from '@rxreducers/navigation.reducer';
+import { routerDataReducer } from '@rxreducers/router-data.reducer';
+import { docRendererReducer } from '@rxreducers/doc-renderer.reducer';
 import { CyiaRepositoryModule } from 'cyia-ngx-common/repository';
-import { catalogReducer } from '@rxreducer/catalog.reducer';
+import { catalogReducer } from '@rxreducers/catalog.reducer';
 @NgModule({
   declarations: [AppComponent],
   imports: [

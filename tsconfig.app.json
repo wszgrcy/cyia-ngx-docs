@@ -7,8 +7,11 @@
       "@rxactions/*": [
         "./src/app/actions/*"
       ],
-      "@rxreducer/*": [
+      "@rxreducers/*": [
         "./src/app/reducer/*"
+      ],
+      "@rxselectors/*": [
+        "./src/app/selector/*"
       ],
       "@resource-entity/*": [
         "./src/app/resource-entity/*"
@@ -16,6 +19,9 @@
       "@dynamic-loading-elements/*": [
         "./src/app/dynamic-loading-elements/*"
       ],
+      "@markdown-custom/*": [
+        "./src/app/components/*"
+      ]
     }
   },
   "files": [
