@@ -17,11 +17,7 @@ import { debounceTime, filter, take, map } from 'rxjs/operators';
 import { Renderer2, OnChanges } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { selectDocRenderer } from '../../selector/doc-renderer.selector';
-import {
-  MatTreeFlatDataSource,
-  MatTreeFlattener,
-  MatTree,
-} from '@angular/material/tree';
+import { MatTreeFlatDataSource, MatTreeFlattener, MatTree } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import * as catalog from '@rxactions/catalog.acitons';
 /**目录树节点 */
@@ -103,26 +99,18 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
   @HostBinding('style.display') display = 'block';
   ngOnInit(): void {
     const urlTree = this.router.parseUrl(this.router.url);
-    this.store
-      .pipe(
-        select(selectDocRenderer, this.router.url),
-        filter(Boolean),
-        take(1)
-      )
-      .subscribe(() => {
-        const el: HTMLElement = document.querySelector(
-          this.ngInputProperty.selector
-        );
-        // todo 设置滚动容器,这个耦合性较高
-        this.scrollContainer = document.querySelector('.scroll-container');
-        this.docElement = el;
+    this.store.pipe(select(selectDocRenderer, this.router.url), filter(Boolean), take(1)).subscribe(() => {
+      const el: HTMLElement = document.querySelector(this.ngInputProperty.selector);
+      // todo 设置滚动容器,这个耦合性较高
+      this.scrollContainer = document.querySelector('.scroll-container');
+      this.docElement = el;
 
-        if (urlTree.fragment) {
-          this.restorePosition('#' + urlTree.fragment);
-        }
-        this.initHeaders();
-        this.updateScrollPosition();
-      });
+      if (urlTree.fragment) {
+        this.restorePosition('#' + urlTree.fragment);
+      }
+      this.initHeaders();
+      this.updateScrollPosition();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {}
@@ -154,10 +142,8 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
    * @date 2020-07-21
    */
   initHeaders() {
-    const headers: NodeListOf<HTMLHeadingElement> = this.docElement.querySelectorAll(
-      'h1,h2,h3,h4,h5,h6'
-    );
-
+    const headers: NodeListOf<HTMLHeadingElement> = this.docElement.querySelectorAll('h1,h2,h3,h4,h5,h6');
+    // console.log('初始化头', headers);
     this.headersElement = headers;
     const links: CatalogTree[] = [];
     let node = new CatalogTree();

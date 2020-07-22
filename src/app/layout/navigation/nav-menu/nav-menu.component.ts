@@ -23,10 +23,6 @@ export class LeftSidenavMenuComponent implements OnChanges {
   // }
   pathChange: Subscription;
   constructor(private store: Store) {
-    // console.log('初始化111')
-    // this.nodes.subscribe((item) => {
-    //   console.log('借点测试',item);
-    // });
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.nodes && this.nodes) {

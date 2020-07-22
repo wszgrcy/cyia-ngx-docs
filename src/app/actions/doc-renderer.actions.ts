@@ -13,7 +13,3 @@ export const RESET = createAction(
   `${DOC_RENDERER}clear`,
   props<{ link: string }>()
 );
-// export const DOC_LINK = createAction(
-//   `${DOC_RENDERER}doclink`,
-//   props<{ link: string }>()
-// );

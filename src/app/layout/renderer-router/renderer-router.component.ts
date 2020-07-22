@@ -42,8 +42,7 @@ export class RendererRouterComponent implements OnInit {
       .pipe(
         selectRouterData,
         map((list) => {
-          console.log('查询', this.router.url);
-          return list[this.router.url.replace(/^\/doc/, '').replace(/#.*/, '')];
+          return list[this.router.url.replace(/#.*/, '')];
         }),
         filter((e) => !!e)
       )

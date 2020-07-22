@@ -16,12 +16,12 @@
                         "property": [
                             {
                                 "title": "简介",
-                                "url": "overview/repository",
+                                "url": "module/repository/overview",
                                 "selected": false
                             },
                             {
                                 "title": "接口",
-                                "url": "api/repository",
+                                "url": "module/repository/api",
                                 "selected": true
                             }
                         ]

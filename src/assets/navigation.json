@@ -2,11 +2,35 @@
     "sideNav":[
     {
         "title": "CyiaRepositoryModule",
-        "url": "overview/repository"
+        "url": "module/repository/overview",
+        "tabs": [
+            {
+                "title": "简介",
+                "url": "module/repository/overview",
+                "contentCatalog": true
+            },
+            {
+                "title": "接口",
+                "url": "module/repository/api",
+                "contentCatalog": true
+            }
+        ]
     },
     {
         "title": "CyiaLoadingHintModule",
-        "url": "overview/loading-hint"
+        "url": "module/loading-hint/overview",
+        "tabs": [
+            {
+                "title": "简介",
+                "url": "module/loading-hint/overview",
+                "contentCatalog": true
+            },
+            {
+                "title": "接口",
+                "url": "module/loading-hint/api",
+                "contentCatalog": true
+            }
+        ]
     }
 ]
 }

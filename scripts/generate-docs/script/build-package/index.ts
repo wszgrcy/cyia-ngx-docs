@@ -38,7 +38,7 @@ export const BUILD_PACKAGE = new Package('build-package', [DOCS_DATA_PACKAGE])
         pathTemplate: '${name}',
         // outputPathTemplate: '${name}.decorator.html',
         getOutputPath: (doc: DocModule) => {
-          return `overview/${doc.folder}.overview.json`;
+          return `module/${doc.folder}/${doc.folder}.overview.json`;
         },
       },
       {
@@ -46,7 +46,7 @@ export const BUILD_PACKAGE = new Package('build-package', [DOCS_DATA_PACKAGE])
         pathTemplate: '${name}',
         // outputPathTemplate: '${name}.decorator.html',
         getOutputPath: (doc: DocModule) => {
-          return `api/${doc.folder}.api.json`;
+          return `module/${doc.folder}/${doc.folder}.api.json`;
         },
       },
       {

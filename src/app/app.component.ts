@@ -58,17 +58,15 @@ export class AppComponent implements OnInit {
     router.events
       .pipe(
         filter((e) => e instanceof NavigationStart),
-        filter((e: NavigationStart) => e.url.startsWith('/doc')),
-        map((e: NavigationStart) => e.url.replace(/^\/doc/, '')),
+        map((e: NavigationStart) => e.url),
         map((url) => {
           console.log('链接', url);
           const urlTree = this.router.parseUrl(url);
-          urlTree.fragment = undefined;
           console.log(urlTree.fragment);
+          urlTree.fragment = undefined;
           if (urlTree.toString() === this.currentUrl) {
             return undefined;
           }
-          console.log('执行');
           this.currentUrl = urlTree.toString();
           return urlTree.toString();
         }),

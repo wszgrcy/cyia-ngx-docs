@@ -16,7 +16,7 @@ import { DynamicLoadingElementsService } from '../dynamic-loading-elements.servi
 import { take } from 'rxjs/operators';
 import { OnChanges } from '@angular/core';
 import { HeadingExtend } from './plugins/heading.extend';
-import * as hljs from 'highlight.js';
+import hljs from 'highlight.js';
 @Component({
   selector: 'overview-markdown',
   templateUrl: './overview-markdown.component.html',

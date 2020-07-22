@@ -143,11 +143,11 @@ export class MergeApiDocsProcess implements Processor {
     docNavigation.sideNavToJson = modules.map((module) => {
       return {
         title: module.name,
-        url: 'overview/' + module.folder,
-        // tabs: [
-        //   // { title: '简介', url: `module/${module.templatename}/overview`, contentCatalog: true },
-        //   // { title: '接口', url: `module/${module.templatename}/api`, contentCatalog: true },
-        // ],
+        url: `module/${module.folder}/overview`,
+        tabs: [
+          { title: '简介', url: `module/${module.folder}/overview`, contentCatalog: true },
+          { title: '接口', url: `module/${module.folder}/api`, contentCatalog: true },
+        ],
       };
     });
     return docNavigation;
@@ -158,12 +158,12 @@ export class MergeApiDocsProcess implements Processor {
       property: [
         {
           title: '简介',
-          url: `overview/${name}`,
+          url: `module/${name}/overview`,
           selected: prefix === 'overview' ? true : false,
         },
         {
           title: '接口',
-          url: `api/${name}`,
+          url: `module/${name}/api`,
           selected: prefix === 'api' ? true : false,
         },
       ],
