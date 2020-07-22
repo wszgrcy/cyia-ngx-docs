@@ -16,6 +16,7 @@ import { DynamicLoadingElementsService } from '../dynamic-loading-elements.servi
 import { take } from 'rxjs/operators';
 import { OnChanges } from '@angular/core';
 import { HeadingExtend } from './plugins/heading.extend';
+import * as hljs from 'highlight.js';
 @Component({
   selector: 'overview-markdown',
   templateUrl: './overview-markdown.component.html',
@@ -43,6 +44,17 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
   async renderer() {
     const mdres = md({
       html: true,
+      highlight: (str, lang) => {
+        if (lang && hljs.getLanguage(lang)) {
+          try {
+            const hl = hljs.highlight(lang, str, true);
+            console.log(hl);
+            return `<pre class="hljs"><code class="language-${lang}">${hl.value}</code></pre>`;
+          } catch (__) {}
+        }
+
+        return ''; // use external default escaping
+      },
     });
     mdres.use(TableExtend).use(HeadingExtend);
 

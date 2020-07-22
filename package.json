@@ -28,6 +28,7 @@
     "@angular/router": "~10.0.2",
     "@ngrx/store": "^9.2.0",
     "cyia-ngx-common": "^9.0.0",
+    "highlight.js": "^10.1.1",
     "markdown-it": "^11.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
