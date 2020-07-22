@@ -43,7 +43,7 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "deployUrl": "/cyia-ngx-docs/",
+              "baseHref": "/cyia-ngx-docs/",
               "sourceMap": false,
               "extractCss": true,
               "aot": true,
