@@ -10,7 +10,10 @@ import { DynamicLoadingElementsModule } from '../../dynamic-loading-elements/dyn
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forRoot([{ path: '**', component: RendererRouterComponent }]),
+    RouterModule.forRoot([
+      { path: '', redirectTo: 'readme', pathMatch: 'full' },
+      { path: '**', component: RendererRouterComponent },
+    ]),
     MatSidenavModule,
     LeftSidenavMenuModule,
     RendererRouterModule,

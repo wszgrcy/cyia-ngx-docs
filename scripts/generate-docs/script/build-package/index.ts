@@ -8,6 +8,7 @@ import {
   DECORATOR_DOC_TYPE,
   API_DOC_TYPE,
   NAVIGATION_DOC_TYPE,
+  JSON_TYPE,
 } from '../const/doc-type';
 import { exportSpecifiedDocsProcessor } from './export-specified-docs.processor';
 import { DocModule } from '../define/doc-module';
@@ -56,6 +57,14 @@ export const BUILD_PACKAGE = new Package('build-package', [DOCS_DATA_PACKAGE])
         // outputPathTemplate: '${name}.decorator.html',
         getOutputPath: (doc: DocModule) => {
           console.log('文档', doc);
+          return `${doc.name}.json`;
+        },
+      },
+      {
+        docTypes: [JSON_TYPE],
+        pathTemplate: 'doc.template.json',
+        // outputPathTemplate: '${name}.decorator.html',
+        getOutputPath: (doc: DocModule) => {
           return `${doc.name}.json`;
         },
       },

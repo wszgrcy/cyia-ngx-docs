@@ -1,12 +1,13 @@
 import { DocsDataService } from '../docs-data-package/docs-data.service';
 import { Processor } from 'dgeni';
-import { MODULE_DOC_TYPE, API_DOC_TYPE, NAVIGATION_DOC_TYPE } from '../const/doc-type';
+import { MODULE_DOC_TYPE, API_DOC_TYPE, NAVIGATION_DOC_TYPE, JSON_TYPE } from '../const/doc-type';
 import { DocBase, ElementItem } from '../define/base';
 import * as fs from 'fs';
 import { DocService } from '../define/doc-service';
 import { DocModule } from '../define/doc-module';
 import { DocDecorator } from '../define/function';
 import { DocNavigation } from '../define/navigation';
+import * as path from 'path';
 export function mergeApiDocsProcess(docsDataService) {
   return new MergeApiDocsProcess(docsDataService);
 }
@@ -130,6 +131,7 @@ export class MergeApiDocsProcess implements Processor {
         };
       }) as DocBase[]),
       navigation,
+      this.readmeMarkdown(),
     ];
   }
   mergeApiDocs() {}
@@ -165,6 +167,35 @@ export class MergeApiDocsProcess implements Processor {
           title: '接口',
           url: `module/${name}/api`,
           selected: prefix === 'api' ? true : false,
+        },
+      ],
+    };
+  }
+  readmeMarkdown() {
+    return {
+      name: 'readme',
+      folder: '',
+      docType: JSON_TYPE,
+      templatename: 'api',
+      toJson: [
+        {
+          property: { flexList: ['1 1 0', '0 0 130px'] },
+          selector: 'flex-layout',
+          children: [
+            {
+              selector: 'doc-content',
+              children: [
+                {
+                  selector: 'overview-markdown',
+                  property: fs.readFileSync(path.resolve(__dirname, '../../../../README.md')).toString(),
+                },
+              ],
+            },
+            {
+              selector: 'doc-catalog',
+              property: { selector: 'doc-content' },
+            },
+          ],
         },
       ],
     };

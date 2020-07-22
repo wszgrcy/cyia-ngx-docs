@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { CyiaRepositoryService } from 'cyia-ngx-common/repository';
 import { NavigationEntity } from './resource-entity/navigation.entity';
 import * as navigation from '@rxactions/navigation.actions';
-import { Router, NavigationStart } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { RouterDataEntity } from '@resource-entity/router-data.entity';
 import * as routerData from '@rxactions/router-data.actions';
@@ -57,12 +57,13 @@ export class AppComponent implements OnInit {
     });
     router.events
       .pipe(
-        filter((e) => e instanceof NavigationStart),
-        map((e: NavigationStart) => e.url),
+        // tap((e) => {
+        //   console.log('查看', e);
+        // }),
+        filter((e) => e instanceof NavigationEnd),
+        map((e: NavigationEnd) => e.urlAfterRedirects),
         map((url) => {
-          console.log('链接', url);
           const urlTree = this.router.parseUrl(url);
-          console.log(urlTree.fragment);
           urlTree.fragment = undefined;
           if (urlTree.toString() === this.currentUrl) {
             return undefined;
