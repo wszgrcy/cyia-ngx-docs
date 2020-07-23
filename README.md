@@ -32,9 +32,12 @@
 - `docs-decorator` 标记是一个装饰器文档
 
 ## 使用
-- 添加文档标记,及设置项目路径`scripts\generate-docs\script\const\path.ts`及相关需要生成文档的文件
-- 运行`npm run docs`
-- 运行`npm run build`
+1. 给需要生成文档的代码添加文档标记,于`scripts\generate-docs\script\const\path.ts`文件中设置项目相关路径及相关需要生成文档的文件数组和其他参数即可
+2. 运行`npm run docs`
+3. 运行`npm run build`
+
+## 演示
+- 可以同时拉取本人的`cyia-ngx-docs`与`cyia-ngx-common`项目于同一文件夹,然后运行上面的2,3命令即可
 
 ## 未实现部分
 - 对于开发实例显示的支持
