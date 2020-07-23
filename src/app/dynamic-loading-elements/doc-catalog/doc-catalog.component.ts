@@ -10,7 +10,7 @@ import {
   HostBinding,
   OnDestroy,
 } from '@angular/core';
-import { Router, NavigationEnd, Event } from '@angular/router';
+import { Router, NavigationEnd, Event, ActivatedRoute } from '@angular/router';
 import { Subscription, fromEvent } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { debounceTime, filter, take, map } from 'rxjs/operators';
@@ -41,6 +41,7 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
    */
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private renderer: Renderer2,
     private store: Store,
     private cd: ChangeDetectorRef,
@@ -48,6 +49,12 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
   ) {
     this.url = this.router.url.replace(/#.*/, '');
     this.state.dispatch(catalog.INIT({ value: this }));
+    this.activatedRoute.fragment.pipe(filter(() => !!this.docElement)).subscribe((fragment) => {
+      const target = this.docElement.querySelector(`#${fragment}`);
+      if (target) {
+        target.scrollIntoView();
+      }
+    });
   }
   @ViewChild(MatTree, { static: true }) matTree: MatTree<CatalogTree>;
   url: string;
