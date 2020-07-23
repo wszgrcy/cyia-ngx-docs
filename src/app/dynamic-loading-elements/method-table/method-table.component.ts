@@ -12,6 +12,6 @@ export class MethodTableComponent implements OnInit, OnChanges {
   rowList = ['name', 'description', 'docParameters', 'returnType'];
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.ngInputProperty);
+    // console.log('属性', this.ngInputProperty);
   }
 }
