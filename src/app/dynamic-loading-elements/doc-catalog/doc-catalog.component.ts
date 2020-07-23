@@ -11,7 +11,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Router, NavigationEnd, Event, ActivatedRoute } from '@angular/router';
-import { Subscription, fromEvent } from 'rxjs';
+import { Subscription, fromEvent, Subject, merge } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { debounceTime, filter, take, map } from 'rxjs/operators';
 import { Renderer2, OnChanges } from '@angular/core';
@@ -36,6 +36,7 @@ class CatalogTree {
   styleUrls: ['./doc-catalog.component.scss'],
 })
 export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
+  linkClick$ = new Subject();
   /**
    * todo 视区高度获取
    */
@@ -53,6 +54,7 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
       const target = this.docElement.querySelector(`#${fragment}`);
       if (target) {
         target.scrollIntoView();
+        this.linkClick$.next();
       }
     });
   }
@@ -124,7 +126,7 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy(): void {}
   /** 订阅滚动更新位置 */
   updateScrollPosition(): void {
-    fromEvent(this.scrollContainer, 'scroll')
+    merge(fromEvent(this.scrollContainer, 'scroll'), this.linkClick$)
       .pipe(debounceTime(50))
       .subscribe((e) => {
         for (let i = 0; i < this.headersElement.length; i++) {
