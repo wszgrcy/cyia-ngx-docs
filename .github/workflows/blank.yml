@@ -45,6 +45,7 @@ jobs:
           git checkout gh-pages
           rm -rf *
           cp -rp ../dist/* .
+          cp ./index.html 404.html
           git status
           git add -A
           git commit -m '页面构建'
