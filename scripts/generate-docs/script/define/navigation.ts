@@ -1,12 +1,13 @@
 import { NAVIGATION_DOC_TYPE } from '../const/doc-type';
 
 export class DocNavigation {
+  footerToJson: any;
   sideNavToJson: SideNav[];
   id: string;
   name: string;
   aliases: string[];
   docType = NAVIGATION_DOC_TYPE;
-  templatename:string
+  templatename: string;
 }
 
 export class SideNav {

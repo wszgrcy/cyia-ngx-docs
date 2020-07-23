@@ -1,7 +1,7 @@
 <mat-toolbar>
   <div fxLayout="row" style="width: 100%;">
-    <div class="left" fxFlex="0 0 auto">
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggle()">
+    <div class="left" fxFlex="0 0 auto" style="display: flex;align-items: center;">
+      <button mat-icon-button  (click)="toggle()">
         <mat-icon>menu</mat-icon>
       </button>
       <span>文档生成(测试)</span>
@@ -14,10 +14,10 @@
       </div>
     </div>
     <div class="right" fxFlex="0 0 auto">
-      <input type="text">
+      <!-- <input type="text" placeholder="搜索" (input)="doSearch()" (keyup)="doSearch()" (click)="doSearch()"> -->
 
-      <a mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
-        href="https://github.com/wszgrcy/cyia-ngx-docs" target="_blank">
+
+      <a mat-icon-button href="https://github.com/wszgrcy/cyia-ngx-docs" target="_blank">
         <mat-icon>
           <svg focusable="false" viewBox="0 0 51.8 50.4" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -31,10 +31,17 @@
 
   </div>
 </mat-toolbar>
+<!-- <div style="position: absolute;z-index: 2;background-color: #444;left: 0; right: 0;color: white;">
+  <div style="display: flex;flex-wrap: wrap;justify-content: center;">
+    <div *ngFor="let item of list">
+      <a mat-button [routerLink]="item.url">{{item.title}}</a>
 
+    </div>
+  </div>
+</div> -->
 <ng-template #linkTemplate>
   <div class="link-container">
 
-    <a mat-button href="https://www.google.com/" target="_blank">Link</a>
+    <!-- <a mat-button href="https://www.google.com/" target="_blank">Link</a> -->
   </div>
 </ng-template>

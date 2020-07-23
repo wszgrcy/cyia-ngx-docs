@@ -4,15 +4,19 @@ import * as leftsidebar from '@rxactions/left-sidenav.acitons';
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+  styleUrls: ['./toolbar.component.scss'],
+  host: {
+    class: 'mat-elevation-z6',
+  },
 })
 export class ToolbarComponent implements OnInit {
+  constructor(public store: Store) {}
 
-  constructor(public store: Store) { }
-
-  ngOnInit() {
+  ngOnInit() {}
+  toggle() {
+    this.store.dispatch(leftsidebar.TOGGLE());
   }
-toggle() {
-  this.store.dispatch(leftsidebar.TOGGLE());
-}
+  // doSearch() {
+  //   console.log();
+  // }
 }

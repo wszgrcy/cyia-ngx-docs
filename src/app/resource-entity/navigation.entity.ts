@@ -15,4 +15,6 @@ export class NavigationNode {
 export class NavigationEntity {
   @StronglyTyped(NavigationNode)
   sideNav: NavigationNode[];
+
+  footer: { links: { title: string; url: string }[] };
 }

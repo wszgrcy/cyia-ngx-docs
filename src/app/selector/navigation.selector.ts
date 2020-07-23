@@ -19,3 +19,17 @@ export const selectLeftSideNav = pipe(
     return !!e;
   })
 );
+export const selectFooter = pipe(
+  select(
+    createSelector(navigation, (e: NavigationEntity) => {
+      // console.log('使用', e);
+      if (!e) {
+        return undefined;
+      }
+      return e.footer;
+    })
+  ),
+  filter((e) => {
+    return !!e;
+  })
+);

@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { NavigationNode } from '@resource-entity/navigation.entity';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { merge, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
@@ -27,7 +27,7 @@ export class NavItemComponent implements OnChanges {
     expanded?: boolean;
   } = {};
   nodeChildren: NavigationNode[];
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef) {}
+  constructor(private router: Router, private cd: ChangeDetectorRef) {}
   ngOnChanges(changes: SimpleChanges) {
     if (this.node && changes['node'] && changes['node'].firstChange) {
       this.routerHighlight();

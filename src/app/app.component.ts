@@ -11,6 +11,8 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import * as leftsidenav from '@rxactions/left-sidenav.acitons';
 import * as catalog from '@rxactions/catalog.acitons';
 import { selectCatalog } from './selector/catalog.selector';
+import { Observable, of } from 'rxjs';
+import { selectFooter } from '@rxselectors/navigation.selector';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,6 +20,7 @@ import { selectCatalog } from './selector/catalog.selector';
 })
 export class AppComponent implements OnInit {
   currentUrl = '';
+  footer$: Observable<any> = of({});
   layoutMap = new Map([
     [
       '(max-width: 599px)',
@@ -77,9 +80,8 @@ export class AppComponent implements OnInit {
 
       .subscribe((e) => {
         this.store.dispatch(routerData.ADD(e));
-        console.log('路由事件', e);
-        // this.store.dispatch()
       });
+    this.footer$ = this.store.pipe(selectFooter);
   }
   ngOnInit(): void {
     this.mediaChange();

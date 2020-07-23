@@ -7,8 +7,16 @@
     <main style="flex:  1 1 0;"></main>
 
 
-    <footer style="flex: 0 0 100px;">
-      页脚</footer>
+    <footer style="flex: 0 0 100px;padding: 16px 0;">
+      <h3 style="text-align: center;">相关开源项目</h3>
+      <div style="display: flex;padding: 0 50px;justify-content: center;  flex-wrap: wrap;">
+        <div *ngFor="let item of (footer$|async)?.links">
+          <a mat-button [href]="item.url" target="_blank">{{item.title}}</a>
+
+        </div>
+
+      </div>
+    </footer>
   </div>
 
 </div>

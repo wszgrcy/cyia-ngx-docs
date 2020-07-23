@@ -152,6 +152,7 @@ export class MergeApiDocsProcess implements Processor {
         ],
       };
     });
+    docNavigation.footerToJson = this.getFooter();
     return docNavigation;
   }
   getTabsElement(name: string, prefix: 'overview' | 'api'): ElementItem {
@@ -197,6 +198,19 @@ export class MergeApiDocsProcess implements Processor {
             },
           ],
         },
+      ],
+    };
+  }
+  getFooter() {
+    return {
+      links: [
+        { title: 'ng-window', url: 'https://github.com/wszgrcy/ng-window' },
+        {
+          title: 'cyia-ngx-common',
+          url: 'https://github.com/wszgrcy/cyia-ngx-common',
+        },
+        { title: 'tampermonkey-angular', url: 'https://github.com/wszgrcy/tampermonkey-angular' },
+        { title: 'material-color-palettes-generator', url: 'https://github.com/wszgrcy/material-color-palettes-generator' },
       ],
     };
   }

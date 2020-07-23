@@ -4,7 +4,7 @@
  */
 // GFM table, non-standard
 import StateBlock from 'markdown-it/lib/rules_block/state_block';
-import * as MarkdownIt from 'markdown-it';
+import MarkdownIt from 'markdown-it';
 /**判断是不是空格 */
 const isSpace = MarkdownIt().utils.isSpace;
 

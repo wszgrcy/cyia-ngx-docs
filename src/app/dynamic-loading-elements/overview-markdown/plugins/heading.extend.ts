@@ -1,4 +1,4 @@
-import * as MarkdownIt from 'markdown-it';
+import MarkdownIt from 'markdown-it';
 import StateBlock from 'markdown-it/lib/rules_block/state_block';
 
 const isSpace = MarkdownIt().utils.isSpace;

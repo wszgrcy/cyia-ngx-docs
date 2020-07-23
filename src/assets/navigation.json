@@ -1,36 +1,56 @@
 {
-    "sideNav":[
-    {
-        "title": "CyiaRepositoryModule",
-        "url": "module/repository/overview",
-        "tabs": [
+    "sideNav": [
+        {
+            "title": "CyiaRepositoryModule",
+            "url": "module/repository/overview",
+            "tabs": [
+                {
+                    "title": "简介",
+                    "url": "module/repository/overview",
+                    "contentCatalog": true
+                },
+                {
+                    "title": "接口",
+                    "url": "module/repository/api",
+                    "contentCatalog": true
+                }
+            ]
+        },
+        {
+            "title": "CyiaLoadingHintModule",
+            "url": "module/loading-hint/overview",
+            "tabs": [
+                {
+                    "title": "简介",
+                    "url": "module/loading-hint/overview",
+                    "contentCatalog": true
+                },
+                {
+                    "title": "接口",
+                    "url": "module/loading-hint/api",
+                    "contentCatalog": true
+                }
+            ]
+        }
+    ],
+    "footer": {
+        "links": [
             {
-                "title": "简介",
-                "url": "module/repository/overview",
-                "contentCatalog": true
+                "title": "ng-window",
+                "url": "https://github.com/wszgrcy/ng-window"
             },
             {
-                "title": "接口",
-                "url": "module/repository/api",
-                "contentCatalog": true
-            }
-        ]
-    },
-    {
-        "title": "CyiaLoadingHintModule",
-        "url": "module/loading-hint/overview",
-        "tabs": [
-            {
-                "title": "简介",
-                "url": "module/loading-hint/overview",
-                "contentCatalog": true
+                "title": "cyia-ngx-common",
+                "url": "https://github.com/wszgrcy/cyia-ngx-common"
             },
             {
-                "title": "接口",
-                "url": "module/loading-hint/api",
-                "contentCatalog": true
+                "title": "tampermonkey-angular",
+                "url": "https://github.com/wszgrcy/tampermonkey-angular"
+            },
+            {
+                "title": "material-color-palettes-generator",
+                "url": "https://github.com/wszgrcy/material-color-palettes-generator"
             }
         ]
     }
-]
 }

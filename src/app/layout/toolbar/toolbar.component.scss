@@ -1,6 +1,19 @@
 :host {
   display: block;
-  .center.hidden .link-wrapper{
-      display: none;
+  position: relative;
+  z-index: 2;
+  .center.hidden .link-wrapper {
+    display: none;
   }
+  // .right {
+  //   display: flex;
+  //   align-items: center;
+  // }
+  // input {
+  //   padding: 0 16px;
+  //   border: none;
+  //   border-radius: 99px;
+  //   height: 32px;
+  //   outline: none;
+  // }
 }

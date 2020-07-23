@@ -10,7 +10,7 @@ import {
   HostBinding,
   OnDestroy,
 } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd, Event } from '@angular/router';
+import { Router, NavigationEnd, Event } from '@angular/router';
 import { Subscription, fromEvent } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { debounceTime, filter, take, map } from 'rxjs/operators';

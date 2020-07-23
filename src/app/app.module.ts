@@ -12,6 +12,7 @@ import { routerDataReducer } from '@rxreducers/router-data.reducer';
 import { docRendererReducer } from '@rxreducers/doc-renderer.reducer';
 import { CyiaRepositoryModule } from 'cyia-ngx-common/repository';
 import { catalogReducer } from '@rxreducers/catalog.reducer';
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -20,6 +21,7 @@ import { catalogReducer } from '@rxreducers/catalog.reducer';
     ToolbarModule,
     MainModule,
     CyiaRepositoryModule,
+    MatButtonModule,
     StoreModule.forRoot(
       {
         leftSidenav: leftSidenavReducer,

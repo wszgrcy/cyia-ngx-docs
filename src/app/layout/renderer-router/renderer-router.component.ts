@@ -34,7 +34,7 @@ export class RendererRouterComponent implements OnInit {
     private cd: ChangeDetectorRef
   ) {
     this.hostElement = this.elementRef.nativeElement;
-    this.router.onSameUrlNavigation = 'reload';
+    // this.router.onSameUrlNavigation = 'reload';
   }
 
   ngOnInit() {
