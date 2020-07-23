@@ -50,7 +50,6 @@
                             {
                                 "name": "option",
                                 "isOptional": false,
-                                "defaultValue": "CyiaLoadHintOption",
                                 "type": "CyiaLoadHintOption",
                                 "isRestParam": false,
                                 "description": "",

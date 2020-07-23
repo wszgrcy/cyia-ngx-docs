@@ -120,9 +120,7 @@ export class DocsDataService {
           parameterDoc: item,
           parameter: type,
           /**注释 */
-          param:
-            docs['params'] &&
-            (docs['params'] as ParameterContainer['params']).find((param) => param.name === item.name),
+          param: docs['params'] && (docs['params'] as ParameterContainer['params']).find((param) => param.name === item.name),
         };
       })
       .map((item) => this.handleParameter(item));
@@ -139,7 +137,7 @@ export class DocsDataService {
     const docParameter = new DocParameter(parameterDoc.name);
     docParameter.description = (param && param.description) || parameterDoc.description;
     docParameter.isRestParam = parameterDoc.isRestParam;
-    docParameter.defaultValue = parameter.replace(/^.*\=/, '').trim();
+    docParameter.defaultValue = parameterDoc.defaultValue;
     docParameter.isOptional = docParameter.isRestParam || parameterDoc.isOptional;
     docParameter.parameter = parameter;
     docParameter.type = parameter;

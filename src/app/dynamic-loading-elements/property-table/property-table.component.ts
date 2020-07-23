@@ -14,7 +14,7 @@ export class PropertyTableComponent implements OnInit, OnChanges {
   typeLinks = [];
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log('属性', this.ngInputProperty);
+    console.log('属性', this.ngInputProperty);
     this.ngInputProperty.forEach((e) => {
       if (e.typeLink) {
         this.typeLinks.push({ key: e.type, value: e.typeLink });
@@ -26,7 +26,6 @@ export class PropertyTableComponent implements OnInit, OnChanges {
   openPanel(type) {
     const index = this.typeLinks.findIndex((link) => link.key === type);
     this.panelList.forEach((panel, i) => {
-      console.log(panel, i, index);
       if (i === index) {
         panel.toggle();
       }

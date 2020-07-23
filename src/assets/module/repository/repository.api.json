@@ -54,7 +54,6 @@
                                     {
                                         "name": "entity",
                                         "isOptional": false,
-                                        "defaultValue": "Type<T>",
                                         "type": "Type<T>",
                                         "isRestParam": false,
                                         "description": "类数据源装饰器装饰的实体",
@@ -63,7 +62,6 @@
                                     {
                                         "name": "params",
                                         "isOptional": true,
-                                        "defaultValue": "any[]",
                                         "type": "any[]",
                                         "isRestParam": true,
                                         "description": "source传入参数(可传入多个)",
@@ -79,7 +77,6 @@
                                     {
                                         "name": "entity",
                                         "isOptional": false,
-                                        "defaultValue": "Type<T>",
                                         "type": "Type<T>",
                                         "isRestParam": false,
                                         "description": "类数据源装饰器装饰的实体",
@@ -88,7 +85,6 @@
                                     {
                                         "name": "params",
                                         "isOptional": true,
-                                        "defaultValue": "any[]",
                                         "type": "any[]",
                                         "isRestParam": true,
                                         "description": "source传入参数(可传入多个)",
@@ -123,7 +119,6 @@
                             {
                                 "name": "options",
                                 "isOptional": false,
-                                "defaultValue": "PropertyDataSourceOptions<RESULT>",
                                 "type": "PropertyDataSourceOptions<RESULT>",
                                 "isRestParam": false,
                                 "description": "",
@@ -179,7 +174,7 @@
                             {
                                 "name": "options",
                                 "isOptional": false,
-                                "defaultValue": "ClassDataSourceOptions",
+                                "defaultValue": "new ClassDataSourceOptions()",
                                 "type": "ClassDataSourceOptions",
                                 "isRestParam": false,
                                 "description": "相关参数",
@@ -220,7 +215,6 @@
                             {
                                 "name": "entity",
                                 "isOptional": false,
-                                "defaultValue": "Type<T>",
                                 "type": "Type<T>",
                                 "isRestParam": false,
                                 "description": "",
@@ -245,7 +239,6 @@
                             {
                                 "name": "options",
                                 "isOptional": false,
-                                "defaultValue": "PropertyDataSourceStandaloneOptions<any>",
                                 "type": "PropertyDataSourceStandaloneOptions<any>",
                                 "isRestParam": false,
                                 "description": "",
@@ -321,7 +314,6 @@
                             {
                                 "name": "value",
                                 "isOptional": false,
-                                "defaultValue": "T",
                                 "type": "T",
                                 "isRestParam": false,
                                 "description": "",
@@ -330,7 +322,6 @@
                             {
                                 "name": "options",
                                 "isOptional": true,
-                                "defaultValue": "PropertyDefaultValueOptions",
                                 "type": "PropertyDefaultValueOptions",
                                 "isRestParam": false,
                                 "description": "",
@@ -396,7 +387,6 @@
                             {
                                 "name": "format",
                                 "isOptional": false,
-                                "defaultValue": "> any",
                                 "type": "(value: any) => any",
                                 "isRestParam": false,
                                 "description": "",
