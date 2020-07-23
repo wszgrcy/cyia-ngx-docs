@@ -24,15 +24,18 @@
 |doc-content|无|目前用于存放生成的文档,属于一个容器
 |doc-catalog|{selector}|用于通过选择器找到h1-h6标签,生成目录|
 |doc-tabs|[{title,url,selected}]|创建tabs通过url请求切换|
+
 ### 文档标记
 - `docs-overview` 后跟md文件用来提供文件简介
 - `docs-module` 标记是一个模块文档
 - `docs-service` 标记是一个服务文档
 - `docs-decorator` 标记是一个装饰器文档
+
 ## 使用
 - 添加文档标记,及设置项目路径`scripts\generate-docs\script\const\path.ts`及相关需要生成文档的文件
 - 运行`npm run docs`
 - 运行`npm run build`
+
 ## 未实现部分
 - 对于开发实例显示的支持
 - 搜索的实现
