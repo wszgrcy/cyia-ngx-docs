@@ -13,12 +13,11 @@ import md from 'markdown-it';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TableExtend } from './plugins/table.extend';
 import { DynamicLoadingElementsService } from '../dynamic-loading-elements.service';
-import { take } from 'rxjs/operators';
 import { OnChanges } from '@angular/core';
 import { HeadingExtend } from './plugins/heading.extend';
-import * as monaco from 'monaco-editor';
 import { HttpClient } from '@angular/common/http';
-import { CyiaMonacoTextmateService } from 'cyia-ngx-common/monaco-textmate';
+import { Store } from '@ngrx/store';
+import { GENERATE } from '@rxreducers';
 @Component({
   selector: 'overview-markdown',
   templateUrl: './overview-markdown.component.html',
@@ -36,7 +35,7 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
     private cd: ChangeDetectorRef,
     private dynamicLoadingElements: DynamicLoadingElementsService,
     private httpClient: HttpClient,
-    private service: CyiaMonacoTextmateService
+    private store: Store
   ) {}
 
   ngOnInit() {}
@@ -47,28 +46,21 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
   }
 
   async renderer() {
-    this.service.setMonaco(monaco);
-    await this.service.init();
-    const themeList = await this.service.getThemeList();
-    const theme = await this.service.defineTheme(themeList[1]);
-    monaco.editor.setTheme(theme);
-    await this.service.manualRegisterLanguage('typescript');
     const mdres = md({
       html: true,
       highlight: (str, lang) => {
         try {
-          const divEl = document.createElement('div');
-          divEl.classList.add('monaco-editor');
-          divEl.innerHTML = str;
-          divEl.setAttribute('data-lang', 'typescript');
-          const codeIndex = this.codeIndex;
-
-          monaco.editor.colorizeElement(divEl, { tabSize: 4, theme: theme }).then(() => {
-            setTimeout(() => {
-              document.querySelector(`#code-${codeIndex}`).appendChild(divEl);
-            }, 100);
-          });
-          return `<pre class="hljs" id="code-${this.codeIndex++}"></pre>`;
+          this.dynamicLoadingElements.generateElement([{ selector: 'code-highlight' }]);
+          this.store.dispatch(
+            GENERATE({
+              value: {
+                index: this.codeIndex,
+                content: str,
+                languageId: lang,
+              },
+            })
+          );
+          return `<code-highlight index="${this.codeIndex++}"></code-highlight>`;
         } catch (__) {}
 
         return '';
