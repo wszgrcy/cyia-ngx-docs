@@ -1,0 +1,27 @@
+{
+    "name": "textmat-test",
+    "displayName": "textmat-test",
+    "description": "",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.48.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    
+    "contributes": {
+        "languages": [{
+            "id": "tmd",
+            "aliases": ["tmd", "tmd"],
+            "extensions": ["tmd"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "tmd",
+            "scopeName": "source.tmd",
+            "path": "./syntaxes/tmd.tmLanguage.json",
+            "injectTo": ["source.ts"]
+        }]
+    }
+}

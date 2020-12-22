@@ -16,7 +16,9 @@ import { DynamicLoadingElementsService } from '../dynamic-loading-elements.servi
 import { take } from 'rxjs/operators';
 import { OnChanges } from '@angular/core';
 import { HeadingExtend } from './plugins/heading.extend';
-import hljs from 'highlight.js';
+import * as monaco from 'monaco-editor';
+import { HttpClient } from '@angular/common/http';
+import { CyiaMonacoTextmateService } from 'cyia-ngx-common/monaco-textmate';
 @Component({
   selector: 'overview-markdown',
   templateUrl: './overview-markdown.component.html',
@@ -28,10 +30,13 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
   @Input() ngInputProperty;
   rendererValue: SafeHtml;
   @Input() @Output() renderFinish = new EventEmitter();
+  codeIndex = 0;
   constructor(
     private domSanitizer: DomSanitizer,
     private cd: ChangeDetectorRef,
-    private dynamicLoadingElements: DynamicLoadingElementsService
+    private dynamicLoadingElements: DynamicLoadingElementsService,
+    private httpClient: HttpClient,
+    private service: CyiaMonacoTextmateService
   ) {}
 
   ngOnInit() {}
@@ -42,18 +47,31 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
   }
 
   async renderer() {
+    this.service.setMonaco(monaco);
+    await this.service.init();
+    const themeList = await this.service.getThemeList();
+    const theme = await this.service.defineTheme(themeList[1]);
+    monaco.editor.setTheme(theme);
+    await this.service.manualRegisterLanguage('typescript');
     const mdres = md({
       html: true,
       highlight: (str, lang) => {
-        if (lang && hljs.getLanguage(lang)) {
-          try {
-            const hl = hljs.highlight(lang, str, true);
-            console.log(hl);
-            return `<pre class="hljs"><code class="language-${lang}">${hl.value}</code></pre>`;
-          } catch (__) {}
-        }
+        try {
+          const divEl = document.createElement('div');
+          divEl.classList.add('monaco-editor');
+          divEl.innerHTML = str;
+          divEl.setAttribute('data-lang', 'typescript');
+          const codeIndex = this.codeIndex;
 
-        return ''; // use external default escaping
+          monaco.editor.colorizeElement(divEl, { tabSize: 4, theme: theme }).then(() => {
+            setTimeout(() => {
+              document.querySelector(`#code-${codeIndex}`).appendChild(divEl);
+            }, 100);
+          });
+          return `<pre class="hljs" id="code-${this.codeIndex++}"></pre>`;
+        } catch (__) {}
+
+        return '';
       },
     });
     mdres.use(TableExtend).use(HeadingExtend);
@@ -61,22 +79,18 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
     mdres.renderer.rules.table_open = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
       const attrStr = token.attrs.map((item) => `${item[0]}='${item[1]}'`).join(' ');
-      console.log(attrStr);
       this.waitingLoadElement.push(this.dynamicLoadingElements.generateElement([{ selector: 'base-table' }]));
       return `<${token.tag} ${attrStr}>`;
     };
     mdres.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
       const attrStr = token.attrs.map((item) => `${item[0]}='${item[1]}'`).join(' ');
-      // console.log('添加');
       this.waitingLoadElement.push(this.dynamicLoadingElements.generateElement([{ selector: 'doc-anchor' }]));
       return `<${token.tag} ${attrStr}>`;
     };
     this.rendererValue = this.domSanitizer.bypassSecurityTrustHtml(mdres.render(this.ngInputProperty));
     await Promise.all(this.waitingLoadElement);
-    // console.log('初始化完成');
     this.cd.detectChanges();
-    // console.log(document.querySelector('doc-anchor'));
     // this.waitRenderFinish();
     this.renderFinish.emit();
   }
@@ -87,7 +101,6 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
   //     console.dir(element);
   //     // debugger;
   //     if ('renderFinish' in element) {
-  //       console.log('有');
   //     }
   //   }
   // }

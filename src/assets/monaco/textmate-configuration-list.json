@@ -1,0 +1,982 @@
+[
+    {
+        "id": "bat",
+        "extensions": [
+            ".bat",
+            ".cmd"
+        ],
+        "aliases": [
+            "Batch",
+            "bat"
+        ],
+        "configuration": "assets\\monaco\\extensions\\bat\\language-configuration.json"
+    },
+    {
+        "id": "clojure",
+        "aliases": [
+            "Clojure",
+            "clojure"
+        ],
+        "extensions": [
+            ".clj",
+            ".cljs",
+            ".cljc",
+            ".cljx",
+            ".clojure",
+            ".edn"
+        ],
+        "configuration": "assets\\monaco\\extensions\\clojure\\language-configuration.json"
+    },
+    {
+        "id": "coffeescript",
+        "extensions": [
+            ".coffee",
+            ".cson",
+            ".iced"
+        ],
+        "aliases": [
+            "CoffeeScript",
+            "coffeescript",
+            "coffee"
+        ],
+        "configuration": "assets\\monaco\\extensions\\coffeescript\\language-configuration.json"
+    },
+    {
+        "id": "jsonc",
+        "extensions": [
+            ".code-workspace",
+            "language-configuration.json",
+            "icon-theme.json",
+            "color-theme.json",
+            ".code-snippets"
+        ],
+        "filenames": [
+            "settings.json",
+            "launch.json",
+            "tasks.json",
+            "keybindings.json",
+            "extensions.json",
+            "argv.json",
+            "profiles.json"
+        ]
+    },
+    {
+        "id": "c",
+        "extensions": [
+            ".c",
+            ".i"
+        ],
+        "aliases": [
+            "C",
+            "c"
+        ],
+        "configuration": "assets\\monaco\\extensions\\cpp\\language-configuration.json"
+    },
+    {
+        "id": "cpp",
+        "extensions": [
+            ".cpp",
+            ".cc",
+            ".cxx",
+            ".c++",
+            ".hpp",
+            ".hh",
+            ".hxx",
+            ".h++",
+            ".h",
+            ".ii",
+            ".ino",
+            ".inl",
+            ".ipp",
+            ".hpp.in",
+            ".h.in"
+        ],
+        "aliases": [
+            "C++",
+            "Cpp",
+            "cpp"
+        ],
+        "configuration": "assets\\monaco\\extensions\\cpp\\language-configuration.json"
+    },
+    {
+        "id": "csharp",
+        "extensions": [
+            ".cs",
+            ".csx",
+            ".cake"
+        ],
+        "aliases": [
+            "C#",
+            "csharp"
+        ],
+        "configuration": "assets\\monaco\\extensions\\csharp\\language-configuration.json"
+    },
+    {
+        "id": "css",
+        "aliases": [
+            "CSS",
+            "css"
+        ],
+        "extensions": [
+            ".css"
+        ],
+        "mimetypes": [
+            "text/css"
+        ],
+        "configuration": "assets\\monaco\\extensions\\css\\language-configuration.json"
+    },
+    {
+        "id": "dockerfile",
+        "extensions": [
+            ".dockerfile",
+            ".containerfile"
+        ],
+        "filenames": [
+            "Dockerfile",
+            "Containerfile"
+        ],
+        "filenamePatterns": [
+            "Dockerfile.*",
+            "Containerfile.*"
+        ],
+        "aliases": [
+            "Docker",
+            "Dockerfile",
+            "Containerfile"
+        ],
+        "configuration": "assets\\monaco\\extensions\\docker\\language-configuration.json"
+    },
+    {
+        "id": "ignore",
+        "filenames": [
+            ".vscodeignore"
+        ]
+    },
+    {
+        "id": "fsharp",
+        "extensions": [
+            ".fs",
+            ".fsi",
+            ".fsx",
+            ".fsscript"
+        ],
+        "aliases": [
+            "F#",
+            "FSharp",
+            "fsharp"
+        ],
+        "configuration": "assets\\monaco\\extensions\\fsharp\\language-configuration.json"
+    },
+    {
+        "id": "git-commit",
+        "aliases": [
+            "Git Commit Message",
+            "git-commit"
+        ],
+        "filenames": [
+            "COMMIT_EDITMSG",
+            "MERGE_MSG"
+        ],
+        "configuration": "assets\\monaco\\extensions\\git\\languages\\git-commit.language-configuration.json"
+    },
+    {
+        "id": "git-rebase",
+        "aliases": [
+            "Git Rebase Message",
+            "git-rebase"
+        ],
+        "filenames": [
+            "git-rebase-todo"
+        ],
+        "configuration": "assets\\monaco\\extensions\\git\\languages\\git-rebase.language-configuration.json"
+    },
+    {
+        "id": "diff",
+        "aliases": [
+            "Diff",
+            "diff"
+        ],
+        "extensions": [
+            ".diff",
+            ".patch",
+            ".rej"
+        ],
+        "configuration": "assets\\monaco\\extensions\\git\\languages\\diff.language-configuration.json"
+    },
+    {
+        "id": "ignore",
+        "aliases": [
+            "Ignore",
+            "ignore"
+        ],
+        "extensions": [
+            ".gitignore_global",
+            ".gitignore"
+        ],
+        "configuration": "assets\\monaco\\extensions\\git\\languages\\ignore.language-configuration.json"
+    },
+    {
+        "id": "go",
+        "extensions": [
+            ".go"
+        ],
+        "aliases": [
+            "Go"
+        ],
+        "configuration": "assets\\monaco\\extensions\\go\\language-configuration.json"
+    },
+    {
+        "id": "groovy",
+        "aliases": [
+            "Groovy",
+            "groovy"
+        ],
+        "extensions": [
+            ".groovy",
+            ".gvy",
+            ".gradle",
+            ".jenkinsfile",
+            ".nf"
+        ],
+        "filenamePatterns": [
+            "Jenkinsfile.*"
+        ],
+        "firstLine": "^#!.*\\bgroovy\\b",
+        "configuration": "assets\\monaco\\extensions\\groovy\\language-configuration.json"
+    },
+    {
+        "id": "handlebars",
+        "extensions": [
+            ".handlebars",
+            ".hbs",
+            ".hjs"
+        ],
+        "aliases": [
+            "Handlebars",
+            "handlebars"
+        ],
+        "mimetypes": [
+            "text/x-handlebars-template"
+        ],
+        "configuration": "assets\\monaco\\extensions\\handlebars\\language-configuration.json"
+    },
+    {
+        "id": "hlsl",
+        "extensions": [
+            ".hlsl",
+            ".hlsli",
+            ".fx",
+            ".fxh",
+            ".vsh",
+            ".psh",
+            ".cginc",
+            ".compute"
+        ],
+        "aliases": [
+            "HLSL",
+            "hlsl"
+        ],
+        "configuration": "assets\\monaco\\extensions\\hlsl\\language-configuration.json"
+    },
+    {
+        "id": "html",
+        "extensions": [
+            ".html",
+            ".htm",
+            ".shtml",
+            ".xhtml",
+            ".xht",
+            ".mdoc",
+            ".jsp",
+            ".asp",
+            ".aspx",
+            ".jshtm",
+            ".volt",
+            ".ejs",
+            ".rhtml"
+        ],
+        "aliases": [
+            "HTML",
+            "htm",
+            "html",
+            "xhtml"
+        ],
+        "mimetypes": [
+            "text/html",
+            "text/x-jshtm",
+            "text/template",
+            "text/ng-template",
+            "application/xhtml+xml"
+        ],
+        "configuration": "assets\\monaco\\extensions\\html\\language-configuration.json"
+    },
+    {
+        "id": "ini",
+        "extensions": [
+            ".ini"
+        ],
+        "aliases": [
+            "Ini",
+            "ini"
+        ],
+        "configuration": "assets\\monaco\\extensions\\ini\\ini.language-configuration.json"
+    },
+    {
+        "id": "properties",
+        "extensions": [
+            ".properties",
+            ".cfg",
+            ".conf",
+            ".directory",
+            ".gitattributes",
+            ".gitconfig",
+            ".gitmodules",
+            ".editorconfig"
+        ],
+        "filenames": [
+            "gitconfig"
+        ],
+        "filenamePatterns": [
+            "**/.config/git/config",
+            "**/.git/config"
+        ],
+        "aliases": [
+            "Properties",
+            "properties"
+        ],
+        "configuration": "assets\\monaco\\extensions\\ini\\properties.language-configuration.json"
+    },
+    {
+        "id": "java",
+        "extensions": [
+            ".java",
+            ".jav"
+        ],
+        "aliases": [
+            "Java",
+            "java"
+        ],
+        "configuration": "assets\\monaco\\extensions\\java\\language-configuration.json"
+    },
+    {
+        "id": "javascriptreact",
+        "aliases": [
+            "JavaScript React",
+            "jsx"
+        ],
+        "extensions": [
+            ".jsx"
+        ],
+        "configuration": "assets\\monaco\\extensions\\javascript\\javascript-language-configuration.json"
+    },
+    {
+        "id": "javascript",
+        "aliases": [
+            "JavaScript",
+            "javascript",
+            "js"
+        ],
+        "extensions": [
+            ".js",
+            ".es6",
+            ".mjs",
+            ".cjs",
+            ".pac"
+        ],
+        "filenames": [
+            "jakefile"
+        ],
+        "firstLine": "^#!.*\\bnode",
+        "mimetypes": [
+            "text/javascript"
+        ],
+        "configuration": "assets\\monaco\\extensions\\javascript\\javascript-language-configuration.json"
+    },
+    {
+        "id": "jsx-tags",
+        "aliases": [],
+        "configuration": "assets\\monaco\\extensions\\javascript\\tags-language-configuration.json"
+    },
+    {
+        "id": "json",
+        "aliases": [
+            "JSON",
+            "json"
+        ],
+        "extensions": [
+            ".json",
+            ".bowerrc",
+            ".jscsrc",
+            ".webmanifest",
+            ".js.map",
+            ".css.map",
+            ".ts.map",
+            ".har",
+            ".jslintrc",
+            ".jsonld"
+        ],
+        "filenames": [
+            "composer.lock",
+            ".watchmanconfig",
+            ".ember-cli"
+        ],
+        "mimetypes": [
+            "application/json",
+            "application/manifest+json"
+        ],
+        "configuration": "assets\\monaco\\extensions\\json\\language-configuration.json"
+    },
+    {
+        "id": "jsonc",
+        "aliases": [
+            "JSON with Comments"
+        ],
+        "extensions": [
+            ".jsonc",
+            ".eslintrc",
+            ".eslintrc.json",
+            ".jsfmtrc",
+            ".jshintrc",
+            ".swcrc",
+            ".hintrc",
+            ".babelrc"
+        ],
+        "configuration": "assets\\monaco\\extensions\\json\\language-configuration.json"
+    },
+    {
+        "id": "less",
+        "aliases": [
+            "Less",
+            "less"
+        ],
+        "extensions": [
+            ".less"
+        ],
+        "mimetypes": [
+            "text/x-less",
+            "text/less"
+        ],
+        "configuration": "assets\\monaco\\extensions\\less\\language-configuration.json"
+    },
+    {
+        "id": "log",
+        "extensions": [
+            ".log",
+            "*.log.?"
+        ],
+        "aliases": [
+            "Log"
+        ]
+    },
+    {
+        "id": "lua",
+        "extensions": [
+            ".lua"
+        ],
+        "aliases": [
+            "Lua",
+            "lua"
+        ],
+        "configuration": "assets\\monaco\\extensions\\lua\\language-configuration.json"
+    },
+    {
+        "id": "makefile",
+        "aliases": [
+            "Makefile",
+            "makefile"
+        ],
+        "extensions": [
+            ".mk"
+        ],
+        "filenames": [
+            "Makefile",
+            "makefile",
+            "GNUmakefile",
+            "OCamlMakefile"
+        ],
+        "firstLine": "^#!\\s*/usr/bin/make",
+        "configuration": "assets\\monaco\\extensions\\make\\language-configuration.json"
+    },
+    {
+        "id": "markdown",
+        "aliases": [
+            "Markdown",
+            "markdown"
+        ],
+        "extensions": [
+            ".md",
+            ".mkd",
+            ".mdwn",
+            ".mdown",
+            ".markdown",
+            ".markdn",
+            ".mdtxt",
+            ".mdtext",
+            ".workbook"
+        ],
+        "configuration": "assets\\monaco\\extensions\\markdown-basics\\language-configuration.json"
+    },
+    {
+        "id": "objective-c",
+        "extensions": [
+            ".m"
+        ],
+        "aliases": [
+            "Objective-C"
+        ],
+        "configuration": "assets\\monaco\\extensions\\objective-c\\language-configuration.json"
+    },
+    {
+        "id": "objective-cpp",
+        "extensions": [
+            ".mm"
+        ],
+        "aliases": [
+            "Objective-C++"
+        ],
+        "configuration": "assets\\monaco\\extensions\\objective-c\\language-configuration.json"
+    },
+    {
+        "id": "perl",
+        "aliases": [
+            "Perl",
+            "perl"
+        ],
+        "extensions": [
+            ".pl",
+            ".pm",
+            ".pod",
+            ".t",
+            ".PL",
+            ".psgi"
+        ],
+        "firstLine": "^#!.*\\bperl\\b",
+        "configuration": "assets\\monaco\\extensions\\perl\\perl.language-configuration.json"
+    },
+    {
+        "id": "perl6",
+        "aliases": [
+            "Perl 6",
+            "perl6"
+        ],
+        "extensions": [
+            ".p6",
+            ".pl6",
+            ".pm6",
+            ".nqp"
+        ],
+        "firstLine": "(^#!.*\\bperl6\\b)|use\\s+v6",
+        "configuration": "assets\\monaco\\extensions\\perl\\perl6.language-configuration.json"
+    },
+    {
+        "id": "php",
+        "extensions": [
+            ".php",
+            ".php4",
+            ".php5",
+            ".phtml",
+            ".ctp"
+        ],
+        "aliases": [
+            "PHP",
+            "php"
+        ],
+        "firstLine": "^#!\\s*/.*\\bphp\\b",
+        "mimetypes": [
+            "application/x-php"
+        ],
+        "configuration": "assets\\monaco\\extensions\\php\\language-configuration.json"
+    },
+    {
+        "id": "powershell",
+        "extensions": [
+            ".ps1",
+            ".psm1",
+            ".psd1",
+            ".pssc",
+            ".psrc"
+        ],
+        "aliases": [
+            "PowerShell",
+            "powershell",
+            "ps",
+            "ps1"
+        ],
+        "firstLine": "^#!\\s*/.*\\bpwsh\\b",
+        "configuration": "assets\\monaco\\extensions\\powershell\\language-configuration.json"
+    },
+    {
+        "id": "jade",
+        "extensions": [
+            ".pug",
+            ".jade"
+        ],
+        "aliases": [
+            "Pug",
+            "Jade",
+            "jade"
+        ],
+        "configuration": "assets\\monaco\\extensions\\pug\\language-configuration.json"
+    },
+    {
+        "id": "python",
+        "extensions": [
+            ".py",
+            ".rpy",
+            ".pyw",
+            ".cpy",
+            ".gyp",
+            ".gypi",
+            ".pyi",
+            ".ipy"
+        ],
+        "aliases": [
+            "Python",
+            "py"
+        ],
+        "filenames": [
+            "Snakefile",
+            "SConstruct",
+            "SConscript"
+        ],
+        "firstLine": "^#!\\s*/?.*\\bpython[0-9.-]*\\b",
+        "configuration": "assets\\monaco\\extensions\\python\\language-configuration.json"
+    },
+    {
+        "id": "r",
+        "extensions": [
+            ".r",
+            ".rhistory",
+            ".rprofile",
+            ".rt"
+        ],
+        "aliases": [
+            "R",
+            "r"
+        ],
+        "configuration": "assets\\monaco\\extensions\\r\\language-configuration.json"
+    },
+    {
+        "id": "razor",
+        "extensions": [
+            ".cshtml"
+        ],
+        "aliases": [
+            "Razor",
+            "razor"
+        ],
+        "mimetypes": [
+            "text/x-cshtml"
+        ],
+        "configuration": "assets\\monaco\\extensions\\razor\\language-configuration.json"
+    },
+    {
+        "id": "ruby",
+        "extensions": [
+            ".rb",
+            ".rbx",
+            ".rjs",
+            ".gemspec",
+            ".rake",
+            ".ru",
+            ".erb",
+            ".podspec",
+            ".rbi"
+        ],
+        "filenames": [
+            "rakefile",
+            "gemfile",
+            "guardfile",
+            "podfile",
+            "capfile"
+        ],
+        "aliases": [
+            "Ruby",
+            "rb"
+        ],
+        "firstLine": "^#!\\s*/.*\\bruby\\b",
+        "configuration": "assets\\monaco\\extensions\\ruby\\language-configuration.json"
+    },
+    {
+        "id": "rust",
+        "extensions": [
+            ".rs"
+        ],
+        "aliases": [
+            "Rust",
+            "rust"
+        ],
+        "configuration": "assets\\monaco\\extensions\\rust\\language-configuration.json"
+    },
+    {
+        "id": "scss",
+        "aliases": [
+            "SCSS",
+            "scss"
+        ],
+        "extensions": [
+            ".scss"
+        ],
+        "mimetypes": [
+            "text/x-scss",
+            "text/scss"
+        ],
+        "configuration": "assets\\monaco\\extensions\\scss\\language-configuration.json"
+    },
+    {
+        "id": "search-result",
+        "extensions": [
+            ".code-search"
+        ],
+        "aliases": [
+            "Search Result"
+        ]
+    },
+    {
+        "id": "shaderlab",
+        "extensions": [
+            ".shader"
+        ],
+        "aliases": [
+            "ShaderLab",
+            "shaderlab"
+        ],
+        "configuration": "assets\\monaco\\extensions\\shaderlab\\language-configuration.json"
+    },
+    {
+        "id": "shellscript",
+        "aliases": [
+            "Shell Script",
+            "shellscript",
+            "bash",
+            "sh",
+            "zsh",
+            "ksh",
+            "csh"
+        ],
+        "extensions": [
+            ".sh",
+            ".bash",
+            ".bashrc",
+            ".bash_aliases",
+            ".bash_profile",
+            ".bash_login",
+            ".ebuild",
+            ".install",
+            ".profile",
+            ".bash_logout",
+            ".zsh",
+            ".zshrc",
+            ".zprofile",
+            ".zlogin",
+            ".zlogout",
+            ".zshenv",
+            ".zsh-theme",
+            ".ksh",
+            ".csh",
+            ".cshrc",
+            ".tcshrc",
+            ".yashrc",
+            ".yash_profile"
+        ],
+        "filenames": [
+            "APKBUILD",
+            "PKGBUILD",
+            ".envrc",
+            ".hushlogin",
+            "zshrc",
+            "zshenv",
+            "zlogin",
+            "zprofile",
+            "zlogout",
+            "bashrc_Apple_Terminal",
+            "zshrc_Apple_Terminal"
+        ],
+        "firstLine": "^#!.*\\b(bash|zsh|sh|ksh|dtksh|pdksh|mksh|ash|dash|yash|sh|csh|jcsh|tcsh|itcsh).*|^#\\s*-\\*-[^*]*mode:\\s*shell-script[^*]*-\\*-",
+        "configuration": "assets\\monaco\\extensions\\shellscript\\language-configuration.json",
+        "mimetypes": [
+            "text/x-shellscript"
+        ]
+    },
+    {
+        "id": "sql",
+        "extensions": [
+            ".sql",
+            ".dsql"
+        ],
+        "aliases": [
+            "SQL"
+        ],
+        "configuration": "assets\\monaco\\extensions\\sql\\language-configuration.json"
+    },
+    {
+        "id": "swift",
+        "aliases": [
+            "Swift",
+            "swift"
+        ],
+        "extensions": [
+            ".swift"
+        ],
+        "configuration": "assets\\monaco\\extensions\\swift\\language-configuration.json"
+    },
+    {
+        "id": "tmd",
+        "aliases": [
+            "tmd",
+            "tmd"
+        ],
+        "extensions": [
+            "tmd"
+        ],
+        "configuration": "assets\\monaco\\extensions\\textmat-test\\language-configuration.json"
+    },
+    {
+        "id": "typescript",
+        "aliases": [
+            "TypeScript",
+            "ts",
+            "typescript"
+        ],
+        "extensions": [
+            ".ts"
+        ],
+        "configuration": "assets\\monaco\\extensions\\typescript-basics\\language-configuration.json"
+    },
+    {
+        "id": "typescriptreact",
+        "aliases": [
+            "TypeScript React",
+            "tsx"
+        ],
+        "extensions": [
+            ".tsx"
+        ],
+        "configuration": "assets\\monaco\\extensions\\typescript-basics\\language-configuration.json"
+    },
+    {
+        "id": "jsonc",
+        "filenames": [
+            "tsconfig.json",
+            "jsconfig.json"
+        ],
+        "filenamePatterns": [
+            "tsconfig.*.json",
+            "jsconfig.*.json",
+            "tsconfig-*.json",
+            "jsconfig-*.json"
+        ]
+    },
+    {
+        "id": "vb",
+        "extensions": [
+            ".vb",
+            ".brs",
+            ".vbs",
+            ".bas"
+        ],
+        "aliases": [
+            "Visual Basic",
+            "vb"
+        ],
+        "configuration": "assets\\monaco\\extensions\\vb\\language-configuration.json"
+    },
+    {
+        "id": "xml",
+        "extensions": [
+            ".xml",
+            ".xsd",
+            ".ascx",
+            ".atom",
+            ".axml",
+            ".bpmn",
+            ".cpt",
+            ".csl",
+            ".csproj",
+            ".csproj.user",
+            ".dita",
+            ".ditamap",
+            ".dtd",
+            ".ent",
+            ".mod",
+            ".dtml",
+            ".fsproj",
+            ".fxml",
+            ".iml",
+            ".isml",
+            ".jmx",
+            ".launch",
+            ".menu",
+            ".mxml",
+            ".nuspec",
+            ".opml",
+            ".owl",
+            ".proj",
+            ".props",
+            ".pt",
+            ".publishsettings",
+            ".pubxml",
+            ".pubxml.user",
+            ".rbxlx",
+            ".rbxmx",
+            ".rdf",
+            ".rng",
+            ".rss",
+            ".shproj",
+            ".storyboard",
+            ".svg",
+            ".targets",
+            ".tld",
+            ".tmx",
+            ".vbproj",
+            ".vbproj.user",
+            ".vcxproj",
+            ".vcxproj.filters",
+            ".wsdl",
+            ".wxi",
+            ".wxl",
+            ".wxs",
+            ".xaml",
+            ".xbl",
+            ".xib",
+            ".xlf",
+            ".xliff",
+            ".xpdl",
+            ".xul",
+            ".xoml"
+        ],
+        "firstLine": "(\\<\\?xml.*)|(\\<svg)|(\\<\\!doctype\\s+svg)",
+        "aliases": [
+            "XML",
+            "xml"
+        ],
+        "configuration": "assets\\monaco\\extensions\\xml\\xml.language-configuration.json"
+    },
+    {
+        "id": "xsl",
+        "extensions": [
+            ".xsl",
+            ".xslt"
+        ],
+        "aliases": [
+            "XSL",
+            "xsl"
+        ],
+        "configuration": "assets\\monaco\\extensions\\xml\\xsl.language-configuration.json"
+    },
+    {
+        "id": "yaml",
+        "aliases": [
+            "YAML",
+            "yaml"
+        ],
+        "extensions": [
+            ".yml",
+            ".eyaml",
+            ".eyml",
+            ".yaml"
+        ],
+        "firstLine": "^#cloud-config",
+        "configuration": "assets\\monaco\\extensions\\yaml\\language-configuration.json"
+    }
+]

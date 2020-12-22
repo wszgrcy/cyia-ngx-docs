@@ -1,19 +1,11 @@
-/*
 
-Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
-
-*/
 .language-ts {
   color: #9cdcfe;
   font-family: Consolas, "Courier New", monospace;
 }
 .hljs {
-  background-color: #1e1e1e;
-  /* display: block;
-  overflow-x: auto;
-  padding: 0.5em;
-  background: white;
-  color: black; */
+  /* background-color: #1e1e1e; */
+
 }
 
 .hljs-comment {
