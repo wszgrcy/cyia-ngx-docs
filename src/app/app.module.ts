@@ -6,16 +6,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarModule } from './layout/toolbar/toolbar.module';
 import { MainModule } from './layout/main/main.module';
 import { StoreModule } from '@ngrx/store';
-import { leftSidenavReducer } from '@rxreducers/left-sidenav.reducer';
-import { navigationReducer } from '@rxreducers/navigation.reducer';
-import { routerDataReducer } from '@rxreducers/router-data.reducer';
-import { docRendererReducer } from '@rxreducers/doc-renderer.reducer';
+import { codeHighlightReducer, leftSidenavReducer } from '@rxreducers';
+import { navigationReducer } from '@rxreducers';
+import { routerDataReducer } from '@rxreducers';
+import { docRendererReducer } from '@rxreducers';
 import { CyiaRepositoryModule } from 'cyia-ngx-common/repository';
-import { catalogReducer } from '@rxreducers/catalog.reducer';
+import { catalogReducer } from '@rxreducers';
 import { MatButtonModule } from '@angular/material/button';
+import { CyiaMonacoTextmateModule } from 'cyia-ngx-common/monaco-textmate';
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    CyiaMonacoTextmateModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     ToolbarModule,
@@ -29,6 +31,7 @@ import { MatButtonModule } from '@angular/material/button';
         routerData: routerDataReducer,
         docRenderer: docRendererReducer,
         catalog: catalogReducer,
+        codeHighlight: codeHighlightReducer,
       },
       {
         runtimeChecks: {

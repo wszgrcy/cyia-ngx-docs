@@ -1,32 +1,20 @@
-import {
-  Injectable,
-  ComponentFactoryResolver,
-  NgModuleFactory,
-  Compiler,
-  Injector,
-} from '@angular/core';
+import { Injectable, NgModuleFactory, Compiler, Injector } from '@angular/core';
 import { LAZY_ROUTES } from './dynamic-loading-elements.const';
 import { createCustomElement } from '@angular/elements';
-import { selectRouterData } from '../selector/router-data.selector';
+import { DynamicLoadingElement } from '@project-types';
 @Injectable({
   providedIn: 'root',
 })
 export class DynamicLoadingElementsService {
-  loadedElement = {};
-  // loadingElement = {};
-  constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
+  loadedElement: { [name: string]: boolean } = {};
+  constructor(private compiler: Compiler, private injector: Injector) {}
 
-    private compiler: Compiler,
-    private injector: Injector
-  ) {}
-
-  private async _loadingElement(rendererData) {
-    if (this.loadedElement[rendererData.selector]) { return; }
+  private async _loadingElement(rendererData: DynamicLoadingElement) {
+    if (this.loadedElement[rendererData.selector]) {
+      return;
+    }
     this.loadedElement[rendererData.selector] = true;
-    const findElemkent = LAZY_ROUTES.find(
-      (item) => item.selector === rendererData.selector
-    );
+    const findElemkent = LAZY_ROUTES.find((item) => item.selector === rendererData.selector);
     if (!findElemkent) {
       return;
     }
@@ -40,23 +28,19 @@ export class DynamicLoadingElementsService {
     const moduleRef = ngModuleFactory.create(this.injector);
     const injector = moduleRef.injector;
     const customElementComponent = moduleRef.instance.entry;
-    // if (this.loadedElement[rendererData.selector]) return;
     const CustomElement = createCustomElement(customElementComponent, {
       injector,
     });
-    // console.log(rendererData.selector);
-    // if (this.loadedElement[rendererData.selector]) return;
     try {
       customElements.define(rendererData.selector, CustomElement);
     } catch (error) {
-      console.log('报错', error);
+      console.error(error);
     }
     this.loadedElement[rendererData.selector] = true;
-    return customElements.whenDefined(rendererData.selector).then(() => {});
+    return customElements.whenDefined(rendererData.selector);
   }
 
-  async generateElement(list: any[]) {
+  async generateElement(list: DynamicLoadingElement[]) {
     return Promise.all(list.map((item) => this._loadingElement(item)));
   }
-  private async aot() {}
 }

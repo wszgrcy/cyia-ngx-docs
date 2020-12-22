@@ -7,8 +7,8 @@
       "@rxactions/*": [
         "./src/app/actions/*"
       ],
-      "@rxreducers/*": [
-        "./src/app/reducer/*"
+      "@rxreducers": [
+        "./src/app/reducer/index"
       ],
       "@rxselectors/*": [
         "./src/app/selector/*"
@@ -21,6 +21,9 @@
       ],
       "@markdown-custom/*": [
         "./src/app/components/*"
+      ],
+      "@project-types": [
+        "./src/app/types"
       ]
     }
   },

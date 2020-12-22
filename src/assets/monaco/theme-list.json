@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Dark Default Colors",
+        "path": "assets/monaco/themes/dark_defaults.json"
+    },
+    {
+        "name": "Dark+ (default dark)",
+        "path": "assets/monaco/themes/dark_plus.json"
+    },
+    {
+        "name": "Dark (Visual Studio)",
+        "path": "assets/monaco/themes/dark_vs.json"
+    },
+    {
+        "name": "Dark High Contrast",
+        "path": "assets/monaco/themes/hc_black.json"
+    },
+    {
+        "name": "High Contrast Default Colors",
+        "path": "assets/monaco/themes/hc_black_defaults.json"
+    },
+    {
+        "name": "Light Default Colors",
+        "path": "assets/monaco/themes/light_defaults.json"
+    },
+    {
+        "name": "Light+ (default light)",
+        "path": "assets/monaco/themes/light_plus.json"
+    },
+    {
+        "name": "Light (Visual Studio)",
+        "path": "assets/monaco/themes/light_vs.json"
+    }
+]
