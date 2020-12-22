@@ -6,6 +6,7 @@ import * as monaco from 'monaco-editor';
 })
 export class MonacoService {
   waitInit: Promise<void>;
+
   constructor(private service: CyiaMonacoTextmateService) {
     this.waitInit = this.init();
   }
@@ -17,9 +18,9 @@ export class MonacoService {
     monaco.editor.setTheme(theme);
   }
   registerLanguage(languageId: string) {
-    if (languageId === 'ts') {
-      languageId = 'typescript';
-    }
     return this.service.manualRegisterLanguage(languageId);
+  }
+  getLanguageId(str: string) {
+    return this.service.getLanguageId(str);
   }
 }

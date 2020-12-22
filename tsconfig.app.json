@@ -21,6 +21,9 @@
       ],
       "@markdown-custom/*": [
         "./src/app/components/*"
+      ],
+      "@project-types": [
+        "./src/app/types"
       ]
     }
   },

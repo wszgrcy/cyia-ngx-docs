@@ -1,6 +1,5 @@
-import { Component, ElementRef, Input, OnInit, Renderer2, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { createFeatureSelector, select, Store } from '@ngrx/store';
-import { GENERATE } from '@rxreducers';
 import { filter, map } from 'rxjs/operators';
 import { MonacoService } from '../../services/monaco.service';
 import * as monaco from 'monaco-editor';
@@ -11,7 +10,8 @@ import * as monaco from 'monaco-editor';
 })
 export class CodeHighlightComponent implements OnInit {
   @Input() index: number;
-  constructor(private store: Store, private monacoService: MonacoService, private elementRef: ElementRef, private renderer: Renderer2) {}
+  @ViewChild('container', { static: true }) containerElementRef: ElementRef<HTMLDivElement>;
+  constructor(private store: Store, private monacoService: MonacoService, private renderer: Renderer2) {}
 
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
@@ -23,11 +23,11 @@ export class CodeHighlightComponent implements OnInit {
       )
       .subscribe(async (result) => {
         await this.monacoService.waitInit;
+        // todo language
         await this.monacoService.registerLanguage(result.languageId);
-        let render = await monaco.editor.colorize(result.content, 'typescript', { tabSize: 4 });
-        let divEl: HTMLDivElement = this.renderer.createElement('div');
-        divEl.innerHTML = render;
-        this.renderer.appendChild(this.elementRef.nativeElement, divEl);
+        const languageId = await this.monacoService.getLanguageId(result.languageId);
+        const render = await monaco.editor.colorize(result.content, languageId, {});
+        this.renderer.setProperty(this.containerElementRef.nativeElement, 'innerHTML', render);
       });
   }
 }
