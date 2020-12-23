@@ -3,6 +3,7 @@ import { createFeatureSelector, select, Store } from '@ngrx/store';
 import { filter, map } from 'rxjs/operators';
 import { MonacoService } from '../../services/monaco.service';
 import * as monaco from 'monaco-editor';
+import { importScript } from 'cyia-ngx-common/util';
 @Component({
   selector: 'code-highlight',
   templateUrl: './code-highlight.component.html',
@@ -22,8 +23,8 @@ export class CodeHighlightComponent implements OnInit {
         filter((e) => e)
       )
       .subscribe(async (result) => {
+        const monaco = await this.monacoService.monacoPromise;
         await this.monacoService.waitInit;
-        // todo language
         await this.monacoService.registerLanguage(result.languageId);
         const languageId = await this.monacoService.getLanguageId(result.languageId);
         const render = await monaco.editor.colorize(result.content, languageId, {});
