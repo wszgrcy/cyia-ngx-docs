@@ -2,8 +2,6 @@ import { Component, ElementRef, Input, OnInit, Renderer2, SimpleChanges, ViewChi
 import { createFeatureSelector, select, Store } from '@ngrx/store';
 import { filter, map } from 'rxjs/operators';
 import { MonacoService } from '../../services/monaco.service';
-import * as monaco from 'monaco-editor';
-import { importScript } from 'cyia-ngx-common/util';
 @Component({
   selector: 'code-highlight',
   templateUrl: './code-highlight.component.html',
