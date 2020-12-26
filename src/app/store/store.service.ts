@@ -55,4 +55,8 @@ export class StoreService {
     const storeConfig = StoreService.storeConfigMap.get(type);
     return this.store.pipe(select(createFeatureSelector(storeConfig.name)));
   }
+
+  getReducerName<T extends StoreBase>(type: Type<T>) {
+    return StoreService.storeConfigMap.get(type).name;
+  }
 }
