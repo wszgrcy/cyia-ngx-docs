@@ -4,9 +4,9 @@ import { NavigationNode } from '@resource-entity/navigation.entity';
 import { CyiaRepositoryService } from 'cyia-ngx-common/repository';
 import { NavigationEntity } from '../../../resource-entity/navigation.entity';
 import { map } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { selectLeftSideNav } from '../../../selector/navigation.selector';
-import * as navigation from '@rxactions/navigation.actions';
+import { StoreService } from '../../../store/store.service';
+import { selectLeftSideNav } from '@project-store';
+import { NavigationStore } from '../../../store/class/navigation.store';
 @Component({
   selector: 'left-sidenav-menu',
   template: ` <aio-nav-item *ngFor="let node of nodes | async" [node]="node" [selectedNode]="selectedNode" [isWide]="isWide">
@@ -17,13 +17,12 @@ import * as navigation from '@rxactions/navigation.actions';
 export class LeftSidenavMenuComponent implements OnChanges {
   @Input() selectedNode: NavigationNode;
   @Input() isWide = true;
-  nodes = this.store.pipe(selectLeftSideNav);
+  nodes = this.storeService.select(NavigationStore).pipe(selectLeftSideNav);
   // get filteredNodes() {
   //   return this.nodes ? this.nodes.filter((n) => !n.hidden) : [];
   // }
   pathChange: Subscription;
-  constructor(private store: Store) {
-  }
+  constructor( private storeService: StoreService) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.nodes && this.nodes) {
       this.pathChange && this.pathChange.unsubscribe();

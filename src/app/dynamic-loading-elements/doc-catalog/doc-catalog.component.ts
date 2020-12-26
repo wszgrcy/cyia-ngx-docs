@@ -15,11 +15,12 @@ import { Subscription, fromEvent, Subject, merge } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { debounceTime, filter, take, map } from 'rxjs/operators';
 import { Renderer2, OnChanges } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { selectDocRenderer } from '../../selector/doc-renderer.selector';
 import { MatTreeFlatDataSource, MatTreeFlattener, MatTree } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import * as catalog from '@rxactions/catalog.acitons';
+import { StoreService } from '../../store/store.service';
+import { DocRendererStore } from '../../store/class/doc-renderer.store';
+import { selectDocRenderer } from '@project-store';
+import { CatalogStore } from '../../store/class/catalog.store';
 /**目录树节点 */
 class CatalogTree {
   level: number = 0;
@@ -44,12 +45,11 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private renderer: Renderer2,
-    private store: Store,
     private cd: ChangeDetectorRef,
-    private state: Store
+    private storeService: StoreService
   ) {
     this.url = this.router.url.replace(/#.*/, '');
-    this.state.dispatch(catalog.INIT({ value: this }));
+    this.storeService.getStore(CatalogStore).INIT({ value: this });
     this.activatedRoute.fragment.pipe(filter(() => !!this.docElement)).subscribe((fragment) => {
       const target = this.docElement.querySelector(`#${fragment}`);
       if (target) {
@@ -108,18 +108,21 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
   @HostBinding('style.display') display = 'block';
   ngOnInit(): void {
     const urlTree = this.router.parseUrl(this.router.url);
-    this.store.pipe(select(selectDocRenderer, this.router.url), filter(Boolean), take(1)).subscribe(() => {
-      const el: HTMLElement = document.querySelector(this.ngInputProperty.selector);
-      // todo 设置滚动容器,这个耦合性较高
-      this.scrollContainer = document.querySelector('.scroll-container');
-      this.docElement = el;
+    this.storeService
+      .select(DocRendererStore)
+      .pipe(selectDocRenderer, filter(Boolean), take(1))
+      .subscribe(() => {
+        const el: HTMLElement = document.querySelector(this.ngInputProperty.selector);
+        // todo 设置滚动容器,这个耦合性较高
+        this.scrollContainer = document.querySelector('.scroll-container');
+        this.docElement = el;
 
-      if (urlTree.fragment) {
-        this.restorePosition('#' + urlTree.fragment);
-      }
-      this.initHeaders();
-      this.updateScrollPosition();
-    });
+        if (urlTree.fragment) {
+          this.restorePosition('#' + urlTree.fragment);
+        }
+        this.initHeaders();
+        this.updateScrollPosition();
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {}
