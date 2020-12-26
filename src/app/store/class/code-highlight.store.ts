@@ -8,7 +8,7 @@ export class CodeHighlightStore implements StoreBase {
   state: State;
   constructor() {}
   @NgrxAction()
-  GENERATE(action) {
+  GENERATE(action: State[0]) {
     this.state[action.index] = action;
     return this.state;
   }

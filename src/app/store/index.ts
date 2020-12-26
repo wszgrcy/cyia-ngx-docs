@@ -1,1 +1,2 @@
-export * from './class/code-highlight.store';
+export * from './class';
+export * from './selector';

@@ -51,11 +51,9 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
           this.dynamicLoadingElements.generateElement([{ selector: 'code-highlight' }]);
 
           this.storeService.getStore(CodeHighlightStore).GENERATE({
-            value: {
-              index: this.codeIndex,
-              content: str,
-              languageId: lang,
-            },
+            index: this.codeIndex,
+            content: str,
+            languageId: lang,
           });
           return `<code-highlight index="${this.codeIndex++}"></code-highlight>`;
         } catch (__) {}

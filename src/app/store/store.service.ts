@@ -39,7 +39,7 @@ export class StoreService {
     this.storeActionCreatorMap.set(storeConfig.type, actionCreatorMap);
     return createReducer(initState, ...onList);
   }
-  static getReducerMap<T extends StoreBase>(types: Type<T>[]) {
+  static getReducerMap(types: Type<StoreBase>[]) {
     return types.reduce((pre, Type) => {
       const storeConfig = StoreService.storeConfigMap.get(Type);
       const actionConfigList = StoreService.actionConfigMap.get(Type);
@@ -58,9 +58,9 @@ export class StoreService {
     StoreService.actionConfigMap.get(type).forEach((cur) => {
       instance[cur.name] = (action) => {
         const actionCreator = actionCreatorMap.get(storeConfig.name + cur.name);
-        this.store.dispatch(actionCreator(action));
+        this.store.dispatch(actionCreator({ value: action }));
       };
-    }, {} as any);
+    });
     return instance as any;
   }
   select<T extends StoreBase>(type: Type<T>): Observable<T['state']> {

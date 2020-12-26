@@ -2,17 +2,17 @@ import { Component, OnChanges, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { CyiaRepositoryService } from 'cyia-ngx-common/repository';
 import { NavigationEntity } from './resource-entity/navigation.entity';
-import * as navigation from '@rxactions/navigation.actions';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { RouterDataEntity } from '@resource-entity/router-data.entity';
-import * as routerData from '@rxactions/router-data.actions';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import * as leftsidenav from '@rxactions/left-sidenav.acitons';
-import * as catalog from '@rxactions/catalog.acitons';
-import { selectCatalog } from './selector/catalog.selector';
 import { Observable, of } from 'rxjs';
-import { selectFooter } from '@rxselectors/navigation.selector';
+import { StoreService } from './store/store.service';
+import { LeftSidenavStore } from './store/class/left-sidenav.store';
+import { CatalogStore } from './store/class/catalog.store';
+import { NavigationStore } from './store/class/navigation.store';
+import { RouterDataStore } from './store/class/router-data.store';
+import { selectFooter } from '@project-store';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -25,38 +25,41 @@ export class AppComponent implements OnInit {
     [
       '(max-width: 599px)',
       async (e: BreakpointState) => {
-        this.store.dispatch(leftsidenav.CHANGE_MODE({ value: 'over' }));
-        this.store.dispatch(leftsidenav.CLOSE());
-        await this.store.pipe(selectCatalog).toPromise();
-        this.store.dispatch(catalog.CLOSE());
+        this.storeService.getStore(LeftSidenavStore).CHANGE_MODE({ value: 'over' });
+        this.storeService.getStore(LeftSidenavStore).CLOSE();
+        await this.storeService.select(CatalogStore).toPromise();
+        this.catalogStore.CLOSE();
       },
     ],
     [
       '(min-width: 600px) and (max-width: 1279px)',
       async (e: BreakpointState) => {
-        this.store.dispatch(leftsidenav.CHANGE_MODE({ value: 'side' }));
-        this.store.dispatch(leftsidenav.OPEN());
-        await this.store.pipe(selectCatalog).toPromise();
-        this.store.dispatch(catalog.CLOSE());
+        this.storeService.getStore(LeftSidenavStore).CHANGE_MODE({ value: 'side' });
+        this.storeService.getStore(LeftSidenavStore).OPEN();
+        await this.storeService.select(CatalogStore).toPromise();
+        this.catalogStore.CLOSE();
       },
     ],
     [
       '(min-width: 1280px)',
       async (e: BreakpointState) => {
-        this.store.dispatch(leftsidenav.CHANGE_MODE({ value: 'side' }));
-        this.store.dispatch(leftsidenav.OPEN());
-        this.store.dispatch(catalog.OPEN());
+        this.storeService.getStore(LeftSidenavStore).CHANGE_MODE({ value: 'side' });
+        this.storeService.getStore(LeftSidenavStore).OPEN();
+        this.catalogStore.OPEN();
       },
     ],
   ]);
+  catalogStore: CatalogStore;
   constructor(
     private store: Store,
     private repository: CyiaRepositoryService,
     private router: Router,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private storeService: StoreService
   ) {
+    this.catalogStore = this.storeService.getStore(CatalogStore);
     this.repository.findOne(NavigationEntity).subscribe((entity) => {
-      this.store.dispatch(navigation.INIT({ value: entity }));
+      this.storeService.getStore(NavigationStore).INIT({ value: entity });
     });
     router.events
       .pipe(
@@ -79,9 +82,9 @@ export class AppComponent implements OnInit {
       )
 
       .subscribe((e) => {
-        this.store.dispatch(routerData.ADD(e));
+        this.storeService.getStore(RouterDataStore).ADD(e);
       });
-    this.footer$ = this.store.pipe(selectFooter);
+    this.footer$ = this.storeService.select(NavigationStore).pipe(selectFooter);
   }
   ngOnInit(): void {
     this.mediaChange();

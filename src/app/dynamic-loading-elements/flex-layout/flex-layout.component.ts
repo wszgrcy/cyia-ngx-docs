@@ -8,7 +8,6 @@ import {
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { filter } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import * as leftsidenav from '@rxactions/left-sidenav.acitons';
 import { OnChanges } from '@angular/core';
 @Component({
   selector: 'flex-layout',

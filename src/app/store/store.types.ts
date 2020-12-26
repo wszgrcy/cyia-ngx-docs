@@ -9,6 +9,6 @@ export interface GenerateActionConfig {
   on: Function;
 }
 export interface StoreBase<T = any> {
-  initState: T;
+  readonly initState?: T;
   state: T;
 }

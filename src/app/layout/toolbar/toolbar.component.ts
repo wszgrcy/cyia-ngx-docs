@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as leftsidebar from '@rxactions/left-sidenav.acitons';
+import { StoreService } from '../../store/store.service';
+import { LeftSidenavStore } from '../../store/class/left-sidenav.store';
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
@@ -10,11 +11,11 @@ import * as leftsidebar from '@rxactions/left-sidenav.acitons';
   },
 })
 export class ToolbarComponent implements OnInit {
-  constructor(public store: Store) {}
+  constructor(public store: Store, private storeService: StoreService) {}
 
   ngOnInit() {}
   toggle() {
-    this.store.dispatch(leftsidebar.TOGGLE());
+    this.storeService.getStore(LeftSidenavStore).TOGGLE();
   }
   // doSearch() {
   //   console.log();

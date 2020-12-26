@@ -4,15 +4,9 @@
     "outDir": "./out-tsc/app",
     "types": [],
     "paths": {
-      "@rxactions/*": [
-        "./src/app/actions/*"
-      ],
-      "@rxreducers": [
-        "./src/app/reducer/index"
-      ],
-      "@rxselectors/*": [
-        "./src/app/selector/*"
-      ],
+
+
+ 
       "@resource-entity/*": [
         "./src/app/resource-entity/*"
       ],
