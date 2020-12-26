@@ -1,5 +1,4 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 import { CyiaRepositoryService } from 'cyia-ngx-common/repository';
 import { NavigationEntity } from './resource-entity/navigation.entity';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
@@ -51,7 +50,6 @@ export class AppComponent implements OnInit {
   ]);
   catalogStore: CatalogStore;
   constructor(
-    private store: Store,
     private repository: CyiaRepositoryService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,

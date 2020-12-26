@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { DynamicLoadingElementsService } from '@dynamic-loading-elements/dynamic-loading-elements.service';
 import { Observable, fromEvent } from 'rxjs';
 import { RouterDataEntity } from '@resource-entity/router-data.entity';
@@ -22,7 +21,6 @@ export class RendererRouterComponent implements OnInit {
   containerElement: HTMLElement;
   constructor(
     private router: Router,
-    private store: Store,
     private dynamicLoadingElementsService: DynamicLoadingElementsService,
     private elementRef: ElementRef,
     private renderer: Renderer2,

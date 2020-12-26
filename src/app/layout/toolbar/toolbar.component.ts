@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { StoreService } from '../../store/store.service';
 import { LeftSidenavStore } from '../../store/class/left-sidenav.store';
 @Component({
@@ -11,7 +10,7 @@ import { LeftSidenavStore } from '../../store/class/left-sidenav.store';
   },
 })
 export class ToolbarComponent implements OnInit {
-  constructor(public store: Store, private storeService: StoreService) {}
+  constructor( private storeService: StoreService) {}
 
   ngOnInit() {}
   toggle() {

@@ -1,17 +1,5 @@
 import { Injectable, Type } from '@angular/core';
-import {
-  ActionReducerMap,
-  StoreConfig,
-  Store,
-  createFeatureSelector,
-  select,
-  On,
-  createAction,
-  props,
-  on,
-  createReducer,
-  ActionCreator,
-} from '@ngrx/store';
+import { Store, createFeatureSelector, select, On, createAction, props, on, createReducer, ActionCreator } from '@ngrx/store';
 import { GenerateStoreConfig, GenerateActionConfig, StoreBase } from './store.types';
 import { generateActionName } from './store.helper';
 import { Observable } from 'rxjs';

@@ -15,7 +15,6 @@ import { Subscription, fromEvent, Subject, merge } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { debounceTime, filter, take, map } from 'rxjs/operators';
 import { Renderer2, OnChanges } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 import { MatTreeFlatDataSource, MatTreeFlattener, MatTree } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { StoreService } from '../../store/store.service';
@@ -46,9 +45,7 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private renderer: Renderer2,
-    private store: Store,
     private cd: ChangeDetectorRef,
-    private state: Store,
     private storeService: StoreService
   ) {
     this.url = this.router.url.replace(/#.*/, '');

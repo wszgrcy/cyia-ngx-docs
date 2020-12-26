@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Store, select } from '@ngrx/store';
 import { HttpClient } from '@angular/common/http';
 import { CyiaRepositoryService } from 'cyia-ngx-common/repository';
 import { NavigationEntity } from '../../resource-entity/navigation.entity';
@@ -16,7 +15,7 @@ export class MainComponent implements OnInit {
     // console.log(value);
     this.storeService.getStore(LeftSidenavStore).INIT({ value });
   }
-  constructor(private store: Store, private repository: CyiaRepositoryService, private storeService: StoreService) {
+  constructor( private repository: CyiaRepositoryService, private storeService: StoreService) {
     // this.store.pipe();
   }
 

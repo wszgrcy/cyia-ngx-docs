@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { filter } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
 import { OnChanges } from '@angular/core';
 @Component({
   selector: 'flex-layout',
@@ -22,7 +21,6 @@ export class FlexLayoutComponent implements OnInit, OnChanges {
   constructor(
     private elementRef: ElementRef,
     private breakpointObserver: BreakpointObserver,
-    private store: Store
   ) {
     this.hostElement = elementRef.nativeElement;
   }

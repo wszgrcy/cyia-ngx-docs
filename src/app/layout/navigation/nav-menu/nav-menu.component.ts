@@ -4,7 +4,6 @@ import { NavigationNode } from '@resource-entity/navigation.entity';
 import { CyiaRepositoryService } from 'cyia-ngx-common/repository';
 import { NavigationEntity } from '../../../resource-entity/navigation.entity';
 import { map } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
 import { StoreService } from '../../../store/store.service';
 import { selectLeftSideNav } from '@project-store';
 import { NavigationStore } from '../../../store/class/navigation.store';
@@ -23,7 +22,7 @@ export class LeftSidenavMenuComponent implements OnChanges {
   //   return this.nodes ? this.nodes.filter((n) => !n.hidden) : [];
   // }
   pathChange: Subscription;
-  constructor(private store: Store, private storeService: StoreService) {}
+  constructor( private storeService: StoreService) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.nodes && this.nodes) {
       this.pathChange && this.pathChange.unsubscribe();

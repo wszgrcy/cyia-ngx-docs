@@ -1,4 +1,3 @@
-import { createSelector, createFeatureSelector, select } from '@ngrx/store';
 import { pipe } from 'rxjs';
 import { filter, take, map } from 'rxjs/operators';
 import { generateSelector } from './generate';
