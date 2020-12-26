@@ -1,7 +1,8 @@
 import { Component, ElementRef, Input, OnInit, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
-import { createFeatureSelector, select, Store } from '@ngrx/store';
 import { filter, map } from 'rxjs/operators';
 import { MonacoService } from '../../services/monaco.service';
+import { StoreService } from '../../store/store.service';
+import { CodeHighlightStore } from '@project-store';
 @Component({
   selector: 'code-highlight',
   templateUrl: './code-highlight.component.html',
@@ -10,13 +11,18 @@ import { MonacoService } from '../../services/monaco.service';
 export class CodeHighlightComponent implements OnInit {
   @Input() index: number;
   @ViewChild('container', { static: true }) containerElementRef: ElementRef<HTMLDivElement>;
-  constructor(private store: Store, private monacoService: MonacoService, private renderer: Renderer2) {}
+  constructor(
+    private monacoService: MonacoService,
+    private renderer: Renderer2,
+    private storeService: StoreService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
   ngOnChanges(changes: SimpleChanges): void {
-    this.store
+    this.storeService
+      .select(CodeHighlightStore)
       .pipe(
-        select(createFeatureSelector('codeHighlight')),
         map((item: any[]) => item[this.index]),
         filter((e) => e)
       )

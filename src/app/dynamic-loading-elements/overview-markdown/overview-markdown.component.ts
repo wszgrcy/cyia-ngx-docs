@@ -15,9 +15,8 @@ import { TableExtend } from './plugins/table.extend';
 import { DynamicLoadingElementsService } from '../dynamic-loading-elements.service';
 import { OnChanges } from '@angular/core';
 import { HeadingExtend } from './plugins/heading.extend';
-import { HttpClient } from '@angular/common/http';
-import { Store } from '@ngrx/store';
-import { GENERATE } from '@rxreducers';
+import { StoreService } from '../../store/store.service';
+import { CodeHighlightStore } from '@project-store';
 @Component({
   selector: 'overview-markdown',
   templateUrl: './overview-markdown.component.html',
@@ -34,8 +33,7 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
     private domSanitizer: DomSanitizer,
     private cd: ChangeDetectorRef,
     private dynamicLoadingElements: DynamicLoadingElementsService,
-    private httpClient: HttpClient,
-    private store: Store
+    private storeService: StoreService
   ) {}
 
   ngOnInit() {}
@@ -51,15 +49,14 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
       highlight: (str, lang) => {
         try {
           this.dynamicLoadingElements.generateElement([{ selector: 'code-highlight' }]);
-          this.store.dispatch(
-            GENERATE({
-              value: {
-                index: this.codeIndex,
-                content: str,
-                languageId: lang,
-              },
-            })
-          );
+
+          this.storeService.getStore(CodeHighlightStore).GENERATE({
+            value: {
+              index: this.codeIndex,
+              content: str,
+              languageId: lang,
+            },
+          });
           return `<code-highlight index="${this.codeIndex++}"></code-highlight>`;
         } catch (__) {}
 
