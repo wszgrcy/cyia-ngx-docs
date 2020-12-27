@@ -16,7 +16,6 @@ import { DynamicLoadingElementsService } from '../dynamic-loading-elements.servi
 import { OnChanges, ElementRef } from '@angular/core';
 import { HeadingExtend } from './plugins/heading.extend';
 import { StoreService } from '../../store/store.service';
-import { CodeHighlightStore } from '@project-store';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
 import { inputPropertyChange } from '../../utils/input-property-change';
 import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
@@ -59,10 +58,12 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
       highlight: (str, lang) => {
         try {
           this.dynamicLoadingElements.generateElement([{ selector: 'code-highlight' }]);
-          this.storeService.getStore(CodeHighlightStore).GENERATE({
+          this.storeService.getStore(ElementInputPropertyStore).ADD({
             index: this.dynamicLoadingElements.elementIndex,
-            content: str,
-            languageId: lang,
+            property: {
+              content: str,
+              languageId: lang,
+            },
           });
           return `<code-highlight index="${this.dynamicLoadingElements.elementIndex++}"></code-highlight>`;
         } catch (__) {}

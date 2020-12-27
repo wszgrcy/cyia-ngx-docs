@@ -2,37 +2,33 @@ import { Component, ElementRef, Input, OnInit, Renderer2, SimpleChanges, ViewChi
 import { filter, map } from 'rxjs/operators';
 import { MonacoService } from '../../services/monaco.service';
 import { StoreService } from '../../store/store.service';
-import { CodeHighlightStore } from '@project-store';
+import { inputPropertyChange } from '../../utils/input-property-change';
+import { ElementInputPropertyStore } from '../../store/class/element-input.store';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 @Component({
   selector: 'code-highlight',
   templateUrl: './code-highlight.component.html',
   styleUrls: ['./code-highlight.component.scss'],
 })
 export class CodeHighlightComponent implements OnInit {
-  @Input() index: number;
+  @Input() index;
   @ViewChild('container', { static: true }) containerElementRef: ElementRef<HTMLDivElement>;
-  constructor(
-    private monacoService: MonacoService,
-    private renderer: Renderer2,
-    private storeService: StoreService
-  ) {}
+  constructor(private monacoService: MonacoService, private renderer: Renderer2, private storeService: StoreService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    this.storeService
-      .select(CodeHighlightStore)
-      .pipe(
-        map((item: any[]) => item[this.index]),
-        filter((e) => e)
-      )
-      .subscribe(async (result) => {
-        const monaco = await this.monacoService.monacoPromise;
-        await this.monacoService.waitInit;
-        await this.monacoService.registerLanguage(result.languageId);
-        const languageId = await this.monacoService.getLanguageId(result.languageId);
-        const render = await monaco.editor.colorize(result.content, languageId, {});
-        this.renderer.setProperty(this.containerElementRef.nativeElement, 'innerHTML', render);
-      });
+    if (inputPropertyChange(changes.index, this.index)) {
+      this.storeService
+        .select(ElementInputPropertyStore)
+        .pipe(elementInputPropertySelector(this.index))
+        .subscribe(async (result) => {
+          const monaco = await this.monacoService.monacoPromise;
+          await this.monacoService.waitInit;
+          await this.monacoService.registerLanguage(result.languageId);
+          const languageId = await this.monacoService.getLanguageId(result.languageId);
+          const render = await monaco.editor.colorize(result.content, languageId, {});
+          this.renderer.setProperty(this.containerElementRef.nativeElement, 'innerHTML', render);
+        });
+    }
   }
 }
