@@ -1,6 +1,6 @@
 import { Renderer2, ViewChild, OnChanges, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
 import { Component, OnInit, Input, SimpleChanges, ElementRef } from '@angular/core';
+import { RouterService } from '../../services/router.service';
 
 @Component({
   selector: 'doc-anchor',
@@ -14,11 +14,10 @@ export class DocAnchorComponent implements OnInit, OnChanges {
   @ViewChild('anchorContainer', { static: true }) anchorContainer: ElementRef;
 
   href: string;
-  constructor(private elementRef: ElementRef, private renderer: Renderer2, public router: Router) {
+  constructor(private elementRef: ElementRef, private renderer: Renderer2, private routerService: RouterService) {
     this.hostElement = elementRef.nativeElement;
-    const urlTree = this.router.parseUrl(this.router.url);
-    urlTree.fragment = undefined;
-    this.href = urlTree.toString();
+
+    this.href = this.routerService.getPlainUrl();
   }
 
   ngOnInit() {}
