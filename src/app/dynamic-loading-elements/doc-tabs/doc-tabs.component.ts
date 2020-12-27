@@ -2,7 +2,7 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { inputPropertyChange } from '../../utils/input-property-change';
 import { StoreService } from '../../store/store.service';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
-import { elementInputSelector } from '../../store/selector/element-input.selector';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 
 @Component({
   selector: 'doc-tabs',
@@ -21,7 +21,7 @@ export class DocTabsComponent implements OnInit {
     if (inputPropertyChange(changes.index, this.index)) {
       this.storeService
         .select(ElementInputPropertyStore)
-        .pipe(elementInputSelector(this.index))
+        .pipe(elementInputPropertySelector(this.index))
         .subscribe((result) => {
           this.list = result.property;
         });

@@ -3,7 +3,7 @@ import { Component, OnInit, Input, SimpleChanges, ElementRef } from '@angular/co
 import { RouterService } from '../../services/router.service';
 import { StoreService } from '../../store/store.service';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
-import { elementInputSelector, getElementInputProperty } from '../../store/selector/element-input.selector';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 import { inputPropertyChange } from '../../utils/input-property-change';
 
 @Component({
@@ -34,7 +34,7 @@ export class DocAnchorComponent implements OnInit, OnChanges {
     if (inputPropertyChange(changes.index, this.index)) {
       this.storeService
         .select(ElementInputPropertyStore)
-        .pipe(elementInputSelector(this.index))
+        .pipe(elementInputPropertySelector(this.index))
         .subscribe((result) => {
           this.content = result.property.content;
           const el: HTMLElement = this.renderer.createElement(result.property.tag);

@@ -3,7 +3,7 @@ import { MatAccordion, MatExpansionPanel } from '@angular/material/expansion';
 import { inputPropertyChange } from '../../utils/input-property-change';
 import { StoreService } from '../../store/store.service';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
-import { elementInputSelector } from '../../store/selector/element-input.selector';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 
 @Component({
   selector: 'property-table',
@@ -22,7 +22,7 @@ export class PropertyTableComponent implements OnInit, OnChanges {
     if (inputPropertyChange(changes.index, this.index)) {
       this.storeService
         .select(ElementInputPropertyStore)
-        .pipe(elementInputSelector(this.index))
+        .pipe(elementInputPropertySelector(this.index))
         .subscribe((result) => {
           this.list = result.property;
         });

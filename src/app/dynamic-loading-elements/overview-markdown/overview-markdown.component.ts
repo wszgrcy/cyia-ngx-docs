@@ -19,7 +19,7 @@ import { StoreService } from '../../store/store.service';
 import { CodeHighlightStore } from '@project-store';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
 import { inputPropertyChange } from '../../utils/input-property-change';
-import { elementInputSelector } from '../../store/selector/element-input.selector';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 @Component({
   selector: 'overview-markdown',
   templateUrl: './overview-markdown.component.html',
@@ -45,7 +45,7 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
     if (inputPropertyChange(changes.index, this.index)) {
       this.storeService
         .select(ElementInputPropertyStore)
-        .pipe(elementInputSelector(this.index))
+        .pipe(elementInputPropertySelector(this.index))
         .subscribe((result) => {
           this.content = result.property;
           this.renderer();

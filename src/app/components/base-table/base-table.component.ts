@@ -3,7 +3,7 @@ import { JsonParse } from '../../decorators/json-parse.decorator';
 import { StoreService } from '../../store/store.service';
 import { inputPropertyChange } from '../../utils/input-property-change';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
-import { elementInputSelector } from '../../store/selector/element-input.selector';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 @Component({
   selector: 'base-table',
   templateUrl: './base-table.component.html',
@@ -25,7 +25,7 @@ export class BaseTableComponent implements OnInit, OnChanges {
     if (inputPropertyChange(changes.index, this.index)) {
       this.storeService
         .select(ElementInputPropertyStore)
-        .pipe(elementInputSelector(this.index))
+        .pipe(elementInputPropertySelector(this.index))
         .subscribe((result) => {
           console.log(result);
           for (const key in result.property) {

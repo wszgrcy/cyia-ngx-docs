@@ -5,7 +5,7 @@ import { OnChanges } from '@angular/core';
 import { inputPropertyChange } from '../../utils/input-property-change';
 import { StoreService } from '@project-store';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
-import { elementInputSelector } from '../../store/selector/element-input.selector';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 @Component({
   selector: 'flex-layout',
   templateUrl: './flex-layout.component.html',
@@ -24,7 +24,7 @@ export class FlexLayoutComponent implements OnInit, OnChanges {
     if (inputPropertyChange(changes.index, this.index)) {
       this.storeService
         .select(ElementInputPropertyStore)
-        .pipe(elementInputSelector(this.index))
+        .pipe(elementInputPropertySelector(this.index))
         .subscribe(({ property }) => {
           property.flexList.forEach((item, i) => {
             (this.hostElement.children[i] as HTMLElement).style.flex = item;

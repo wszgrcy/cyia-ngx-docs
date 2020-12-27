@@ -2,7 +2,7 @@ import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/cor
 import { StoreService } from '../../store/store.service';
 import { inputPropertyChange } from '../../utils/input-property-change';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
-import { elementInputSelector } from '../../store/selector/element-input.selector';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 
 @Component({
   selector: 'method-table',
@@ -20,7 +20,7 @@ export class MethodTableComponent implements OnInit, OnChanges {
     if (inputPropertyChange(changes.index, this.index)) {
       this.storeService
         .select(ElementInputPropertyStore)
-        .pipe(elementInputSelector(this.index))
+        .pipe(elementInputPropertySelector(this.index))
         .subscribe((result) => {
           this.data = result.property;
         });

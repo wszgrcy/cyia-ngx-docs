@@ -24,7 +24,7 @@ import { CatalogStore } from '../../store/class/catalog.store';
 import { RouterService } from '../../services/router.service';
 import { inputPropertyChange } from '../../utils/input-property-change';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
-import { elementInputSelector } from '../../store/selector/element-input.selector';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 /**目录树节点 */
 class CatalogTree {
   level: number = 0;
@@ -132,7 +132,7 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
     if (inputPropertyChange(changes.index, this.index)) {
       this.storeService
         .select(ElementInputPropertyStore)
-        .pipe(elementInputSelector(this.index))
+        .pipe(elementInputPropertySelector(this.index))
         .subscribe((result) => {
           this.selector = result.property.selector;
         });
