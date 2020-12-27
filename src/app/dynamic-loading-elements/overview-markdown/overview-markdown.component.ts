@@ -49,7 +49,6 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
       highlight: (str, lang) => {
         try {
           this.dynamicLoadingElements.generateElement([{ selector: 'code-highlight' }]);
-
           this.storeService.getStore(CodeHighlightStore).GENERATE({
             index: this.codeIndex,
             content: str,
@@ -62,13 +61,14 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
       },
     });
     mdres.use(TableExtend).use(HeadingExtend);
-
+    // todo 可能需要改成index那种用第三方进行赋值
     mdres.renderer.rules.table_open = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
       const attrStr = token.attrs.map((item) => `${item[0]}='${item[1]}'`).join(' ');
       this.waitingLoadElement.push(this.dynamicLoadingElements.generateElement([{ selector: 'base-table' }]));
       return `<${token.tag} ${attrStr}>`;
     };
+    // todo 可能需要改成index那种用第三方进行赋值
     mdres.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
       const attrStr = token.attrs.map((item) => `${item[0]}='${item[1]}'`).join(' ');
@@ -78,17 +78,6 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
     this.rendererValue = this.domSanitizer.bypassSecurityTrustHtml(mdres.render(this.ngInputProperty));
     await Promise.all(this.waitingLoadElement);
     this.cd.detectChanges();
-    // this.waitRenderFinish();
     this.renderFinish.emit();
   }
-  // async waitRenderFinish() {
-  //   const list = document.querySelectorAll('doc-anchor,base-table');
-  //   for (let i = 0; i < list.length; i++) {
-  //     const element = list[i];
-  //     console.dir(element);
-  //     // debugger;
-  //     if ('renderFinish' in element) {
-  //     }
-  //   }
-  // }
 }

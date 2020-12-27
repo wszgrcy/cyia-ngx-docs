@@ -88,10 +88,10 @@ export class RendererRouterComponent implements OnInit {
         });
       }
 
-      // await fromEvent(el, 'renderFinish').pipe(take(1)).toPromise();
       elList.push(el);
-      if ('renderFinish' in el) {
-        this.waittingRendererComplete.push(fromEvent(el, 'renderFinish').pipe(take(1)).toPromise() as any);
+      const waitElement = this.dynamicLoadingElementsService.waitElementRenderFinish(el);
+      if (waitElement) {
+        this.waittingRendererComplete.push(waitElement);
       }
     }
     return elList;
