@@ -21,6 +21,7 @@ import { StoreService } from '../../store/store.service';
 import { DocRendererStore } from '../../store/class/doc-renderer.store';
 import { selectDocRenderer } from '@project-store';
 import { CatalogStore } from '../../store/class/catalog.store';
+import { RouterService } from '../../services/router.service';
 /**目录树节点 */
 class CatalogTree {
   level: number = 0;
@@ -46,9 +47,10 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private renderer: Renderer2,
     private cd: ChangeDetectorRef,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private routerService: RouterService
   ) {
-    this.url = this.router.url.replace(/#.*/, '');
+    this.url = this.routerService.getPlainUrl();
     this.storeService.getStore(CatalogStore).INIT({ value: this });
     this.activatedRoute.fragment.pipe(filter(() => !!this.docElement)).subscribe((fragment) => {
       const target = this.docElement.querySelector(`#${fragment}`);

@@ -8,6 +8,7 @@ import { StoreService } from '../../store/store.service';
 import { DocRendererStore } from '../../store/class/doc-renderer.store';
 import { selectRouterData } from '@project-store';
 import { RouterDataStore } from '../../store/class/router-data.store';
+import { RouterService } from '../../services/router.service';
 @Component({
   selector: 'app-renderer-router',
   templateUrl: './renderer-router.component.html',
@@ -25,10 +26,10 @@ export class RendererRouterComponent implements OnInit {
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private cd: ChangeDetectorRef,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private routerService: RouterService
   ) {
     this.hostElement = this.elementRef.nativeElement;
-    // this.router.onSameUrlNavigation = 'reload';
   }
 
   ngOnInit() {
@@ -37,7 +38,7 @@ export class RendererRouterComponent implements OnInit {
       .pipe(
         selectRouterData,
         map((list) => {
-          return list[this.router.url.replace(/#.*/, '')];
+          return list[this.routerService.getPlainUrl()];
         }),
         filter((e) => !!e)
       )

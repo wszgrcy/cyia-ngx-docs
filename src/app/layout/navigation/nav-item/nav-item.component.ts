@@ -3,6 +3,7 @@ import { NavigationNode } from '@resource-entity/navigation.entity';
 import { Router, NavigationEnd } from '@angular/router';
 import { merge, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { RouterService } from '../../../services/router.service';
 
 @Component({
   selector: 'aio-nav-item',
@@ -27,7 +28,7 @@ export class NavItemComponent implements OnChanges {
     expanded?: boolean;
   } = {};
   nodeChildren: NavigationNode[];
-  constructor(private router: Router, private cd: ChangeDetectorRef) {}
+  constructor(private router: Router, private cd: ChangeDetectorRef, private routerService: RouterService) {}
   ngOnChanges(changes: SimpleChanges) {
     if (this.node && changes['node'] && changes['node'].firstChange) {
       this.routerHighlight();
@@ -83,18 +84,15 @@ export class NavItemComponent implements OnChanges {
   }
   /**路由高亮 */
   routerHighlight() {
-    const tree = this.router.parseUrl(this.router.url);
-    tree.fragment = undefined;
-
     merge(
-      of(tree.toString()),
+      of(this.routerService.getPlainUrl()),
       this.router.events.pipe(
         filter((e) => e instanceof NavigationEnd),
         map((e: NavigationEnd) => e.url)
       )
     ).subscribe((e) => {
       const compare = [this.node.url, ...(this.node.tabs || []).map((item) => item.url)].find(
-        (str) => this.router.parseUrl(str).toString() === this.router.parseUrl(e).toString()
+        (str) => this.routerService.getPlainUrl(str) === this.routerService.getPlainUrl(e)
       );
       this.setSelected(!!compare);
     });

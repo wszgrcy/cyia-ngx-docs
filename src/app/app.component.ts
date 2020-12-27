@@ -1,7 +1,7 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { CyiaRepositoryService } from 'cyia-ngx-common/repository';
 import { NavigationEntity } from './resource-entity/navigation.entity';
-import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { RouterDataEntity } from '@resource-entity/router-data.entity';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
@@ -12,6 +12,7 @@ import { CatalogStore } from './store/class/catalog.store';
 import { NavigationStore } from './store/class/navigation.store';
 import { RouterDataStore } from './store/class/router-data.store';
 import { selectFooter } from '@project-store';
+import { RouterService } from './services/router.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -51,9 +52,10 @@ export class AppComponent implements OnInit {
   catalogStore: CatalogStore;
   constructor(
     private repository: CyiaRepositoryService,
-    private router: Router,
     private breakpointObserver: BreakpointObserver,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private routerService: RouterService,
+    router: Router
   ) {
     this.catalogStore = this.storeService.getStore(CatalogStore);
     this.repository.findOne(NavigationEntity).subscribe((entity) => {
@@ -61,19 +63,15 @@ export class AppComponent implements OnInit {
     });
     router.events
       .pipe(
-        // tap((e) => {
-        //   console.log('查看', e);
-        // }),
         filter((e) => e instanceof NavigationEnd),
         map((e: NavigationEnd) => e.urlAfterRedirects),
         map((url) => {
-          const urlTree = this.router.parseUrl(url);
-          urlTree.fragment = undefined;
-          if (urlTree.toString() === this.currentUrl) {
+          url = this.routerService.getPlainUrl(url);
+          if (url === this.currentUrl) {
             return undefined;
           }
-          this.currentUrl = urlTree.toString();
-          return urlTree.toString();
+          this.currentUrl = url;
+          return url;
         }),
         filter(Boolean),
         switchMap((e: string) => this.repository.findMany(RouterDataEntity, e).pipe(map((result) => ({ link: e, list: result }))))
