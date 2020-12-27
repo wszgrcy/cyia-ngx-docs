@@ -2,10 +2,13 @@ import { Injectable, NgModuleFactory, Compiler, Injector } from '@angular/core';
 import { LAZY_ROUTES } from './dynamic-loading-elements.const';
 import { createCustomElement } from '@angular/elements';
 import { DynamicLoadingElement } from '@project-types';
+import { fromEvent } from 'rxjs';
+import { take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
 export class DynamicLoadingElementsService {
+  elementIndex = 0;
   loadedElement: { [name: string]: boolean } = {};
   constructor(private compiler: Compiler, private injector: Injector) {}
 
@@ -42,5 +45,11 @@ export class DynamicLoadingElementsService {
 
   async generateElement(list: DynamicLoadingElement[]) {
     return Promise.all(list.map((item) => this._loadingElement(item)));
+  }
+  waitElementRenderFinish(element: HTMLElement): Promise<void> | undefined {
+    if ('renderFinish' in element) {
+      return fromEvent(element, 'renderFinish').pipe(take(1)).toPromise() as any;
+    }
+    return undefined;
   }
 }

@@ -22,6 +22,9 @@ import { DocRendererStore } from '../../store/class/doc-renderer.store';
 import { selectDocRenderer } from '@project-store';
 import { CatalogStore } from '../../store/class/catalog.store';
 import { RouterService } from '../../services/router.service';
+import { inputPropertyChange } from '../../utils/input-property-change';
+import { ElementInputPropertyStore } from '../../store/class/element-input.store';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 /**目录树节点 */
 class CatalogTree {
   level: number = 0;
@@ -38,6 +41,7 @@ class CatalogTree {
   styleUrls: ['./doc-catalog.component.scss'],
 })
 export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() index;
   linkClick$ = new Subject();
   /**
    * todo 视区高度获取
@@ -69,11 +73,8 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
   rootNode: CatalogTree;
   map = new Map();
 
-  @Input() ngInputProperty: {
-    /**文档选择器 */
-    selector: string;
-  };
-
+  /**文档选择器 */
+  @Input() selector: string;
   /**文档的元素 */
   docElement: HTMLElement;
 
@@ -114,7 +115,7 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
       .select(DocRendererStore)
       .pipe(selectDocRenderer, filter(Boolean), take(1))
       .subscribe(() => {
-        const el: HTMLElement = document.querySelector(this.ngInputProperty.selector);
+        const el: HTMLElement = document.querySelector(this.selector);
         // todo 设置滚动容器,这个耦合性较高
         this.scrollContainer = document.querySelector('.scroll-container');
         this.docElement = el;
@@ -127,7 +128,16 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
       });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (inputPropertyChange(changes.index, this.index)) {
+      this.storeService
+        .select(ElementInputPropertyStore)
+        .pipe(elementInputPropertySelector(this.index))
+        .subscribe((property) => {
+          this.selector = property.selector;
+        });
+    }
+  }
   ngOnDestroy(): void {}
   /** 订阅滚动更新位置 */
   updateScrollPosition(): void {

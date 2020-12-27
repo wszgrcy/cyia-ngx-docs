@@ -1,5 +1,9 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { MatAccordion, MatExpansionPanel } from '@angular/material/expansion';
+import { inputPropertyChange } from '../../utils/input-property-change';
+import { StoreService } from '../../store/store.service';
+import { ElementInputPropertyStore } from '../../store/class/element-input.store';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 
 @Component({
   selector: 'property-table',
@@ -7,21 +11,28 @@ import { MatAccordion, MatExpansionPanel } from '@angular/material/expansion';
   styleUrls: ['./property-table.component.scss'],
 })
 export class PropertyTableComponent implements OnInit, OnChanges {
+  @Input() index;
   @ViewChildren('panel') panelList: QueryList<MatExpansionPanel>;
-  constructor() {}
-  @Input() ngInputProperty: any[];
+  constructor(private storeService: StoreService) {}
+  @Input() list: any[];
   rowList = ['name', 'type', 'description', 'isOptional', 'defaultValue'];
   typeLinks = [];
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('属性', this.ngInputProperty);
-    this.ngInputProperty.forEach((e) => {
+    if (inputPropertyChange(changes.index, this.index)) {
+      this.storeService
+        .select(ElementInputPropertyStore)
+        .pipe(elementInputPropertySelector(this.index))
+        .subscribe((property) => {
+          this.list = property;
+        });
+    }
+    this.list.forEach((e) => {
       if (e.typeLink) {
         this.typeLinks.push({ key: e.type, value: e.typeLink });
         // this.typeLinks[e.type] = e.typeLink;
       }
     });
-    console.log(this.typeLinks);
   }
   openPanel(type) {
     const index = this.typeLinks.findIndex((link) => link.key === type);

@@ -1,4 +1,8 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { StoreService } from '../../store/store.service';
+import { inputPropertyChange } from '../../utils/input-property-change';
+import { ElementInputPropertyStore } from '../../store/class/element-input.store';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 
 @Component({
   selector: 'method-table',
@@ -6,12 +10,20 @@ import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/cor
   styleUrls: ['./method-table.component.scss'],
 })
 export class MethodTableComponent implements OnInit, OnChanges {
-  @Input() ngInputProperty;
-  constructor() {}
+  @Input() data: any[];
+  @Input() index;
+  constructor(private storeService: StoreService) {}
   columnList = ['名字', '方法', '传入参数', '返回值'];
   rowList = ['name', 'description', 'docParameters', 'returnType'];
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log('属性', this.ngInputProperty);
+    if (inputPropertyChange(changes.index, this.index)) {
+      this.storeService
+        .select(ElementInputPropertyStore)
+        .pipe(elementInputPropertySelector(this.index))
+        .subscribe((property) => {
+          this.data = property;
+        });
+    }
   }
 }

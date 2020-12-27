@@ -49,13 +49,9 @@ export function heading(state: StateBlock, startLine: number, endLine: number, s
   let token = state.push('heading_open', `doc-anchor`, 1);
   token.markup = '########'.slice(0, level);
   token.map = [startLine, state.line];
-  token.attrPush([
-    'ngInputProperty',
-    JSON.stringify({
-      tag: `h${level}`,
-      content: `${state.src.slice(pos, max).trim()}`,
-    }),
-  ]);
+  token.attrPush(['tag', `h${level}`]);
+  token.attrPush(['content', `${state.src.slice(pos, max).trim()}`]);
+
   token.children = [];
   token = state.push('heading_close', `doc-anchor`, -1);
   token.markup = '########'.slice(0, level);

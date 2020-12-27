@@ -1,11 +1,16 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, ElementRef } from '@angular/core';
 import { JsonParse } from '../../decorators/json-parse.decorator';
+import { StoreService } from '../../store/store.service';
+import { inputPropertyChange } from '../../utils/input-property-change';
+import { ElementInputPropertyStore } from '../../store/class/element-input.store';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 @Component({
   selector: 'base-table',
   templateUrl: './base-table.component.html',
   styleUrls: ['./base-table.component.css'],
 })
 export class BaseTableComponent implements OnInit, OnChanges {
+  @Input() index;
   @Input() headers = undefined;
   @Input() aligns = '';
   @Input() data = '';
@@ -13,11 +18,23 @@ export class BaseTableComponent implements OnInit, OnChanges {
   _aligns: string[] = [];
   _data: string[] = [];
   fileds = [];
-  constructor() {}
+  constructor(private storeService: StoreService, private elementRef: ElementRef) {}
 
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('变更', changes);
+    if (inputPropertyChange(changes.index, this.index)) {
+      this.storeService
+        .select(ElementInputPropertyStore)
+        .pipe(elementInputPropertySelector(this.index))
+        .subscribe((property) => {
+          for (const key in property) {
+            if (Object.prototype.hasOwnProperty.call(property, key)) {
+              const element = property[key];
+              this.elementRef.nativeElement[key] = element;
+            }
+          }
+        });
+    }
     if (this.headers && changes.headers) {
       this._headers = JSON.parse(this.headers);
       this._headers.forEach((a, i) => {

@@ -10,12 +10,12 @@ import { CyiaRepositoryModule } from 'cyia-ngx-common/repository';
 import { MatButtonModule } from '@angular/material/button';
 import { CyiaMonacoTextmateModule } from 'cyia-ngx-common/monaco-textmate';
 import { StoreService } from './store/store.service';
-import { CodeHighlightStore } from './store/class/code-highlight.store';
 import { NavigationStore } from './store/class/navigation.store';
 import { CatalogStore } from './store/class/catalog.store';
 import { RouterDataStore } from './store/class/router-data.store';
 import { LeftSidenavStore } from './store/class';
 import { DocRendererStore } from './store/class/doc-renderer.store';
+import { ElementInputPropertyStore } from './store/class/element-input.store';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -27,7 +27,14 @@ import { DocRendererStore } from './store/class/doc-renderer.store';
     CyiaRepositoryModule,
     MatButtonModule,
     StoreModule.forRoot(
-      StoreService.getReducerMap([CodeHighlightStore, NavigationStore, CatalogStore, RouterDataStore, LeftSidenavStore, DocRendererStore]),
+      StoreService.getReducerMap([
+        NavigationStore,
+        CatalogStore,
+        RouterDataStore,
+        LeftSidenavStore,
+        DocRendererStore,
+        ElementInputPropertyStore,
+      ]),
       {
         runtimeChecks: {
           strictActionImmutability: false,

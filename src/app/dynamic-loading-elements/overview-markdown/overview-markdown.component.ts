@@ -13,10 +13,12 @@ import md from 'markdown-it';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TableExtend } from './plugins/table.extend';
 import { DynamicLoadingElementsService } from '../dynamic-loading-elements.service';
-import { OnChanges } from '@angular/core';
+import { OnChanges, ElementRef } from '@angular/core';
 import { HeadingExtend } from './plugins/heading.extend';
 import { StoreService } from '../../store/store.service';
-import { CodeHighlightStore } from '@project-store';
+import { ElementInputPropertyStore } from '../../store/class/element-input.store';
+import { inputPropertyChange } from '../../utils/input-property-change';
+import { elementInputPropertySelector } from '../../store/selector/element-input.selector';
 @Component({
   selector: 'overview-markdown',
   templateUrl: './overview-markdown.component.html',
@@ -24,22 +26,29 @@ import { CodeHighlightStore } from '@project-store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewMarkdownComponent implements OnInit, OnChanges {
+  @Input() index;
   waitingLoadElement: Promise<void[]>[] = [];
-  @Input() ngInputProperty;
+  @Input() content: string;
   rendererValue: SafeHtml;
   @Input() @Output() renderFinish = new EventEmitter();
-  codeIndex = 0;
   constructor(
     private domSanitizer: DomSanitizer,
     private cd: ChangeDetectorRef,
     private dynamicLoadingElements: DynamicLoadingElementsService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private elementRef: ElementRef
   ) {}
 
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.ngInputProperty && changes['ngInputProperty']) {
-      this.renderer();
+    if (inputPropertyChange(changes.index, this.index)) {
+      this.storeService
+        .select(ElementInputPropertyStore)
+        .pipe(elementInputPropertySelector(this.index))
+        .subscribe((property) => {
+          this.content = property;
+          this.renderer();
+        });
     }
   }
 
@@ -49,46 +58,50 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
       highlight: (str, lang) => {
         try {
           this.dynamicLoadingElements.generateElement([{ selector: 'code-highlight' }]);
-
-          this.storeService.getStore(CodeHighlightStore).GENERATE({
-            index: this.codeIndex,
-            content: str,
-            languageId: lang,
+          this.storeService.getStore(ElementInputPropertyStore).ADD({
+            index: this.dynamicLoadingElements.elementIndex,
+            property: {
+              content: str,
+              languageId: lang,
+            },
           });
-          return `<code-highlight index="${this.codeIndex++}"></code-highlight>`;
+          return `<code-highlight index="${this.dynamicLoadingElements.elementIndex++}"></code-highlight>`;
         } catch (__) {}
 
         return '';
       },
     });
     mdres.use(TableExtend).use(HeadingExtend);
-
+    // todo 可能需要改成index那种用第三方进行赋值
     mdres.renderer.rules.table_open = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
-      const attrStr = token.attrs.map((item) => `${item[0]}='${item[1]}'`).join(' ');
+      console.log('token', token);
       this.waitingLoadElement.push(this.dynamicLoadingElements.generateElement([{ selector: 'base-table' }]));
-      return `<${token.tag} ${attrStr}>`;
+      this.storeService.getStore(ElementInputPropertyStore).ADD({
+        index: this.dynamicLoadingElements.elementIndex,
+        property: token.attrs.reduce((pre, cur) => {
+          pre[cur[0]] = cur[1];
+          return pre;
+        }, {}),
+      });
+      return `<${token.tag} index="${this.dynamicLoadingElements.elementIndex++}">`;
     };
+    // todo 可能需要改成index那种用第三方进行赋值
     mdres.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
-      const attrStr = token.attrs.map((item) => `${item[0]}='${item[1]}'`).join(' ');
       this.waitingLoadElement.push(this.dynamicLoadingElements.generateElement([{ selector: 'doc-anchor' }]));
-      return `<${token.tag} ${attrStr}>`;
+      this.storeService.getStore(ElementInputPropertyStore).ADD({
+        index: this.dynamicLoadingElements.elementIndex,
+        property: token.attrs.reduce((pre, cur) => {
+          pre[cur[0]] = cur[1];
+          return pre;
+        }, {}),
+      });
+      return `<${token.tag} index="${this.dynamicLoadingElements.elementIndex++}">`;
     };
-    this.rendererValue = this.domSanitizer.bypassSecurityTrustHtml(mdres.render(this.ngInputProperty));
+    this.rendererValue = this.domSanitizer.bypassSecurityTrustHtml(mdres.render(this.content));
     await Promise.all(this.waitingLoadElement);
     this.cd.detectChanges();
-    // this.waitRenderFinish();
     this.renderFinish.emit();
   }
-  // async waitRenderFinish() {
-  //   const list = document.querySelectorAll('doc-anchor,base-table');
-  //   for (let i = 0; i < list.length; i++) {
-  //     const element = list[i];
-  //     console.dir(element);
-  //     // debugger;
-  //     if ('renderFinish' in element) {
-  //     }
-  //   }
-  // }
 }
