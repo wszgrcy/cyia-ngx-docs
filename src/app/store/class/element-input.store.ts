@@ -9,9 +9,10 @@ interface ElementIput {
 @NgrxStore()
 export class ElementInputPropertyStore implements StoreBase {
   initState = [];
-  state: ElementIput[];
+  state: any[];
   @NgrxAction()
   ADD(action: ElementIput) {
-    this.state[action.index] = action;
+    this.state[action.index] = action.property;
+    return this.state;
   }
 }

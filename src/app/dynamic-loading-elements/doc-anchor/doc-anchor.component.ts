@@ -35,11 +35,11 @@ export class DocAnchorComponent implements OnInit, OnChanges {
       this.storeService
         .select(ElementInputPropertyStore)
         .pipe(elementInputPropertySelector(this.index))
-        .subscribe((result) => {
-          this.content = result.property.content;
-          const el: HTMLElement = this.renderer.createElement(result.property.tag);
-          this.renderer.setAttribute(el, 'id', result.property.content);
-          this.renderer.setProperty(el, 'innerText', result.property.content);
+        .subscribe((property) => {
+          this.content = property.content;
+          const el: HTMLElement = this.renderer.createElement(property.tag);
+          this.renderer.setAttribute(el, 'id', property.content);
+          this.renderer.setProperty(el, 'innerText', property.content);
           this.renderer.appendChild(this.hostElement, el);
         });
     }

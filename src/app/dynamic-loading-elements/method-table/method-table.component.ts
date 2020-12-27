@@ -21,8 +21,8 @@ export class MethodTableComponent implements OnInit, OnChanges {
       this.storeService
         .select(ElementInputPropertyStore)
         .pipe(elementInputPropertySelector(this.index))
-        .subscribe((result) => {
-          this.data = result.property;
+        .subscribe((property) => {
+          this.data = property;
         });
     }
   }

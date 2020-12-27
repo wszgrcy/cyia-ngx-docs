@@ -133,8 +133,8 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
       this.storeService
         .select(ElementInputPropertyStore)
         .pipe(elementInputPropertySelector(this.index))
-        .subscribe((result) => {
-          this.selector = result.property.selector;
+        .subscribe((property) => {
+          this.selector = property.selector;
         });
     }
   }

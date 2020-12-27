@@ -25,7 +25,7 @@ export class FlexLayoutComponent implements OnInit, OnChanges {
       this.storeService
         .select(ElementInputPropertyStore)
         .pipe(elementInputPropertySelector(this.index))
-        .subscribe(({ property }) => {
+        .subscribe((property) => {
           property.flexList.forEach((item, i) => {
             (this.hostElement.children[i] as HTMLElement).style.flex = item;
           });

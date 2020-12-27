@@ -26,11 +26,10 @@ export class BaseTableComponent implements OnInit, OnChanges {
       this.storeService
         .select(ElementInputPropertyStore)
         .pipe(elementInputPropertySelector(this.index))
-        .subscribe((result) => {
-          console.log(result);
-          for (const key in result.property) {
-            if (Object.prototype.hasOwnProperty.call(result.property, key)) {
-              const element = result.property[key];
+        .subscribe((property) => {
+          for (const key in property) {
+            if (Object.prototype.hasOwnProperty.call(property, key)) {
+              const element = property[key];
               this.elementRef.nativeElement[key] = element;
             }
           }

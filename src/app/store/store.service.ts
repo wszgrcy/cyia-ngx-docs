@@ -21,8 +21,7 @@ export class StoreService {
       actionCreatorMap.set(ACTION_NAME, action);
       return on(action, (state, action) => {
         instance.state = state;
-        const result = item.on.bind(instance)(action.value);
-        return result === undefined ? state : result;
+        return item.on.bind(instance)(action.value);
       });
     });
     this.storeActionCreatorMap.set(storeConfig.type, actionCreatorMap);

@@ -23,8 +23,8 @@ export class PropertyTableComponent implements OnInit, OnChanges {
       this.storeService
         .select(ElementInputPropertyStore)
         .pipe(elementInputPropertySelector(this.index))
-        .subscribe((result) => {
-          this.list = result.property;
+        .subscribe((property) => {
+          this.list = property;
         });
     }
     this.list.forEach((e) => {

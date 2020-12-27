@@ -22,8 +22,8 @@ export class DocTabsComponent implements OnInit {
       this.storeService
         .select(ElementInputPropertyStore)
         .pipe(elementInputPropertySelector(this.index))
-        .subscribe((result) => {
-          this.list = result.property;
+        .subscribe((property) => {
+          this.list = property;
         });
     }
   }

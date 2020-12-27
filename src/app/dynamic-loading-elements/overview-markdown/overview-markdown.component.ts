@@ -46,8 +46,8 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
       this.storeService
         .select(ElementInputPropertyStore)
         .pipe(elementInputPropertySelector(this.index))
-        .subscribe((result) => {
-          this.content = result.property;
+        .subscribe((property) => {
+          this.content = property;
           this.renderer();
         });
     }
