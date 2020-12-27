@@ -1,13 +1,11 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  SimpleChanges,
-  ElementRef,
-} from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, ElementRef } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { filter } from 'rxjs/operators';
 import { OnChanges } from '@angular/core';
+import { inputPropertyChange } from '../../utils/input-property-change';
+import { StoreService } from '@project-store';
+import { ElementInputPropertyStore } from '../../store/class/element-input.store';
+import { elementInputSelector } from '../../store/selector/element-input.selector';
 @Component({
   selector: 'flex-layout',
   templateUrl: './flex-layout.component.html',
@@ -16,21 +14,22 @@ import { OnChanges } from '@angular/core';
 })
 export class FlexLayoutComponent implements OnInit, OnChanges {
   hostElement: HTMLElement;
-  @Input() ngInputProperty: { flexList: string[] };
-
-  constructor(
-    private elementRef: ElementRef,
-    private breakpointObserver: BreakpointObserver,
-  ) {
+  @Input() index: string;
+  constructor(private elementRef: ElementRef, private breakpointObserver: BreakpointObserver, private storeService: StoreService) {
     this.hostElement = elementRef.nativeElement;
   }
 
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    this.ngInputProperty.flexList.forEach((item, i) => {
-      (this.hostElement.children[
-        i
-      ] as HTMLElement).style.flex = item;
-    });
+    if (inputPropertyChange(changes.index, this.index)) {
+      this.storeService
+        .select(ElementInputPropertyStore)
+        .pipe(elementInputSelector(this.index))
+        .subscribe(({ property }) => {
+          property.flexList.forEach((item, i) => {
+            (this.hostElement.children[i] as HTMLElement).style.flex = item;
+          });
+        });
+    }
   }
 }

@@ -1,7 +1,5 @@
-
 <nav mat-tab-nav-bar class="docs-component-viewer-tabbed-content" aria-label="Documentation Sections"
   id="component-viewer" focusOnNavigation>
-  <a mat-tab-link class="docs-component-viewer-section-tab" *ngFor="let section of ngInputProperty"
-    [routerLink]="section.url" routerLinkActive #rla="routerLinkActive"
-    [active]="rla.isActive">{{section.title}}</a>
+  <a mat-tab-link class="docs-component-viewer-section-tab" *ngFor="let section of list" [routerLink]="section.url"
+    routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">{{section.title}}</a>
 </nav>

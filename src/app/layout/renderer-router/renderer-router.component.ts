@@ -9,6 +9,7 @@ import { DocRendererStore } from '../../store/class/doc-renderer.store';
 import { selectRouterData } from '@project-store';
 import { RouterDataStore } from '../../store/class/router-data.store';
 import { RouterService } from '../../services/router.service';
+import { ElementInputPropertyStore } from '../../store/class/element-input.store';
 @Component({
   selector: 'app-renderer-router',
   templateUrl: './renderer-router.component.html',
@@ -79,7 +80,10 @@ export class RendererRouterComponent implements OnInit {
         el.innerText = element.content;
       }
       if (element.property) {
-        (el as any).ngInputProperty = element.property;
+        this.storeService
+          .getStore(ElementInputPropertyStore)
+          .ADD({ index: this.dynamicLoadingElementsService.elementIndex, property: element.property });
+        (el as any).index = this.dynamicLoadingElementsService.elementIndex++;
       }
       if (element.children && element.children.length) {
         const childElList = await this.registerElement(element.children);

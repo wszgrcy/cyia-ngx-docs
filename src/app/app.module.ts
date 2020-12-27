@@ -16,6 +16,7 @@ import { CatalogStore } from './store/class/catalog.store';
 import { RouterDataStore } from './store/class/router-data.store';
 import { LeftSidenavStore } from './store/class';
 import { DocRendererStore } from './store/class/doc-renderer.store';
+import { ElementInputPropertyStore } from './store/class/element-input.store';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -27,7 +28,15 @@ import { DocRendererStore } from './store/class/doc-renderer.store';
     CyiaRepositoryModule,
     MatButtonModule,
     StoreModule.forRoot(
-      StoreService.getReducerMap([CodeHighlightStore, NavigationStore, CatalogStore, RouterDataStore, LeftSidenavStore, DocRendererStore]),
+      StoreService.getReducerMap([
+        CodeHighlightStore,
+        NavigationStore,
+        CatalogStore,
+        RouterDataStore,
+        LeftSidenavStore,
+        DocRendererStore,
+        ElementInputPropertyStore,
+      ]),
       {
         runtimeChecks: {
           strictActionImmutability: false,

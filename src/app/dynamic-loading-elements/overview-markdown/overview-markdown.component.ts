@@ -13,10 +13,13 @@ import md from 'markdown-it';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TableExtend } from './plugins/table.extend';
 import { DynamicLoadingElementsService } from '../dynamic-loading-elements.service';
-import { OnChanges } from '@angular/core';
+import { OnChanges, ElementRef } from '@angular/core';
 import { HeadingExtend } from './plugins/heading.extend';
 import { StoreService } from '../../store/store.service';
 import { CodeHighlightStore } from '@project-store';
+import { ElementInputPropertyStore } from '../../store/class/element-input.store';
+import { inputPropertyChange } from '../../utils/input-property-change';
+import { elementInputSelector } from '../../store/selector/element-input.selector';
 @Component({
   selector: 'overview-markdown',
   templateUrl: './overview-markdown.component.html',
@@ -24,22 +27,29 @@ import { CodeHighlightStore } from '@project-store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewMarkdownComponent implements OnInit, OnChanges {
+  @Input() index;
   waitingLoadElement: Promise<void[]>[] = [];
-  @Input() ngInputProperty;
+  @Input() content: string;
   rendererValue: SafeHtml;
   @Input() @Output() renderFinish = new EventEmitter();
-  codeIndex = 0;
   constructor(
     private domSanitizer: DomSanitizer,
     private cd: ChangeDetectorRef,
     private dynamicLoadingElements: DynamicLoadingElementsService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private elementRef: ElementRef
   ) {}
 
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.ngInputProperty && changes['ngInputProperty']) {
-      this.renderer();
+    if (inputPropertyChange(changes.index, this.index)) {
+      this.storeService
+        .select(ElementInputPropertyStore)
+        .pipe(elementInputSelector(this.index))
+        .subscribe((result) => {
+          this.content = result.property;
+          this.renderer();
+        });
     }
   }
 
@@ -50,11 +60,11 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
         try {
           this.dynamicLoadingElements.generateElement([{ selector: 'code-highlight' }]);
           this.storeService.getStore(CodeHighlightStore).GENERATE({
-            index: this.codeIndex,
+            index: this.dynamicLoadingElements.elementIndex,
             content: str,
             languageId: lang,
           });
-          return `<code-highlight index="${this.codeIndex++}"></code-highlight>`;
+          return `<code-highlight index="${this.dynamicLoadingElements.elementIndex++}"></code-highlight>`;
         } catch (__) {}
 
         return '';
@@ -64,18 +74,31 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
     // todo 可能需要改成index那种用第三方进行赋值
     mdres.renderer.rules.table_open = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
-      const attrStr = token.attrs.map((item) => `${item[0]}='${item[1]}'`).join(' ');
+      console.log('token', token);
       this.waitingLoadElement.push(this.dynamicLoadingElements.generateElement([{ selector: 'base-table' }]));
-      return `<${token.tag} ${attrStr}>`;
+      this.storeService.getStore(ElementInputPropertyStore).ADD({
+        index: this.dynamicLoadingElements.elementIndex,
+        property: token.attrs.reduce((pre, cur) => {
+          pre[cur[0]] = cur[1];
+          return pre;
+        }, {}),
+      });
+      return `<${token.tag} index="${this.dynamicLoadingElements.elementIndex++}">`;
     };
     // todo 可能需要改成index那种用第三方进行赋值
     mdres.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
-      const attrStr = token.attrs.map((item) => `${item[0]}='${item[1]}'`).join(' ');
       this.waitingLoadElement.push(this.dynamicLoadingElements.generateElement([{ selector: 'doc-anchor' }]));
-      return `<${token.tag} ${attrStr}>`;
+      this.storeService.getStore(ElementInputPropertyStore).ADD({
+        index: this.dynamicLoadingElements.elementIndex,
+        property: token.attrs.reduce((pre, cur) => {
+          pre[cur[0]] = cur[1];
+          return pre;
+        }, {}),
+      });
+      return `<${token.tag} index="${this.dynamicLoadingElements.elementIndex++}">`;
     };
-    this.rendererValue = this.domSanitizer.bypassSecurityTrustHtml(mdres.render(this.ngInputProperty));
+    this.rendererValue = this.domSanitizer.bypassSecurityTrustHtml(mdres.render(this.content));
     await Promise.all(this.waitingLoadElement);
     this.cd.detectChanges();
     this.renderFinish.emit();

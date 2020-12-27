@@ -8,6 +8,7 @@ import { take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class DynamicLoadingElementsService {
+  elementIndex = 0;
   loadedElement: { [name: string]: boolean } = {};
   constructor(private compiler: Compiler, private injector: Injector) {}
 
