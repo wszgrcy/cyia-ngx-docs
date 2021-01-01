@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { NavigationNode } from '@resource-entity/navigation.entity';
 import { Router, NavigationEnd } from '@angular/router';
-import { merge, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { merge, of, Subject } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { RouterService } from '../../../services/router.service';
 
 @Component({
@@ -28,6 +28,7 @@ export class NavItemComponent implements OnChanges {
     expanded?: boolean;
   } = {};
   nodeChildren: NavigationNode[];
+  destroy$ = new Subject();
   constructor(private router: Router, private cd: ChangeDetectorRef, private routerService: RouterService) {}
   ngOnChanges(changes: SimpleChanges) {
     if (this.node && changes['node'] && changes['node'].firstChange) {
@@ -88,7 +89,8 @@ export class NavItemComponent implements OnChanges {
       of(this.routerService.getPlainUrl()),
       this.router.events.pipe(
         filter((e) => e instanceof NavigationEnd),
-        map((e: NavigationEnd) => e.url)
+        map((e: NavigationEnd) => e.url),
+        takeUntil(this.destroy$)
       )
     ).subscribe((e) => {
       const compare = [this.node.url, ...(this.node.tabs || []).map((item) => item.url)].find(
@@ -96,5 +98,8 @@ export class NavItemComponent implements OnChanges {
       );
       this.setSelected(!!compare);
     });
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
   }
 }

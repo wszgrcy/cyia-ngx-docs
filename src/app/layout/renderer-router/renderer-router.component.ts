@@ -21,6 +21,7 @@ import { RouterDataStore } from '../../store/class/router-data.store';
 import { RouterService } from '../../services/router.service';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
 import { DynamicLoadingComponent } from '../../types/dynamic-loading-element';
+import { InputChange } from '../../utils/input-change';
 @Component({
   selector: 'app-renderer-router',
   templateUrl: './renderer-router.component.html',
@@ -33,6 +34,7 @@ export class RendererRouterComponent implements OnInit {
   hostElement: HTMLElement;
   containerElement: HTMLElement;
   componentRefList: ComponentRef<DynamicLoadingComponent>[] = [];
+  oldComponentRefList: ComponentRef<DynamicLoadingComponent>[];
   constructor(
     private router: Router,
     private dynamicLoadingElementsService: DynamicLoadingElementsService,
@@ -58,7 +60,9 @@ export class RendererRouterComponent implements OnInit {
       )
       .subscribe(async (list: RouterDataEntity[]) => {
         this.dynamicLoadingElementsService.elementIndex = 0;
+        this.oldComponentRefList = this.componentRefList;
         this.componentRefList = [];
+        InputChange.clear();
         this.storeService.getStore(DocRendererStore).RESET({ link: this.router.url });
         const elList = await this.registerElement(list);
         if (this.containerElement) {
@@ -69,9 +73,14 @@ export class RendererRouterComponent implements OnInit {
           this.renderer.appendChild(this.containerElement, el);
         });
         this.renderer.appendChild(this.hostElement, this.containerElement);
+        requestAnimationFrame(() => {
+          this.oldComponentRefList.forEach((item) => item.destroy());
+          this.oldComponentRefList = undefined;
+        });
         this.componentRefList.forEach((ref) => this.applicationRef.attachView(ref.hostView));
         // doc 等待渲染完成
         await Promise.all(this.waittingRendererComplete);
+        this.waittingRendererComplete = [];
         this.cd.detectChanges();
         this.storeService.getStore(DocRendererStore).COMPLETE();
         console.log('完全渲染完成');

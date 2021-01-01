@@ -59,9 +59,12 @@ export class AppComponent implements OnInit {
     router: Router
   ) {
     this.catalogStore = this.storeService.getStore(CatalogStore);
-    this.repository.findOne(NavigationEntity).subscribe((entity) => {
-      this.storeService.getStore(NavigationStore).INIT({ value: entity });
-    });
+    this.repository
+      .findOne(NavigationEntity)
+      .pipe(take(1))
+      .subscribe((entity) => {
+        this.storeService.getStore(NavigationStore).INIT({ value: entity });
+      });
     router.events
       .pipe(
         filter((e) => e instanceof NavigationEnd),

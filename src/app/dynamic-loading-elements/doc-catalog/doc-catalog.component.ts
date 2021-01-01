@@ -13,7 +13,7 @@ import {
 import { Router, NavigationEnd, Event, ActivatedRoute } from '@angular/router';
 import { Subscription, fromEvent, Subject, merge } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
-import { debounceTime, filter, take, map } from 'rxjs/operators';
+import { debounceTime, filter, take, map, takeUntil } from 'rxjs/operators';
 import { Renderer2, OnChanges } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener, MatTree } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
@@ -43,6 +43,7 @@ class CatalogTree {
 export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
   @Input() index;
   linkClick$ = new Subject();
+  destroy$ = new Subject();
   /**
    * todo 视区高度获取
    */
@@ -56,13 +57,18 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
   ) {
     this.url = this.routerService.getPlainUrl();
     this.storeService.getStore(CatalogStore).INIT({ value: this });
-    this.activatedRoute.fragment.pipe(filter(() => !!this.docElement)).subscribe((fragment) => {
-      const target = this.docElement.querySelector(`#${fragment}`);
-      if (target) {
-        target.scrollIntoView();
-        this.linkClick$.next();
-      }
-    });
+    this.activatedRoute.fragment
+      .pipe(
+        filter(() => !!this.docElement),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((fragment) => {
+        const target = this.docElement.querySelector(`#${fragment}`);
+        if (target) {
+          target.scrollIntoView();
+          this.linkClick$.next();
+        }
+      });
   }
   @ViewChild(MatTree, { static: true }) matTree: MatTree<CatalogTree>;
   url: string;
@@ -138,11 +144,13 @@ export class DocCatalogComponent implements OnInit, OnChanges, OnDestroy {
         });
     }
   }
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
   /** 订阅滚动更新位置 */
   updateScrollPosition(): void {
     merge(fromEvent(this.scrollContainer, 'scroll'), this.linkClick$)
-      .pipe(debounceTime(50))
+      .pipe(debounceTime(50), takeUntil(this.destroy$))
       .subscribe((e) => {
         for (let i = 0; i < this.headersElement.length; i++) {
           const { top } = this.headersElement[i].getBoundingClientRect();
