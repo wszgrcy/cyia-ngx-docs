@@ -8,12 +8,13 @@ import {
   Output,
   EventEmitter,
   HostBinding,
+  ViewChild,
 } from '@angular/core';
 import md from 'markdown-it';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TableExtend } from './plugins/table.extend';
 import { DynamicLoadingElementsService } from '../dynamic-loading-elements.service';
-import { OnChanges, ElementRef } from '@angular/core';
+import { OnChanges, ElementRef, Renderer2, ViewContainerRef, ApplicationRef } from '@angular/core';
 import { HeadingExtend } from './plugins/heading.extend';
 import { StoreService } from '../../store/store.service';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
@@ -31,12 +32,16 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
   @Input() content: string;
   rendererValue: SafeHtml;
   @Input() @Output() renderFinish = new EventEmitter();
+  dynamicLoadingElementMap = new Map<number, string>();
+  @ViewChild('container', { static: true }) containerElementRef: ElementRef<HTMLElement>;
   constructor(
-    private domSanitizer: DomSanitizer,
+    // private domSanitizer: DomSanitizer,
     private cd: ChangeDetectorRef,
-    private dynamicLoadingElements: DynamicLoadingElementsService,
+    private dynamicLoadingElementsService: DynamicLoadingElementsService,
     private storeService: StoreService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private renderer2: Renderer2,
+    private applicationRef: ApplicationRef
   ) {}
 
   ngOnInit() {}
@@ -57,15 +62,17 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
       html: true,
       highlight: (str, lang) => {
         try {
-          this.dynamicLoadingElements.generateElement([{ selector: 'code-highlight' }]);
+          const selector = 'code-highlight';
+          this.dynamicLoadingElementsService.generateElement([{ selector: selector }]);
           this.storeService.getStore(ElementInputPropertyStore).ADD({
-            index: this.dynamicLoadingElements.elementIndex,
+            index: this.dynamicLoadingElementsService.elementIndex,
             property: {
               content: str,
               languageId: lang,
             },
           });
-          return `<code-highlight index="${this.dynamicLoadingElements.elementIndex++}"></code-highlight>`;
+          this.dynamicLoadingElementMap.set(this.dynamicLoadingElementsService.elementIndex, selector);
+          return `<${selector} index="${this.dynamicLoadingElementsService.elementIndex++}"></${selector}>`;
         } catch (__) {}
 
         return '';
@@ -75,31 +82,54 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
     // todo 可能需要改成index那种用第三方进行赋值
     mdres.renderer.rules.table_open = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
-      console.log('token', token);
-      this.waitingLoadElement.push(this.dynamicLoadingElements.generateElement([{ selector: 'base-table' }]));
       this.storeService.getStore(ElementInputPropertyStore).ADD({
-        index: this.dynamicLoadingElements.elementIndex,
+        index: this.dynamicLoadingElementsService.elementIndex,
         property: token.attrs.reduce((pre, cur) => {
           pre[cur[0]] = cur[1];
           return pre;
         }, {}),
       });
-      return `<${token.tag} index="${this.dynamicLoadingElements.elementIndex++}">`;
+      this.dynamicLoadingElementMap.set(this.dynamicLoadingElementsService.elementIndex, token.tag);
+      return `<${token.tag} index="${this.dynamicLoadingElementsService.elementIndex++}">`;
     };
     // todo 可能需要改成index那种用第三方进行赋值
     mdres.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
       const token = tokens[idx];
-      this.waitingLoadElement.push(this.dynamicLoadingElements.generateElement([{ selector: 'doc-anchor' }]));
       this.storeService.getStore(ElementInputPropertyStore).ADD({
-        index: this.dynamicLoadingElements.elementIndex,
+        index: this.dynamicLoadingElementsService.elementIndex,
         property: token.attrs.reduce((pre, cur) => {
           pre[cur[0]] = cur[1];
           return pre;
         }, {}),
       });
-      return `<${token.tag} index="${this.dynamicLoadingElements.elementIndex++}">`;
+      this.dynamicLoadingElementMap.set(this.dynamicLoadingElementsService.elementIndex, token.tag);
+
+      return `<${token.tag} index="${this.dynamicLoadingElementsService.elementIndex++}">`;
     };
-    this.rendererValue = this.domSanitizer.bypassSecurityTrustHtml(mdres.render(this.content));
+    const content = mdres.render(this.content);
+    const templateElement: HTMLTemplateElement = this.renderer2.createElement('template');
+    templateElement.innerHTML = content;
+    const replaceNodePromiseList = [];
+    this.dynamicLoadingElementMap.forEach((value, key) => {
+      const node = templateElement.content.querySelector(`[index="${key}"]`);
+      replaceNodePromiseList.push(
+        this.dynamicLoadingElementsService
+          .generateElement([{ selector: value }])
+          .then(([factory]) => {
+            return factory(undefined, { index: key });
+          })
+          .then((ref) => {
+            this.applicationRef.attachView(ref.hostView);
+            ref.changeDetectorRef.detectChanges();
+            return ref.location.nativeElement as HTMLElement;
+          })
+          .then((element) => {
+            return node.parentNode.replaceChild(element, node);
+          })
+      );
+    });
+    await Promise.all(replaceNodePromiseList);
+    this.containerElementRef.nativeElement.appendChild(templateElement.content);
     await Promise.all(this.waitingLoadElement);
     this.cd.detectChanges();
     this.renderFinish.emit();

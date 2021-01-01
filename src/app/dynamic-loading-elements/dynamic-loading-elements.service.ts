@@ -1,23 +1,30 @@
-import { Injectable, NgModuleFactory, Compiler, Injector } from '@angular/core';
+import {
+  Injectable,
+  NgModuleFactory,
+  Compiler,
+  Injector,
+  ComponentFactoryResolver,
+  CompilerFactory,
+  ComponentFactory,
+  ComponentRef,
+} from '@angular/core';
 import { LAZY_ROUTES } from './dynamic-loading-elements.const';
 import { createCustomElement } from '@angular/elements';
 import { DynamicLoadingElement } from '@project-types';
 import { fromEvent } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { InputChange } from '../utils/input-change';
+import { DynamicLoadingComponent } from '../types/dynamic-loading-element';
 @Injectable({
   providedIn: 'root',
 })
 export class DynamicLoadingElementsService {
   elementIndex = 0;
-  loadedElement: { [name: string]: boolean } = {};
-  constructor(private compiler: Compiler, private injector: Injector) {}
+  loadedElement: { [name: string]: Promise<ReturnType<DynamicLoadingElementsService['createElementFactory']>> } = {};
+  constructor(private compiler: Compiler, private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver) {}
 
-  private async _loadingElement(rendererData: DynamicLoadingElement) {
-    if (this.loadedElement[rendererData.selector]) {
-      return;
-    }
-    this.loadedElement[rendererData.selector] = true;
-    const findElemkent = LAZY_ROUTES.find((item) => item.selector === rendererData.selector);
+  private async _loadingElement(selector: string) {
+    const findElemkent = LAZY_ROUTES.find((item) => item.selector === selector);
     if (!findElemkent) {
       return;
     }
@@ -30,26 +37,38 @@ export class DynamicLoadingElementsService {
     }
     const moduleRef = ngModuleFactory.create(this.injector);
     const injector = moduleRef.injector;
-    const customElementComponent = moduleRef.instance.entry;
-    const CustomElement = createCustomElement(customElementComponent, {
-      injector,
-    });
-    try {
-      customElements.define(rendererData.selector, CustomElement);
-    } catch (error) {
-      console.error(error);
-    }
-    this.loadedElement[rendererData.selector] = true;
-    return customElements.whenDefined(rendererData.selector);
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(moduleRef.instance.entry);
+    const factory = this.createElementFactory(injector, componentFactory);
+    return factory;
   }
-
-  async generateElement(list: DynamicLoadingElement[]) {
-    return Promise.all(list.map((item) => this._loadingElement(item)));
+  private createElementFactory(injector: Injector, componentFactory: ComponentFactory<any>) {
+    return (content: string, parameters: { [name: string]: any }) => {
+      let nodes: any[][];
+      if (typeof content === 'string') {
+        nodes = [[document.createTextNode(content)]];
+      }
+      const componentRef: ComponentRef<DynamicLoadingComponent> = componentFactory.create(injector, nodes);
+      for (const key in parameters) {
+        if (Object.prototype.hasOwnProperty.call(parameters, key)) {
+          const element = parameters[key];
+          componentRef.instance[key] = element;
+        }
+      }
+      if (componentRef.instance.ngOnChanges) {
+        componentRef.instance.ngOnChanges(InputChange.create(componentRef.instance, parameters));
+      }
+      return componentRef;
+    };
   }
-  waitElementRenderFinish(element: HTMLElement): Promise<void> | undefined {
-    if ('renderFinish' in element) {
-      return fromEvent(element, 'renderFinish').pipe(take(1)).toPromise() as any;
-    }
-    return undefined;
+  async generateElement(list: DynamicLoadingElement[]): Promise<ReturnType<DynamicLoadingElementsService['createElementFactory']>[]> {
+    return Promise.all(
+      list.map((item) => {
+        if (this.loadedElement[item.selector]) {
+          return this.loadedElement[item.selector];
+        }
+        this.loadedElement[item.selector] = this._loadingElement(item.selector);
+        return this.loadedElement[item.selector];
+      })
+    );
   }
 }
