@@ -18,4 +18,7 @@ export class InputChange {
     this.inputMap.set(instance, input);
     return simpleChanges;
   }
+  static clear() {
+    this.inputMap.clear();
+  }
 }

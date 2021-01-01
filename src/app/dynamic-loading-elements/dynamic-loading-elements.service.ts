@@ -9,7 +9,6 @@ import {
   ComponentRef,
 } from '@angular/core';
 import { LAZY_ROUTES } from './dynamic-loading-elements.const';
-import { createCustomElement } from '@angular/elements';
 import { DynamicLoadingElement } from '@project-types';
 import { fromEvent } from 'rxjs';
 import { take } from 'rxjs/operators';

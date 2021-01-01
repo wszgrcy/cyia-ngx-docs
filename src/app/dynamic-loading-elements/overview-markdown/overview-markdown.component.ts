@@ -9,6 +9,7 @@ import {
   EventEmitter,
   HostBinding,
   ViewChild,
+  ComponentRef,
 } from '@angular/core';
 import md from 'markdown-it';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -33,6 +34,7 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
   rendererValue: SafeHtml;
   @Input() @Output() renderFinish = new EventEmitter();
   dynamicLoadingElementMap = new Map<number, string>();
+  componentRefList: ComponentRef<any>[] = [];
   @ViewChild('container', { static: true }) containerElementRef: ElementRef<HTMLElement>;
   constructor(
     // private domSanitizer: DomSanitizer,
@@ -119,8 +121,8 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
             return factory(undefined, { index: key });
           })
           .then((ref) => {
+            this.componentRefList.push(ref);
             this.applicationRef.attachView(ref.hostView);
-            ref.changeDetectorRef.detectChanges();
             return ref.location.nativeElement as HTMLElement;
           })
           .then((element) => {
@@ -133,5 +135,9 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
     await Promise.all(this.waitingLoadElement);
     this.cd.detectChanges();
     this.renderFinish.emit();
+  }
+  ngOnDestroy(): void {
+    this.componentRefList.forEach((item) => item.destroy());
+    this.componentRefList = undefined;
   }
 }
