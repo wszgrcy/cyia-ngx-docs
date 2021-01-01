@@ -7,6 +7,7 @@ import {
   ChangeDetectorRef,
   ApplicationRef,
   ViewContainerRef,
+  ComponentRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DynamicLoadingElementsService } from '@dynamic-loading-elements/dynamic-loading-elements.service';
@@ -19,6 +20,7 @@ import { selectRouterData } from '@project-store';
 import { RouterDataStore } from '../../store/class/router-data.store';
 import { RouterService } from '../../services/router.service';
 import { ElementInputPropertyStore } from '../../store/class/element-input.store';
+import { DynamicLoadingComponent } from '../../types/dynamic-loading-element';
 @Component({
   selector: 'app-renderer-router',
   templateUrl: './renderer-router.component.html',
@@ -30,6 +32,7 @@ export class RendererRouterComponent implements OnInit {
   // routerData$: Observable<any[]>;
   hostElement: HTMLElement;
   containerElement: HTMLElement;
+  componentRefList: ComponentRef<DynamicLoadingComponent>[] = [];
   constructor(
     private router: Router,
     private dynamicLoadingElementsService: DynamicLoadingElementsService,
@@ -55,6 +58,7 @@ export class RendererRouterComponent implements OnInit {
       )
       .subscribe(async (list: RouterDataEntity[]) => {
         this.dynamicLoadingElementsService.elementIndex = 0;
+        this.componentRefList = [];
         this.storeService.getStore(DocRendererStore).RESET({ link: this.router.url });
         const elList = await this.registerElement(list);
         if (this.containerElement) {
@@ -65,6 +69,7 @@ export class RendererRouterComponent implements OnInit {
           this.renderer.appendChild(this.containerElement, el);
         });
         this.renderer.appendChild(this.hostElement, this.containerElement);
+        this.componentRefList.forEach((ref) => this.applicationRef.attachView(ref.hostView));
         // doc 等待渲染完成
         await Promise.all(this.waittingRendererComplete);
         this.cd.detectChanges();
@@ -94,7 +99,7 @@ export class RendererRouterComponent implements OnInit {
         const ref = factory(element.content, { index: this.dynamicLoadingElementsService.elementIndex++ });
         el = ref.location.nativeElement;
         // todo 这里需要用父级
-        this.applicationRef.attachView(ref.hostView);
+        this.componentRefList.push(ref);
         if (ref.instance.renderFinish) {
           this.waittingRendererComplete.push(ref.instance.renderFinish.pipe(take(1)).toPromise());
         }
