@@ -1,4 +1,13 @@
-import { Component, OnInit, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  Renderer2,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  ApplicationRef,
+  ViewContainerRef,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { DynamicLoadingElementsService } from '@dynamic-loading-elements/dynamic-loading-elements.service';
 import { Observable, fromEvent } from 'rxjs';
@@ -28,7 +37,8 @@ export class RendererRouterComponent implements OnInit {
     private renderer: Renderer2,
     private cd: ChangeDetectorRef,
     private storeService: StoreService,
-    private routerService: RouterService
+    private routerService: RouterService,
+    private applicationRef: ApplicationRef
   ) {
     this.hostElement = this.elementRef.nativeElement;
   }
@@ -44,16 +54,17 @@ export class RendererRouterComponent implements OnInit {
         filter((e) => !!e)
       )
       .subscribe(async (list: RouterDataEntity[]) => {
+        this.dynamicLoadingElementsService.elementIndex = 0;
         this.storeService.getStore(DocRendererStore).RESET({ link: this.router.url });
+        const elList = await this.registerElement(list);
         if (this.containerElement) {
           this.renderer.removeChild(this.hostElement, this.containerElement);
         }
-        this.renderer.appendChild(this.hostElement, (this.containerElement = this.renderer.createElement('div')));
-        const elList = await this.registerElement(list);
+        this.containerElement = this.renderer.createElement('div');
         elList.forEach((el) => {
           this.renderer.appendChild(this.containerElement, el);
         });
-
+        this.renderer.appendChild(this.hostElement, this.containerElement);
         // doc 等待渲染完成
         await Promise.all(this.waittingRendererComplete);
         this.cd.detectChanges();
@@ -74,29 +85,32 @@ export class RendererRouterComponent implements OnInit {
     const elList: HTMLElement[] = [];
     for (let i = 0; i < list.length; i++) {
       const element = list[i];
-      await this.dynamicLoadingElementsService.generateElement([element]);
-      const el: HTMLElement = this.renderer.createElement(element.selector);
-      if (element.content) {
-        el.innerText = element.content;
-      }
-      if (element.property) {
+      const factory = (await this.dynamicLoadingElementsService.generateElement([element]))[0];
+      let el: HTMLElement;
+      if (factory) {
         this.storeService
           .getStore(ElementInputPropertyStore)
           .ADD({ index: this.dynamicLoadingElementsService.elementIndex, property: element.property });
-        (el as any).index = this.dynamicLoadingElementsService.elementIndex++;
+        const ref = factory(element.content, { index: this.dynamicLoadingElementsService.elementIndex++ });
+        el = ref.location.nativeElement;
+        // todo 这里需要用父级
+        this.applicationRef.attachView(ref.hostView);
+        if (ref.instance.renderFinish) {
+          this.waittingRendererComplete.push(ref.instance.renderFinish.pipe(take(1)).toPromise());
+        }
+      } else {
+        el = this.renderer.createElement(element.selector);
+        if (element.content) {
+          el.innerText = element.content;
+        }
       }
       if (element.children && element.children.length) {
-        const childElList = await this.registerElement(element.children);
-        childElList.forEach((childEl) => {
+        const childElementList = await this.registerElement(element.children);
+        childElementList.forEach((childEl) => {
           this.renderer.appendChild(el, childEl);
         });
       }
-
       elList.push(el);
-      const waitElement = this.dynamicLoadingElementsService.waitElementRenderFinish(el);
-      if (waitElement) {
-        this.waittingRendererComplete.push(waitElement);
-      }
     }
     return elList;
   }

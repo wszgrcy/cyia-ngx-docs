@@ -2,7 +2,7 @@ import { Component, OnChanges, OnInit } from '@angular/core';
 import { CyiaRepositoryService } from 'cyia-ngx-common/repository';
 import { NavigationEntity } from './resource-entity/navigation.entity';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, take } from 'rxjs/operators';
 import { RouterDataEntity } from '@resource-entity/router-data.entity';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Observable, of } from 'rxjs';
@@ -13,6 +13,7 @@ import { NavigationStore } from './store/class/navigation.store';
 import { RouterDataStore } from './store/class/router-data.store';
 import { selectFooter } from '@project-store';
 import { RouterService } from './services/router.service';
+import { selectRouterData } from './store/selector/router-data.selector';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -74,9 +75,19 @@ export class AppComponent implements OnInit {
           return url;
         }),
         filter(Boolean),
-        switchMap((e: string) => this.repository.findMany(RouterDataEntity, e).pipe(map((result) => ({ link: e, list: result }))))
+        switchMap((e: string) => {
+          return this.storeService.select(RouterDataStore).pipe(
+            selectRouterData,
+            map((item) => item[e]),
+            take(1),
+            switchMap((result) => {
+              return result
+                ? of({ link: e, list: result })
+                : this.repository.findMany(RouterDataEntity, e).pipe(map((result) => ({ link: e, list: result })));
+            })
+          );
+        })
       )
-
       .subscribe((e) => {
         this.storeService.getStore(RouterDataStore).ADD(e);
       });

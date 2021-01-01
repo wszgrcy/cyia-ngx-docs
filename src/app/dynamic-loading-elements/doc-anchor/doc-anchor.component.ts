@@ -1,4 +1,4 @@
-import { Renderer2, ViewChild, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Renderer2, ViewChild, OnChanges, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, Input, SimpleChanges, ElementRef } from '@angular/core';
 import { RouterService } from '../../services/router.service';
 import { StoreService } from '../../store/store.service';
@@ -10,6 +10,7 @@ import { inputPropertyChange } from '../../utils/input-property-change';
   selector: 'doc-anchor',
   templateUrl: './doc-anchor.component.html',
   styleUrls: ['./doc-anchor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocAnchorComponent implements OnInit, OnChanges {
   @Input() index: string;

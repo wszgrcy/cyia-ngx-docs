@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { filter } from 'rxjs/operators';
 import { OnChanges } from '@angular/core';
@@ -20,16 +20,5 @@ export class FlexLayoutComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {}
-  ngOnChanges(changes: SimpleChanges): void {
-    if (inputPropertyChange(changes.index, this.index)) {
-      this.storeService
-        .select(ElementInputPropertyStore)
-        .pipe(elementInputPropertySelector(this.index))
-        .subscribe((property) => {
-          property.flexList.forEach((item, i) => {
-            (this.hostElement.children[i] as HTMLElement).style.flex = item;
-          });
-        });
-    }
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 }
