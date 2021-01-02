@@ -1,3 +1,10 @@
 :host {
   display: block;
+  .method-parameter {
+    display: inline-flex;
+    docs-chip {
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+  }
 }

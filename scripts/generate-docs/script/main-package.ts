@@ -4,8 +4,7 @@ import { ReadTypeScriptModules } from 'dgeni-packages/typescript/processors/read
 import { SOURCECODE_PATH, TO_BE_GENERATED_FILES } from './const/path';
 
 /**文档导出目录 */
-const DOCSOUT_PATH = path.resolve(__dirname, '../../../src/assets');
-// console.log('导出路径', DOCSOUT_PATH);
+const DOCSOUT_PATH = path.resolve(process.cwd(), './src/assets');
 import { BUILD_PACKAGE } from './build-package';
 /**允许导出文档类型 */
 export default new Package('cyia-ngx-docs', [BUILD_PACKAGE])

@@ -1,0 +1,33 @@
+@import '~@angular/material/theming';
+
+:host {
+  display: inline-flex;
+  line-height: 1;
+  $self: 'docs-chip';
+  $selfRadius: #{$self} + '-radius';
+  $selfType: #{$self} + '-type';
+
+  padding: 4px;
+
+  &.#{$selfRadius}--circle {
+    border-radius: 999px;
+  }
+  &.#{$selfRadius}--round {
+    border-radius: 4px;
+  }
+  &.#{$selfType}--parameter {
+    background-color: mat-color(mat-palette($mat-indigo, 500));
+    color: #ffffff;
+  }
+  &.#{$selfType}--return-type {
+    background-color: mat-color(mat-palette($mat-pink, A200));
+    color: #ffffff;
+  }
+  &.#{$selfType}--type {
+    background-color: mat-color(mat-palette($mat-indigo, 300));
+    color: #ffffff;
+  }
+  &.#{$selfType}--link {
+    color: mat-color(mat-palette($mat-indigo, 500));
+  }
+}
