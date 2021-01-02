@@ -279,10 +279,6 @@
                         "content": "类继承,用于继承上一个类的数据来源"
                     },
                     {
-                        "selector": "property-table",
-                        "property": []
-                    },
-                    {
                         "selector": "doc-anchor",
                         "property": {
                             "tag": "h3",
@@ -292,10 +288,6 @@
                     {
                         "selector": "p",
                         "content": "属性继承,如果使用,需要设置在里属性最近的位置,使用后数据来源会从继承中获得,"
-                    },
-                    {
-                        "selector": "property-table",
-                        "property": []
                     },
                     {
                         "selector": "doc-anchor",
