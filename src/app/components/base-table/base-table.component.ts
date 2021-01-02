@@ -27,26 +27,22 @@ export class BaseTableComponent implements OnInit, OnChanges {
         .select(ElementInputPropertyStore)
         .pipe(elementInputPropertySelector(this.index))
         .subscribe((property) => {
-          for (const key in property) {
-            if (Object.prototype.hasOwnProperty.call(property, key)) {
-              const element = property[key];
-              this.elementRef.nativeElement[key] = element;
-            }
+          this.headers = property.headers;
+          this.data = property.data;
+          this.aligns = property.aligns;
+          if (this.headers) {
+            this._headers = JSON.parse(this.headers);
+            this._headers.forEach((a, i) => {
+              this.fileds.push(`field${i}`);
+            });
+          }
+          if (this.aligns) {
+            this._aligns = JSON.parse(this.aligns);
+          }
+          if (this.data) {
+            this._data = JSON.parse(this.data);
           }
         });
     }
-    if (this.headers && changes.headers) {
-      this._headers = JSON.parse(this.headers);
-      this._headers.forEach((a, i) => {
-        this.fileds.push(`field${i}`);
-      });
-    }
-    if (this.aligns && changes.aligns) {
-      this._aligns = JSON.parse(this.aligns);
-    }
-    if (this.data && changes.data) {
-      this._data = JSON.parse(this.data);
-    }
-    console.log(this._data, this._aligns, this._headers, this.fileds);
   }
 }

@@ -4,8 +4,8 @@ export const TEMPLATE_PATH = path.resolve(__dirname, '../../template');
 /** 默认导入依赖包名 */
 export const IMPORT_PATH = 'cyia-ngx-common';
 /** 项目路径 */
-export const PROJECT_PATH = path.resolve(__dirname, '../../../../../cyia-ngx-common');
-/**library路径 */
+export const PROJECT_PATH = path.resolve(process.cwd(), '../cyia-ngx-common');
+/**library路径,tsconfig使用 */
 export const LIB_PATH = path.resolve(PROJECT_PATH, './lib');
 /**源码路径 */
 export const SOURCECODE_PATH = path.resolve(LIB_PATH, './src');

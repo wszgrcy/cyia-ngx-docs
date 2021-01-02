@@ -19,8 +19,10 @@
   <ng-container matColumnDef="docParameters">
     <th mat-header-cell *matHeaderCellDef> 传入参数 </th>
     <td mat-cell *matCellDef="let element">
-      <div *ngFor="let item of element.docParameters">
-        {{item.name}}{{item.isOptional?'?':''}}:{{item.type}}
+      <div *ngFor="let item of element.docParameters" class="method-parameter">
+        <docs-chip [radius]="'round'" [type]="'parameter'">
+          {{item.name}}{{item.isOptional?'?':''}}:{{item.type}}
+        </docs-chip>
       </div>
       <!-- {{element.docParameters|json}} -->
     </td>
@@ -29,7 +31,11 @@
   <!-- Symbol Column -->
   <ng-container matColumnDef="returnType">
     <th mat-header-cell *matHeaderCellDef> 返回值 </th>
-    <td mat-cell *matCellDef="let element"> {{element.returnType}} </td>
+    <td mat-cell *matCellDef="let element">
+      <docs-chip [radius]="'round'" [type]="'return-type'">
+        {{element.returnType}} 
+      </docs-chip>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="rowList"></tr>
