@@ -27,9 +27,8 @@ export class MergeApiDocsProcess implements Processor {
           },
         },
         { selector: 'p', content: item.description },
-
-        { selector: 'method-table', property: item.methodList },
-      ];
+        item.methodList.length ? { selector: 'method-table', property: item.methodList } : undefined,
+      ].filter(Boolean);
       return item;
     });
     const decorators: DocDecorator[] = this.docsDataService.getDocDecorators().map((item) => {
@@ -43,8 +42,8 @@ export class MergeApiDocsProcess implements Processor {
           },
         },
         { selector: 'p', content: item.description },
-        { selector: 'property-table', property: item.docParameters },
-      ];
+        item.docParameters.length ? { selector: 'property-table', property: item.docParameters } : undefined,
+      ].filter(Boolean);
       return item;
     });
     const modules: DocModule[] = this.docsDataService.getDocModules();
