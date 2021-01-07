@@ -41,10 +41,12 @@ export class DynamicLoadingElementsService {
     return factory;
   }
   private createElementFactory(injector: Injector, componentFactory: ComponentFactory<any>) {
-    return (content: string, parameters: { [name: string]: any }) => {
+    return (content: string | HTMLElement[], parameters: { [name: string]: any }) => {
       let nodes: any[][];
       if (typeof content === 'string') {
         nodes = [[document.createTextNode(content)]];
+      } else {
+        nodes = [content];
       }
       const componentRef: ComponentRef<DynamicLoadingComponent> = componentFactory.create(injector, nodes);
       for (const key in parameters) {

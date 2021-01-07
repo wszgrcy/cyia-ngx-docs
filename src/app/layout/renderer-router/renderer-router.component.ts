@@ -101,11 +101,15 @@ export class RendererRouterComponent implements OnInit {
       const element = list[i];
       const factory = (await this.dynamicLoadingElementsService.generateElement([element]))[0];
       let el: HTMLElement;
+      let childElementList: HTMLElement[] = [];
+      if (element.children && element.children.length) {
+        childElementList = await this.registerElement(element.children);
+      }
       if (factory) {
         this.storeService
           .getStore(ElementInputPropertyStore)
           .ADD({ index: this.dynamicLoadingElementsService.elementIndex, property: element.property });
-        const ref = factory(element.content, { index: this.dynamicLoadingElementsService.elementIndex++ });
+        const ref = factory(element.content || childElementList, { index: this.dynamicLoadingElementsService.elementIndex++ });
         el = ref.location.nativeElement;
         // todo 这里需要用父级
         this.componentRefList.push(ref);
@@ -117,13 +121,11 @@ export class RendererRouterComponent implements OnInit {
         if (element.content) {
           el.innerText = element.content;
         }
-      }
-      if (element.children && element.children.length) {
-        const childElementList = await this.registerElement(element.children);
         childElementList.forEach((childEl) => {
           this.renderer.appendChild(el, childEl);
         });
       }
+
       elList.push(el);
     }
     return elList;
