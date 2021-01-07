@@ -1,6 +1,6 @@
 <mat-card class="example-card">
   <mat-card-header>
-    <mat-card-title> {{exampleTitle}} </mat-card-title>
+    <mat-card-title> {{ exampleTitle }} </mat-card-title>
     <button mat-icon-button (click)="openCode($event)">
       <mat-icon>{{ !flag.codeOpen ? 'code' : 'code_off' }}</mat-icon>
     </button>
@@ -10,11 +10,11 @@
   </mat-card-header>
 
   <mat-card-content>
-    <div #exampleComponentAnchor [style.display]="flag.codeOpen?'block':'none'"></div>
+    <div #exampleComponentAnchor [style.display]="flag.codeOpen ? 'block' : 'none'"></div>
 
     <div>
       <mat-tab-group>
-        <mat-tab label="{{ item.key }}" *ngFor="let item of exampleCodeGroup | keyvalue">
+        <mat-tab label="{{ item.key }}" *ngFor="let item of exampleCodeGroupPromise | async | keyvalue">
           <ng-template matTabContent>
             <code-highlight [languageId]="extGroup[item.key]" [content]="item.value"></code-highlight>
           </ng-template>
