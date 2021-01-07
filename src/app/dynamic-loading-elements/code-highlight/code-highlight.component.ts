@@ -12,11 +12,13 @@ import { elementInputPropertySelector } from '../../store/selector/element-input
 })
 export class CodeHighlightComponent implements OnInit {
   @Input() index;
+  @Input() languageId: string;
+  @Input() content: string;
   @ViewChild('container', { static: true }) containerElementRef: ElementRef<HTMLDivElement>;
   constructor(private monacoService: MonacoService, private renderer: Renderer2, private storeService: StoreService) {}
 
   ngOnInit() {}
-  ngOnChanges(changes: SimpleChanges): void {
+  async ngOnChanges(changes: SimpleChanges) {
     if (inputPropertyChange(changes.index, this.index)) {
       this.storeService
         .select(ElementInputPropertyStore)
@@ -29,6 +31,14 @@ export class CodeHighlightComponent implements OnInit {
           const render = await monaco.editor.colorize(result.content, languageId, {});
           this.renderer.setProperty(this.containerElementRef.nativeElement, 'innerHTML', render);
         });
+    }
+    if (this.content && this.languageId) {
+      const monaco = await this.monacoService.monacoPromise;
+      await this.monacoService.waitInit;
+      await this.monacoService.registerLanguage(this.languageId);
+      const languageId = await this.monacoService.getLanguageId(this.languageId);
+      const render = await monaco.editor.colorize(this.content, languageId, {});
+      this.renderer.setProperty(this.containerElementRef.nativeElement, 'innerHTML', render);
     }
   }
 }

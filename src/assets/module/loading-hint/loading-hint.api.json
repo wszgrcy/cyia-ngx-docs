@@ -23,6 +23,11 @@
                                 "title": "接口",
                                 "url": "module/loading-hint/api",
                                 "selected": true
+                            },
+                            {
+                                "title": "实例",
+                                "url": "module/loading-hint/example",
+                                "selected": false
                             }
                         ]
                     },

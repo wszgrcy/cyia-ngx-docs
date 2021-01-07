@@ -58,4 +58,9 @@ export const LAZY_ROUTES: SelectorRoute[] = [
     selector: 'code-highlight',
     loadChildren: () => import('@dynamic-loading-elements/code-highlight/code-highlight.module').then((e) => e.CodeHighlightModule),
   },
+  {
+    path: 'lazyLoader/doc-code-example',
+    selector: 'doc-code-example',
+    loadChildren: () => import('@dynamic-loading-elements/doc-code-example/doc-code-example.module').then((e) => e.DocCodeExampleModule),
+  },
 ];

@@ -12,6 +12,8 @@ export class DocModule extends DocBase {
   templatename: string;
   /**使用markdown来描述 */
   markdownPath: string;
+  /**example文件路径*/
+  examplePath: string;
   readonly docType: string = MODULE_DOC_TYPE;
   /**所在文件夹,用于输出分类 */
   folder: string;

@@ -12,8 +12,8 @@ import {
 } from '../const/doc-type';
 import { exportSpecifiedDocsProcessor } from './export-specified-docs.processor';
 import { DocModule } from '../define/doc-module';
-import { MarkdownNunjucksExtension } from './markdown.nunjucks.extension';
 import { mergeApiDocsProcess } from './merge-api-docs.processor';
+import { EXAMPLE_DOC_TYPE } from '../const/doc-type';
 /**输出文件 */
 export const BUILD_PACKAGE = new Package('build-package', [DOCS_DATA_PACKAGE])
   // .processor(exportSpecifiedDocsProcessor)
@@ -34,6 +34,13 @@ export const BUILD_PACKAGE = new Package('build-package', [DOCS_DATA_PACKAGE])
   .config(function (computePathsProcessor) {
     // doc 输出路径计算
     computePathsProcessor.pathTemplates = [
+      {
+        docTypes: [EXAMPLE_DOC_TYPE],
+        pathTemplate: '${name}',
+        getOutputPath: (doc: DocModule) => {
+          return `module/${doc.folder}/${doc.folder}.example.json`;
+        },
+      },
       {
         docTypes: [MODULE_DOC_TYPE],
         pathTemplate: '${name}',

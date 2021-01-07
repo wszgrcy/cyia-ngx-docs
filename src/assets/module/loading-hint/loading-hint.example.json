@@ -30,18 +30,8 @@
                                 "selected": false
                             }
                         ]
-                    },
-                    {
-                        "selector": "overview-markdown",
-                        "property": "# 载入提示组件\r\n## 简介\r\n- 通过装饰器,装饰相关方法,在执行该方法时,出现载入组件,直至改方法返回(同步,promise,rxjs)\r\n"
                     }
                 ]
-            },
-            {
-                "selector": "doc-catalog",
-                "property": {
-                    "selector": "doc-content"
-                }
             }
         ]
     }
