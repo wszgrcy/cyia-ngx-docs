@@ -33,7 +33,6 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
   @Input() content: string;
   rendererValue: SafeHtml;
   @Input() @Output() renderFinish = new EventEmitter();
-  dynamicLoadingElementMap = new Map<number, string>();
   componentRefList: ComponentRef<any>[] = [];
   @ViewChild('container', { static: true }) containerElementRef: ElementRef<HTMLElement>;
   constructor(
@@ -73,7 +72,6 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
               languageId: lang,
             },
           });
-          this.dynamicLoadingElementMap.set(this.dynamicLoadingElementsService.elementIndex, selector);
           return `<${selector} index="${this.dynamicLoadingElementsService.elementIndex++}"></${selector}>`;
         } catch (__) {}
 
@@ -91,7 +89,6 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
           return pre;
         }, {}),
       });
-      this.dynamicLoadingElementMap.set(this.dynamicLoadingElementsService.elementIndex, token.tag);
       return `<${token.tag} index="${this.dynamicLoadingElementsService.elementIndex++}">`;
     };
     // todo 可能需要改成index那种用第三方进行赋值
@@ -104,33 +101,34 @@ export class OverviewMarkdownComponent implements OnInit, OnChanges {
           return pre;
         }, {}),
       });
-      this.dynamicLoadingElementMap.set(this.dynamicLoadingElementsService.elementIndex, token.tag);
 
       return `<${token.tag} index="${this.dynamicLoadingElementsService.elementIndex++}">`;
     };
     const content = mdres.render(this.content);
     const templateElement: HTMLTemplateElement = this.renderer2.createElement('template');
     templateElement.innerHTML = content;
-    const replaceNodePromiseList = [];
-    this.dynamicLoadingElementMap.forEach((value, key) => {
-      const node = templateElement.content.querySelector(`[index="${key}"]`);
-      replaceNodePromiseList.push(
-        this.dynamicLoadingElementsService
-          .generateElement([{ selector: value }])
-          .then(([factory]) => {
-            return factory(undefined, { index: key });
-          })
-          .then((ref) => {
-            this.componentRefList.push(ref);
-            this.applicationRef.attachView(ref.hostView);
-            return ref.location.nativeElement as HTMLElement;
-          })
-          .then((element) => {
-            return node.parentNode.replaceChild(element, node);
-          })
-      );
-    });
-    await Promise.all(replaceNodePromiseList);
+    const list = await Promise.all(
+      Array.from(templateElement.content.querySelectorAll('*')).map((element: HTMLElement) => {
+        // doc 这里规定必须是小写标签
+        return this.dynamicLoadingElementsService.generateElement([{ selector: element.nodeName.toLocaleLowerCase() }]).then((result) => ({
+          factory: result[0],
+          element,
+        }));
+      })
+    );
+    list
+      .filter((item) => item.factory)
+      .forEach((item) => {
+        const parameters = item.element.getAttributeNames().reduce((pre, cur) => {
+          pre[cur] = item.element.getAttribute(cur);
+          return pre;
+        }, {...item.element.dataset});
+        const ref = item.factory(undefined, parameters);
+        this.componentRefList.push(ref);
+        this.applicationRef.attachView(ref.hostView);
+        item.element.parentNode.replaceChild(ref.location.nativeElement, item.element);
+      });
+
     this.containerElementRef.nativeElement.appendChild(templateElement.content);
     await Promise.all(this.waitingLoadElement);
     this.cd.detectChanges();

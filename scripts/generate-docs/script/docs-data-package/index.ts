@@ -1,7 +1,7 @@
 import { Package } from 'dgeni';
 import { BasePackage } from '../base-package';
 import { docsDataProcessor } from './docs-data.processor';
-import { MODULE_TAG, SERVICE_TAG, DECORATOR_TAG, OVERVIEW_TAG } from '../const/comment-tag';
+import { MODULE_TAG, SERVICE_TAG, DECORATOR_TAG, OVERVIEW_TAG, EXAMPLE_TAG } from '../const/comment-tag';
 import { docsDataService } from './docs-data.service';
 import { tsconfigService } from './tsconfig.service';
 import { Host } from 'dgeni-packages/typescript/services/ts-host/host';
@@ -21,5 +21,6 @@ export const DOCS_DATA_PACKAGE = new Package('docs-data-package', [BasePackage])
       { name: SERVICE_TAG },
       { name: DECORATOR_TAG },
       { name: OVERVIEW_TAG },
+      { name: EXAMPLE_TAG },
     ]);
   });

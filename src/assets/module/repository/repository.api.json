@@ -23,6 +23,11 @@
                                 "title": "接口",
                                 "url": "module/repository/api",
                                 "selected": true
+                            },
+                            {
+                                "title": "实例",
+                                "url": "module/repository/example",
+                                "selected": false
                             }
                         ]
                     },

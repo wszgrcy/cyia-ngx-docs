@@ -1,6 +1,6 @@
 import { DocsDataService } from '../docs-data-package/docs-data.service';
 import { Processor } from 'dgeni';
-import { MODULE_DOC_TYPE, API_DOC_TYPE, NAVIGATION_DOC_TYPE, JSON_TYPE } from '../const/doc-type';
+import { MODULE_DOC_TYPE, API_DOC_TYPE, NAVIGATION_DOC_TYPE, JSON_TYPE, EXAMPLE_DOC_TYPE } from '../const/doc-type';
 import { DocBase, ElementItem } from '../define/base';
 import * as fs from 'fs';
 import { DocService } from '../define/doc-service';
@@ -49,6 +49,32 @@ export class MergeApiDocsProcess implements Processor {
     const modules: DocModule[] = this.docsDataService.getDocModules();
     const navigation = this.getNavigation(modules);
     return [
+      ...modules.map((module) => {
+        return {
+          ...module,
+          docType: EXAMPLE_DOC_TYPE,
+          toJson: [
+            {
+              selector: 'flex-layout',
+              property: { flexList: ['1 1 0', '0 0 130px'] },
+              children: [
+                {
+                  selector: 'doc-content',
+                  children: [
+                    this.getTabsElement(module.folder, 'overview'),
+                    module.examplePath
+                      ? {
+                          selector: 'overview-markdown',
+                          property: fs.readFileSync(module.examplePath).toString(),
+                        }
+                      : undefined,
+                  ].filter(Boolean),
+                },
+              ],
+            },
+          ],
+        };
+      }),
       ...modules.map((module) => {
         return {
           ...module,
@@ -148,13 +174,14 @@ export class MergeApiDocsProcess implements Processor {
         tabs: [
           { title: '简介', url: `module/${module.folder}/overview`, contentCatalog: true },
           { title: '接口', url: `module/${module.folder}/api`, contentCatalog: true },
+          { title: '实例', url: `module/${module.folder}/example`, contentCatalog: false },
         ],
       };
     });
     docNavigation.footerToJson = this.getFooter();
     return docNavigation;
   }
-  getTabsElement(name: string, prefix: 'overview' | 'api'): ElementItem {
+  getTabsElement(name: string, prefix: 'overview' | 'api' | 'example'): ElementItem {
     return {
       selector: 'doc-tabs',
       property: [
@@ -167,6 +194,11 @@ export class MergeApiDocsProcess implements Processor {
           title: '接口',
           url: `module/${name}/api`,
           selected: prefix === 'api' ? true : false,
+        },
+        {
+          title: '实例',
+          url: `module/${name}/example`,
+          selected: prefix === 'example' ? true : false,
         },
       ],
     };

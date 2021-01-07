@@ -9,7 +9,7 @@ import { PropertyMemberDoc } from 'dgeni-packages/typescript/api-doc-types/Prope
 import { DocDecorator } from '../define/function';
 import { DocModule } from '../define/doc-module';
 import { TSconfigService } from './tsconfig.service';
-import { OVERVIEW_TAG } from '../const/comment-tag';
+import { OVERVIEW_TAG, EXAMPLE_TAG } from '../const/comment-tag';
 import * as path from 'path';
 import * as ts from 'typescript';
 export function docsDataService(tsconfigService) {
@@ -170,6 +170,10 @@ export class DocsDataService {
     const tag = item.tags.tags.find((item) => item.tagName === OVERVIEW_TAG);
     if (tag) {
       docModule.markdownPath = path.resolve(item.basePath, item.originalModule, '../', tag.description);
+    }
+    const exampleTag = item.tags.tags.find((item) => item.tagName === EXAMPLE_TAG);
+    if (exampleTag) {
+      docModule.examplePath = path.resolve(item.basePath, item.originalModule, '../', exampleTag.description);
     }
     docModule.decoratorParameters = item.decorators.find((item) => item.name === 'NgModule').argumentInfo;
     docModule.NgModule = docModule.decoratorParameters[0];

@@ -13,6 +13,11 @@
                 "title": "接口",
                 "url": "module/repository/api",
                 "contentCatalog": true
+            },
+            {
+                "title": "实例",
+                "url": "module/repository/example",
+                "contentCatalog": false
             }
         ]
     },
@@ -29,6 +34,11 @@
                 "title": "接口",
                 "url": "module/loading-hint/api",
                 "contentCatalog": true
+            },
+            {
+                "title": "实例",
+                "url": "module/loading-hint/example",
+                "contentCatalog": false
             }
         ]
     }

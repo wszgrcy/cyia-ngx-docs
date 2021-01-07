@@ -5,6 +5,7 @@ import { CodeHighlightComponent } from './code-highlight.component';
 @NgModule({
   imports: [CommonModule],
   declarations: [CodeHighlightComponent],
+  exports: [CodeHighlightComponent],
 })
 export class CodeHighlightModule {
   entry = CodeHighlightComponent;
