@@ -1,3 +1,8 @@
-:host{
-    
+:host {
+  .content-wrapper {
+      width: 100%;
+    & ::ng-deep > * {
+      margin-bottom: 8px;
+    }
+  }
 }
