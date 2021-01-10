@@ -140,10 +140,7 @@ export class ExampleCodeHandle {
       fs.writeFileSync(
         path.join(EXAMPLE_CODE_PATH_OUTPUT, key + '.json'),
         JSON.stringify({
-          file: Object.keys(value).reduce((pre, fileKey) => {
-            pre[path.posix.join(key, fileKey)] = value[fileKey];
-            return pre;
-          }, {}),
+          file: value,
           action: incrementAction,
         })
       );

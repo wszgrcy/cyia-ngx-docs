@@ -88,7 +88,7 @@ export class DocCodeExampleComponent implements OnInit {
     for (const key in exampleCodeGroup) {
       if (Object.prototype.hasOwnProperty.call(exampleCodeGroup, key)) {
         const value = exampleCodeGroup[key];
-        form.appendChild(this.createFormInput(`files[src/app/${key}]`, value));
+        form.appendChild(this.createFormInput(`files[src/app/${this.exampleName}/${key}]`, value));
       }
     }
     const packageJson = JSON.parse(exampleShareCodeGroup['package.json']);
