@@ -72,15 +72,12 @@ export class DocCodeExampleComponent implements OnInit {
   async openEditor(e) {
     const exampleCodeGroup = await this.exampleCodeGroupPromise;
     const exampleShareCodeGroup = await this.exampleShareCodeGroupPromise;
-    console.log(exampleCodeGroup, exampleShareCodeGroup);
     (this.exampleCodeActionGroup.insert || []).forEach((item) => {
-      console.log(item.filePath, exampleShareCodeGroup[item.filePath]);
       exampleShareCodeGroup[item.filePath] =
         exampleShareCodeGroup[item.filePath].slice(0, item.position) +
         item.content +
         exampleShareCodeGroup[item.filePath].slice(item.position);
     });
-    console.log(exampleShareCodeGroup);
     const form = document.createElement('form');
     for (const key in exampleShareCodeGroup) {
       if (Object.prototype.hasOwnProperty.call(exampleShareCodeGroup, key)) {
