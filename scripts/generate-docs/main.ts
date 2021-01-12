@@ -24,7 +24,7 @@ export class Main {
     const dgeni = new Dgeni([mainPackageFactory(this.generateDocConfig)]);
 
     dgeni.generate().then(function (docs) {
-      console.log('文档生成完成', docs.length);
+      console.log('共生成', docs.length, '份文档');
     });
     toDisplay();
     new ExampleCodeHandle({ projectName: this.docConfig.exampleProjectName }).build();
@@ -64,7 +64,8 @@ export class Main {
       .getTsConfig();
     this.generateDocConfig.libraryPath = angularJsonConfig.getRoot();
     this.generateDocConfig.sourcePath = angularJsonConfig.getSourceRoot();
-    this.generateDocConfig.projectName = this.docConfig.projectName;
+    let packageJson = JSON.parse(fs.readFileSync(path.resolve(path.dirname(this.configPath), this.docConfig.packageJson)).toString());
+    this.generateDocConfig.projectName = packageJson.name;
     this.generateDocConfig.generateDocFileList = this.docConfig.generateDocFileList;
   }
 }

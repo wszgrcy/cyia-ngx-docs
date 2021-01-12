@@ -57,7 +57,6 @@ export function buildPackageFactory(config: GenerateDocConfig) {
 
             // outputPathTemplate: '${name}.decorator.html',
             getOutputPath: (doc: DocModule) => {
-              console.log('文档', doc);
               return `${doc.name}.json`;
             },
           },
