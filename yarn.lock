@@ -3246,10 +3246,10 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
-cyia-code-util@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/cyia-code-util/-/cyia-code-util-1.0.2.tgz#976c99147ebba393cdd2e1665150c5555b5d2026"
-  integrity sha512-yMFW4INgoWJZD8quNLlHSM3/P/hr82jEOo7pxfqKP8xGmVPxmbUWjWPBhAVDs+f7kBtZA+4CojmH4waUE0NYPg==
+cyia-code-util@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/cyia-code-util/-/cyia-code-util-1.0.4.tgz#235724c03f24e050b8ad3b7c8a5a6489369e7e99"
+  integrity sha512-aju/mWwLzRORxfKrjHmeqAT6o5/6IJCWCmXt59DKpwhhfmpVavU5JrrxAIl4prOypsFWVtWEIycocuiYh0hElg==
   dependencies:
     "@angular/compiler" "^11.0.7"
     css-what "^4.0.0"
