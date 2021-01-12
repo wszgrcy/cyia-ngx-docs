@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { EXAMPLE_CODE_PATH_INPUT, EXAMPLE_CODE_PATH_OUTPUT } from '../config/path.config';
+import { EXAMPLE_CODE_PATH_OUTPUT } from '../config/path.config';
 import * as fs from 'fs-extra';
 import { createCssSelectorForHtml, createCssSelectorForTs } from 'cyia-code-util';
 import ts from 'typescript';
@@ -36,7 +36,7 @@ function getDirContent(prefix: string) {
  * 我期望的其实是是 低耦合,尽量不将两部分代码合并起来
  */
 export class ExampleCodeHandle {
-  constructor(private options?: { projectName: string }) {}
+  constructor(private options?: { projectName: string; exampleCodePath: string }) {}
   codeGroupMap = new Map<string, any>();
   shareCodeGroup = {};
   build() {
@@ -46,11 +46,11 @@ export class ExampleCodeHandle {
   }
   /** 实例代码 */
   private toGetExampleCodes() {
-    const list = fs.readdirSync(EXAMPLE_CODE_PATH_INPUT, { withFileTypes: true });
+    const list = fs.readdirSync(this.options.exampleCodePath, { withFileTypes: true });
     list
       .filter((item) => item.isDirectory())
       .forEach((dirent) => {
-        const dirPath = path.join(EXAMPLE_CODE_PATH_INPUT, dirent.name);
+        const dirPath = path.join(this.options.exampleCodePath, dirent.name);
         const obj = getDirContent(dirPath);
         this.codeGroupMap.set(dirent.name, obj);
       });
@@ -58,7 +58,7 @@ export class ExampleCodeHandle {
   }
   /** 共享代码 */
   private toGetShareCode() {
-    const dirPath = path.resolve(EXAMPLE_CODE_PATH_INPUT, '../../share-file');
+    const dirPath = path.resolve(this.options.exampleCodePath, '../../share-file');
     this.shareCodeGroup = getDirContent(dirPath);
 
     fs.ensureFileSync(path.join(EXAMPLE_CODE_PATH_OUTPUT, 'share-file.json'));

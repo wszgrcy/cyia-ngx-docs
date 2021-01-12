@@ -14,6 +14,8 @@ export class Main {
     generateDocFileList: string[];
     packageJson: string;
     angularJson: string;
+    exampleScript: string;
+    exampleCode: string;
   };
   generateDocConfig: GenerateDocConfig = {};
   configPath: string;
@@ -26,8 +28,11 @@ export class Main {
     dgeni.generate().then(function (docs) {
       console.log('共生成', docs.length, '份文档');
     });
-    toDisplay();
-    new ExampleCodeHandle({ projectName: this.docConfig.exampleProjectName }).build();
+    toDisplay(path.resolve(path.dirname(this.configPath), this.docConfig.exampleScript));
+    new ExampleCodeHandle({
+      projectName: this.docConfig.exampleProjectName,
+      exampleCodePath: path.resolve(path.dirname(this.configPath), this.docConfig.exampleCode),
+    }).build();
   }
 
   async getInitParameter() {
