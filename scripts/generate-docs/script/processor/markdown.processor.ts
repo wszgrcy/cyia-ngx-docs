@@ -1,3 +1,4 @@
+/** @deprecated */
 export function markdownProcessor() {}
 export class MarkdownProcessor {
   basePath: string;

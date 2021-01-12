@@ -37,9 +37,9 @@ function getDirContent(prefix: string) {
  */
 export class ExampleCodeHandle {
   constructor(private options?: { projectName: string; exampleCodePath: string }) {}
-  codeGroupMap = new Map<string, any>();
-  shareCodeGroup = {};
-  build() {
+  private codeGroupMap = new Map<string, any>();
+  private shareCodeGroup = {};
+  run() {
     this.toGetShareCode();
     this.toGetExampleCodes();
     this.toGetIncrementAction();
@@ -54,7 +54,6 @@ export class ExampleCodeHandle {
         const obj = getDirContent(dirPath);
         this.codeGroupMap.set(dirent.name, obj);
       });
-    console.log('实例代码转换完成');
   }
   /** 共享代码 */
   private toGetShareCode() {
@@ -63,14 +62,11 @@ export class ExampleCodeHandle {
 
     fs.ensureFileSync(path.join(EXAMPLE_CODE_PATH_OUTPUT, 'share-file.json'));
     fs.writeFileSync(path.join(EXAMPLE_CODE_PATH_OUTPUT, 'share-file.json'), JSON.stringify(this.shareCodeGroup));
-    console.log('分享代码转换完成');
   }
   /** 增量操作 */
   private toGetIncrementAction() {
-    // let obj={}
     const angularJson = JSON.parse(this.shareCodeGroup['angular.json']);
     const packages = angularJson['projects'];
-    // todo 需要可选
     const examplePackage = packages[this.options.projectName];
     const buildOptions = examplePackage['architect']['build']['options'];
     /**index.html */
