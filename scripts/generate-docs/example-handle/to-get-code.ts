@@ -77,7 +77,7 @@ export class ExampleCodeHandle {
     const indexPatch = buildOptions['index'];
     const htmlString = this.shareCodeGroup[indexPatch];
     const cssSelector = createCssSelectorForHtml(htmlString);
-    const result = cssSelector.query('body');
+    const result = cssSelector.queryAll('body');
     const labelInsertPos = result[0].startSourceSpan.end.offset;
     const mainPath = buildOptions['main'];
     const bootstrapModuleInfo = this.findBootstrapModule(mainPath);
@@ -91,13 +91,13 @@ export class ExampleCodeHandle {
       let bootstrapComponentName: string;
       let bootstrapComponentPath: string;
       let bootstrapComponentSelector: string;
-      selector.query('ExportDeclaration[exportClause][moduleSpecifier]').forEach((node: ts.ExportDeclaration) => {
-        const importModule: ts.ExportSpecifier = selector.query(node, `ExportSpecifier[name=ImportModule]`)[0] as any;
+      selector.queryAll('ExportDeclaration[exportClause][moduleSpecifier]').forEach((node: ts.ExportDeclaration) => {
+        const importModule: ts.ExportSpecifier = selector.queryAll(node, `ExportSpecifier[name=ImportModule]`)[0] as any;
         if (importModule) {
           importModuleName = importModule.propertyName.text;
           importModulePath = (node.moduleSpecifier as ts.StringLiteral).text;
         }
-        const bootstrapComponent: ts.ExportSpecifier = selector.query(node, `ExportSpecifier[name=BootstrapComponent]`)[0] as any;
+        const bootstrapComponent: ts.ExportSpecifier = selector.queryAll(node, `ExportSpecifier[name=BootstrapComponent]`)[0] as any;
         if (bootstrapComponent) {
           bootstrapComponentName = bootstrapComponent.propertyName.text;
           bootstrapComponentPath = (node.moduleSpecifier as ts.StringLiteral).text;
@@ -149,24 +149,24 @@ export class ExampleCodeHandle {
   /** 查询组件的 selector:'xxxx' */
   private findComponentSelector(componentName: string, content: string) {
     const selector = createCssSelectorForTs(ts.createSourceFile('', content, ts.ScriptTarget.Latest, true));
-    const classDeclaration: ts.ClassDeclaration = selector.query(`ClassDeclaration[name=${componentName}]`)[0] as any;
-    const propertyAssignment: ts.PropertyAssignment = selector.query(classDeclaration, 'PropertyAssignment[name=selector]')[0] as any;
+    const classDeclaration: ts.ClassDeclaration = selector.queryAll(`ClassDeclaration[name=${componentName}]`)[0] as any;
+    const propertyAssignment: ts.PropertyAssignment = selector.queryAll(classDeclaration, 'PropertyAssignment[name=selector]')[0] as any;
     const selectorName = (propertyAssignment.initializer as ts.StringLiteral).text;
     return selectorName;
   }
   private findExampleProjectInsertPosition({ filePath, moduleName }: { filePath: string; moduleName: string }) {
     const fileContent = this.shareCodeGroup[filePath + '.ts'];
     const selector = createCssSelectorForTs(ts.createSourceFile(filePath, fileContent, ts.ScriptTarget.Latest, true));
-    const result = selector.query(`ClassDeclaration[name=${moduleName}]`);
+    const result = selector.queryAll(`ClassDeclaration[name=${moduleName}]`);
     if (result.length !== 1) {
       throw new Error(`查询${moduleName}有误${result.length}`);
     }
-    const importPropertyAssignment: ts.ArrayLiteralExpression = selector.query(
+    const importPropertyAssignment: ts.ArrayLiteralExpression = selector.queryAll(
       result[0],
       'PropertyAssignment[name=imports] ArrayLiteralExpression'
     )[0] as any;
 
-    const bootstrapPropertyAssignment: ts.ArrayLiteralExpression = selector.query(
+    const bootstrapPropertyAssignment: ts.ArrayLiteralExpression = selector.queryAll(
       result[0],
       'PropertyAssignment[name=bootstrap] ArrayLiteralExpression'
     )[0] as any;
@@ -181,7 +181,7 @@ export class ExampleCodeHandle {
   private findBootstrapModule(mainPath: string) {
     const content = this.shareCodeGroup[mainPath];
     const selector = createCssSelectorForTs(ts.createSourceFile(mainPath, content, ts.ScriptTarget.Latest, true));
-    let result = selector.query(
+    let result = selector.queryAll(
       'PropertyAccessExpression[name=catch] CallExpression PropertyAccessExpression[name=bootstrapModule]~SyntaxList>Identifier'
     );
     if (result.length !== 1) {
@@ -190,8 +190,8 @@ export class ExampleCodeHandle {
     /** 启动模块名 */
     const moduleName = (result[0] as ts.Identifier).text;
     result = selector
-      .query('ImportDeclaration')
-      .filter((node) => selector.query(node, `ImportClause ImportSpecifier[name=${moduleName}]`).length);
+      .queryAll('ImportDeclaration')
+      .filter((node) => selector.queryAll(node, `ImportClause ImportSpecifier[name=${moduleName}]`).length);
     if (result.length !== 1) {
       throw new Error('查找引入有误' + result.length);
     }
