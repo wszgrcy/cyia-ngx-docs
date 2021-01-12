@@ -36,7 +36,7 @@ function getDirContent(prefix: string) {
  * 我期望的其实是是 低耦合,尽量不将两部分代码合并起来
  */
 export class ExampleCodeHandle {
-  constructor(options?) {}
+  constructor(private options?: { projectName: string }) {}
   codeGroupMap = new Map<string, any>();
   shareCodeGroup = {};
   build() {
@@ -45,7 +45,7 @@ export class ExampleCodeHandle {
     this.toGetIncrementAction();
   }
   /** 实例代码 */
-  toGetExampleCodes() {
+  private toGetExampleCodes() {
     const list = fs.readdirSync(EXAMPLE_CODE_PATH_INPUT, { withFileTypes: true });
     list
       .filter((item) => item.isDirectory())
@@ -57,7 +57,7 @@ export class ExampleCodeHandle {
     console.log('实例代码转换完成');
   }
   /** 共享代码 */
-  toGetShareCode() {
+  private toGetShareCode() {
     const dirPath = path.resolve(EXAMPLE_CODE_PATH_INPUT, '../../share-file');
     this.shareCodeGroup = getDirContent(dirPath);
 
@@ -66,12 +66,12 @@ export class ExampleCodeHandle {
     console.log('分享代码转换完成');
   }
   /** 增量操作 */
-  toGetIncrementAction() {
+  private toGetIncrementAction() {
     // let obj={}
     const angularJson = JSON.parse(this.shareCodeGroup['angular.json']);
     const packages = angularJson['projects'];
     // todo 需要可选
-    const examplePackage = packages['examples'];
+    const examplePackage = packages[this.options.projectName];
     const buildOptions = examplePackage['architect']['build']['options'];
     /**index.html */
     const indexPatch = buildOptions['index'];
@@ -147,14 +147,14 @@ export class ExampleCodeHandle {
     });
   }
   /** 查询组件的 selector:'xxxx' */
-  findComponentSelector(componentName: string, content: string) {
+  private findComponentSelector(componentName: string, content: string) {
     const selector = createCssSelectorForTs(ts.createSourceFile('', content, ts.ScriptTarget.Latest, true));
     const classDeclaration: ts.ClassDeclaration = selector.query(`ClassDeclaration[name=${componentName}]`)[0] as any;
     const propertyAssignment: ts.PropertyAssignment = selector.query(classDeclaration, 'PropertyAssignment[name=selector]')[0] as any;
     const selectorName = (propertyAssignment.initializer as ts.StringLiteral).text;
     return selectorName;
   }
-  findExampleProjectInsertPosition({ filePath, moduleName }: { filePath: string; moduleName: string }) {
+  private findExampleProjectInsertPosition({ filePath, moduleName }: { filePath: string; moduleName: string }) {
     const fileContent = this.shareCodeGroup[filePath + '.ts'];
     const selector = createCssSelectorForTs(ts.createSourceFile(filePath, fileContent, ts.ScriptTarget.Latest, true));
     const result = selector.query(`ClassDeclaration[name=${moduleName}]`);
@@ -178,7 +178,7 @@ export class ExampleCodeHandle {
     };
   }
   /** 查找启动模块(AppModule)的路径及名字 */
-  findBootstrapModule(mainPath: string) {
+  private findBootstrapModule(mainPath: string) {
     const content = this.shareCodeGroup[mainPath];
     const selector = createCssSelectorForTs(ts.createSourceFile(mainPath, content, ts.ScriptTarget.Latest, true));
     let result = selector.query(
