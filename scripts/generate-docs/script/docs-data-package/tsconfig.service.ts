@@ -50,7 +50,7 @@ export class TSconfigService {
     }
     if (patternPath) {
       return this.pathMap.get(patternPath);
-    }
+    } 
     return this.configService.config.projectName;
   }
 }
