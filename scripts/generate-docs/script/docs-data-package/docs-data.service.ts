@@ -92,7 +92,6 @@ export class DocsDataService {
     docService.name = item.name;
     docService.description = item.description;
     docService.importLib = this.tsconfigService.getDocPackage(item);
-    docService.templatename = 'service';
     docService.methodList = item.members
       .filter((member) => member instanceof MethodMemberDoc)
       .map((member) => {

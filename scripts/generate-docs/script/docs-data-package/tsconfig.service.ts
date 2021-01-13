@@ -39,6 +39,7 @@ export class TSconfigService {
       }
     }
   }
+  /** 获得包的名字 */
   getDocPackage(doc: { fileInfo: FileInfo }) {
     const realFilePath = doc.fileInfo.realFilePath;
     let patternPath: string;
@@ -50,7 +51,7 @@ export class TSconfigService {
     }
     if (patternPath) {
       return this.pathMap.get(patternPath);
-    } 
+    }
     return this.configService.config.projectName;
   }
 }
