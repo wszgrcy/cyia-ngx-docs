@@ -41,7 +41,7 @@ export class TSconfigService {
   }
   getDocPackage(doc: { fileInfo: FileInfo }) {
     const realFilePath = doc.fileInfo.realFilePath;
-    let patternPath;
+    let patternPath: string;
     for (const path of this.pathMap.keys()) {
       if (realFilePath.includes(path)) {
         patternPath = path;
