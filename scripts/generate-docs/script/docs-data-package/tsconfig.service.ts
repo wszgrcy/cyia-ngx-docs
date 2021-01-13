@@ -15,8 +15,8 @@ export class TSconfigService {
   private pathMap = new Map<string, string>();
   constructor(private configService: ConfigService) {}
   /**读库的配置文件 */
-  async read(tsconfigpath: string = 'tsconfig.lib.json') {
-    const res = ts.readConfigFile(path.resolve(this.configService.config.libraryPath, tsconfigpath), (str) => {
+  async read() {
+    const res = ts.readConfigFile(this.configService.config.tsConfigPath, (str) => {
       return fs.readFileSync(str).toString();
     });
     const config = ts.parseJsonConfigFileContent(res.config, ts.sys, this.configService.config.libraryPath);
