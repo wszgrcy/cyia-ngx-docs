@@ -1,14 +1,14 @@
 [
-    {
-        "name": "ngx-tethys",
-        "author": "atinc"
-    },
-    {
-        "name": "cyia-ngx-common",
-        "author": "wszgrcy"
-    },
-    {
-        "name": "angular",
-        "author": "angular"
-    }
+  {
+    "name": "ngx-tethys",
+    "author": "atinc"
+  },
+  {
+    "name": "cyia-ngx-common",
+    "author": "wszgrcy"
+  },
+  {
+    "name": "angular",
+    "author": "angular"
+  }
 ]
