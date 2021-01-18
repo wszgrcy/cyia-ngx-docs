@@ -33,7 +33,7 @@
                     },
                     {
                         "selector": "overview-markdown",
-                        "property": "## 简介\n\n- 通过使用特定装饰器装饰过的类进行获得强类型化数据返回的一个模块\n- 数据来源可以是`HttpClient`并且不仅仅为请求\n- 可以直接设置类数据源,也可以在类数据源的基础上设置属性数据源,单独获得某一属性\n- 支持属性多装饰器处理,当使用多装饰器时,只有第一个装饰器生效,其余装饰器使用`itemSelect`对该属性操作\n- 可以设置类继承,和属性继承,设置继承之后,数据默认从父级装饰器中的数据源方法中获得\n\n## 使用\n\n```ts\n@ClassDataSource({\n  source: () => of([{ name: 'hello' }]),\n})\nclass Test {\n  name: string;\n}\n\nrepository.findMany(Test).subscribe((res) => {\n  //doc 返回Test类实例数组 [{ name: 'hello' }]\n});\n```\n\n"
+                        "property": "## 简介\r\n\r\n- 通过使用特定装饰器装饰过的类进行获得强类型化数据返回的一个模块\r\n- 数据来源可以是`HttpClient`并且不仅仅为请求\r\n- 可以直接设置类数据源,也可以在类数据源的基础上设置属性数据源,单独获得某一属性\r\n- 支持属性多装饰器处理,当使用多装饰器时,只有第一个装饰器生效,其余装饰器使用`itemSelect`对该属性操作\r\n- 可以设置类继承,和属性继承,设置继承之后,数据默认从父级装饰器中的数据源方法中获得\r\n\r\n## 使用\r\n\r\n```ts\r\n@ClassDataSource({\r\n  source: () => of([{ name: 'hello' }]),\r\n})\r\nclass Test {\r\n  name: string;\r\n}\r\n\r\nrepository.findMany(Test).subscribe((res) => {\r\n  //doc 返回Test类实例数组 [{ name: 'hello' }]\r\n});\r\n```\r\n\r\n"
                     }
                 ]
             },

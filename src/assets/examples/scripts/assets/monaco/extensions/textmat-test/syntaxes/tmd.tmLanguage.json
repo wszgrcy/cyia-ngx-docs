@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "tmd",
+  "patterns": [
+    {
+      "include": "#shebang"
+    }
+  ],
+  "repository": {
+    "shebang": {
+      "name": "comment.line.shebang.ts",
+      "match": "chenyang"
+    }
+  },
+  "injectionSelector": "L:source.ts",
+  "scopeName": "source.tmd"
+}

@@ -1,0 +1,149 @@
+[
+    {
+        "selector": "flex-layout",
+        "property": {
+            "flexList": [
+                "1 1 0",
+                "0 0 130px"
+            ]
+        },
+        "children": [
+            {
+                "selector": "doc-content",
+                "children": [
+                    {
+                        "selector": "doc-tabs",
+                        "property": [
+                            {
+                                "title": "简介",
+                                "url": "module/monaco-textmate/overview",
+                                "selected": false
+                            },
+                            {
+                                "title": "接口",
+                                "url": "module/monaco-textmate/api",
+                                "selected": true
+                            },
+                            {
+                                "title": "实例",
+                                "url": "module/monaco-textmate/example",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    {
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h2",
+                            "content": "服务"
+                        }
+                    },
+                    {
+                        "selector": "doc-anchor",
+                        "property": {
+                            "tag": "h3",
+                            "content": "CyiaMonacoTextmateService"
+                        }
+                    },
+                    {
+                        "selector": "p",
+                        "content": "monaco-editor使用textmate方式解析代码的服务"
+                    },
+                    {
+                        "selector": "method-table",
+                        "property": [
+                            {
+                                "name": "init",
+                                "description": "2.初始化相关逻辑,需要在初始化后,才能执行monaco的一些操作",
+                                "docParameters": [
+                                    {
+                                        "name": "autoRegistry",
+                                        "isOptional": false,
+                                        "defaultValue": "true",
+                                        "type": "boolean",
+                                        "isRestParam": false,
+                                        "description": "",
+                                        "parameter": "boolean"
+                                    }
+                                ],
+                                "returnType": "Promise<void>"
+                            },
+                            {
+                                "name": "setMonaco",
+                                "description": "1.传入`monaco`模块",
+                                "docParameters": [
+                                    {
+                                        "name": "monaco",
+                                        "isOptional": false,
+                                        "type": "any",
+                                        "isRestParam": false,
+                                        "description": "",
+                                        "parameter": "any"
+                                    }
+                                ],
+                                "returnType": "void"
+                            },
+                            {
+                                "name": "getThemeList",
+                                "description": "获得主题列表",
+                                "docParameters": [],
+                                "returnType": "Promise<string[]>"
+                            },
+                            {
+                                "name": "defineTheme",
+                                "description": "定义主题,代替 `monaco.editor.defineTheme`",
+                                "docParameters": [
+                                    {
+                                        "name": "name",
+                                        "isOptional": false,
+                                        "type": "string",
+                                        "isRestParam": false,
+                                        "description": "从`getThemeList`方法中返回的名字",
+                                        "parameter": "string"
+                                    }
+                                ],
+                                "returnType": "Promise<string>"
+                            },
+                            {
+                                "name": "manualRegisterLanguage",
+                                "description": "手动注册语言",
+                                "docParameters": [
+                                    {
+                                        "name": "languageId",
+                                        "isOptional": false,
+                                        "type": "string",
+                                        "isRestParam": false,
+                                        "description": "",
+                                        "parameter": "string"
+                                    }
+                                ],
+                                "returnType": "Promise<void>"
+                            },
+                            {
+                                "name": "getLanguageId",
+                                "description": "通过语言别名或者id,获得语言的id",
+                                "docParameters": [
+                                    {
+                                        "name": "languageIdOrType",
+                                        "isOptional": false,
+                                        "type": "string",
+                                        "isRestParam": false,
+                                        "description": "",
+                                        "parameter": "string"
+                                    }
+                                ],
+                                "returnType": "Promise<any>"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "selector": "doc-catalog",
+                "property": {
+                    "selector": "doc-content"
+                }
+            }
+        ]
+    }
+]

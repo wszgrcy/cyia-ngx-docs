@@ -129,6 +129,7 @@
                                 "description": "",
                                 "parameter": "PropertyDataSourceOptions<RESULT>",
                                 "typeLink": {
+                                    "extraDocTypeList": [],
                                     "propertyList": [
                                         {
                                             "name": "source",
@@ -185,6 +186,7 @@
                                 "description": "相关参数",
                                 "parameter": "ClassDataSourceOptions",
                                 "typeLink": {
+                                    "extraDocTypeList": [],
                                     "propertyList": [
                                         {
                                             "name": "source",
@@ -249,6 +251,7 @@
                                 "description": "",
                                 "parameter": "PropertyDataSourceStandaloneOptions<any>",
                                 "typeLink": {
+                                    "extraDocTypeList": [],
                                     "propertyList": [
                                         {
                                             "name": "source",
@@ -324,6 +327,7 @@
                                 "description": "",
                                 "parameter": "PropertyDefaultValueOptions",
                                 "typeLink": {
+                                    "extraDocTypeList": [],
                                     "propertyList": [
                                         {
                                             "name": "isNull",

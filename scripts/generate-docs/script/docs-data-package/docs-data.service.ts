@@ -92,15 +92,22 @@ export class DocsDataService {
     docService.name = item.name;
     docService.description = item.description;
     docService.importLib = this.tsconfigService.getDocPackage(item);
-    docService.templatename = 'service';
     docService.methodList = item.members
       .filter((member) => member instanceof MethodMemberDoc)
-      .map((member) => {
+      .map((member: MethodMemberDoc) => {
         const docMethod = new DocMethod();
         docMethod.name = member.name;
-        docMethod.description = member.description;
-        docMethod.docParameters = this.handle(member);
+        docMethod.description = (member as any).description;
+        docMethod.docParameters = this.handle(member as any);
         docMethod.returnType = member.type;
+        if (!member.type) {
+          const symbol = member.symbol;
+          const checker = member.typeChecker;
+          const print = ts.createPrinter();
+          const type = checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration);
+          const typeNode = checker.typeToTypeNode(type, undefined, undefined);
+          docMethod.returnType = print.printNode(ts.EmitHint.Unspecified, (typeNode as any).type, undefined);
+        }
         return docMethod;
       });
     this.docServiceMap.set(item.name, docService);
