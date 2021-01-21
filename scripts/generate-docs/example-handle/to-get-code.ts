@@ -4,7 +4,6 @@ import * as fs from 'fs-extra';
 import { createCssSelectorForHtml, createCssSelectorForTs } from 'cyia-code-util';
 import ts from 'typescript';
 import { buildRelativePath } from '@schematics/angular/utility/find-module';
-import { PriorityQueue } from '@angular-devkit/core';
 function getDirContent(prefix: string) {
   const obj = {};
 
@@ -40,9 +39,13 @@ export class ExampleCodeHandle {
   private codeGroupMap = new Map<string, any>();
   private shareCodeGroup = {};
   run() {
+    this.clear()
     this.toGetShareCode();
     this.toGetExampleCodes();
     this.toGetIncrementAction();
+  }
+  clear() {
+    fs.removeSync(EXAMPLE_CODE_PATH_OUTPUT);
   }
   /** 实例代码 */
   private toGetExampleCodes() {
