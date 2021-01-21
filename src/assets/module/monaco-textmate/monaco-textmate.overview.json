@@ -33,7 +33,7 @@
                     },
                     {
                         "selector": "overview-markdown",
-                        "property": "## 简介\r\n\r\n- `monaco-editor` 的一个辅助模块\r\n- 使用`vscode-textmate`解析代码,使得主题部分与`vscode`相同\r\n- 由于使用的`wasm`模块,理论上不支持 es5 浏览器(即 ie11 等)\r\n\r\n## 使用\r\n"
+                        "property": "## 简介\n\n- `monaco-editor` 的一个辅助模块\n- 使用`vscode-textmate`解析代码,使得主题部分与`vscode`相同\n- 由于使用的`wasm`模块,理论上不支持 es5 浏览器(即 ie11 等)\n\n## 使用\n"
                     }
                 ]
             },

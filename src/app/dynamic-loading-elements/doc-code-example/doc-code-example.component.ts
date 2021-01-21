@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, SimpleChanges, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { importScript } from 'cyia-ngx-common/util';
+import { importScript, importStyle } from 'cyia-ngx-common/util';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { take, map, tap } from 'rxjs/operators';
@@ -32,7 +32,7 @@ export class DocCodeExampleComponent implements OnInit {
         Promise.all([
           Promise.all(item.scripts.map(({ src }) => importScript(`assets/examples/scripts/${src}`))),
           //todo 升级修改
-          Promise.all(item.stylesheets.map(({ href }) => importScript(`assets/examples/scripts/${href}`))),
+          Promise.all(item.stylesheets.map(({ href }) => importStyle(`assets/examples/scripts/${href}`))),
         ]).then(async () => {
           const fn = await (window as any).cyiaNgxDocsLoadExamples;
           if (!fn) {
