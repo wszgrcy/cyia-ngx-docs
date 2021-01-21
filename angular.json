@@ -34,8 +34,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss",
-              "./node_modules/monaco-editor/min/vs/editor/editor.main.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },

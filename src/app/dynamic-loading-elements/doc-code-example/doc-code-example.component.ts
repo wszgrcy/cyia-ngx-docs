@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, SimpleChanges, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { importScript } from 'cyia-ngx-common/util';
+import { importScript, importStyle } from 'cyia-ngx-common/util';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { take, map, tap } from 'rxjs/operators';
@@ -26,13 +26,22 @@ export class DocCodeExampleComponent implements OnInit {
 
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    importScript('assets/examples/scripts/main.js').then(async (result) => {
-      const fn = await (window as any).cyiaNgxDocsLoadExamples;
-      if (!fn) {
-        throw new Error('未找到全局的实例载入函数cyiaNgxDocsLoadExamples');
-      }
-      fn(this.exampleName, this.exampleComponentAnchorElementRef.nativeElement, this.destroy$);
-    });
+    this.httpClient
+      .get('assets/examples/scripts/bootstrap.json')
+      .subscribe((item: { scripts: { src: string }[]; stylesheets: { href: string }[] }) => {
+        Promise.all([
+          Promise.all(item.scripts.map(({ src }) => importScript(`assets/examples/scripts/${src}`))),
+          //todo 升级修改
+          Promise.all(item.stylesheets.map(({ href }) => importStyle(`assets/examples/scripts/${href}`))),
+        ]).then(async () => {
+          const fn = await (window as any).cyiaNgxDocsLoadExamples;
+          if (!fn) {
+            throw new Error('未找到全局的实例载入函数cyiaNgxDocsLoadExamples');
+          }
+          fn(this.exampleName, this.exampleComponentAnchorElementRef.nativeElement, this.destroy$);
+        });
+      });
+
     this.exampleCodeGroupPromise = this.httpClient
       .get(`assets/examples/codes/${this.exampleName}.json`)
       .pipe(

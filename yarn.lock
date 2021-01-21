@@ -3255,12 +3255,18 @@ cyia-code-util@^1.0.4:
     css-what "^4.0.0"
     inquirer "^7.3.3"
 
-cyia-ngx-common@^10.1.4:
-  version "10.1.4"
-  resolved "https://registry.yarnpkg.com/cyia-ngx-common/-/cyia-ngx-common-10.1.4.tgz#7f81c58f28440cdc4bc7938869bc7866f91c9ed6"
-  integrity sha512-fKvskOuXymvAE9/k8PCazaUtkOQsvCBXAi4NrKK2fvDRWzo/6I6HRW9e/1ecNwOxaUB4+BKP92DlOlvMVhS9/w==
+cyia-ngx-common@^10.1.7:
+  version "10.1.7"
+  resolved "https://registry.yarnpkg.com/cyia-ngx-common/-/cyia-ngx-common-10.1.7.tgz#2a51d711df267dfd24d1d029860d3eb3dcb6b2ff"
+  integrity sha512-7a6VimgfO7ckmDoLmw4l7ISa6cYrrX6a/1YOqWqhDEI4s0f2gx97Deb8KydSP9V2j94TfUFns/cunXSdPZWyIQ==
   dependencies:
     tslib "^2.0.0"
+  optionalDependencies:
+    json5 "^2.1.3"
+    monaco-editor "^0.21.2"
+    reflect-metadata "0.1.13"
+    vscode-oniguruma "1.4.0"
+    vscode-textmate "5.2.0"
 
 d@1, d@^1.0.1:
   version "1.0.1"
@@ -6434,10 +6440,10 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-monaco-editor@0.21.2:
-  version "0.21.2"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.21.2.tgz#37054e63e480d51a2dd17d609dcfb192304d5605"
-  integrity sha512-jS51RLuzMaoJpYbu7F6TPuWpnWTLD4kjRW0+AZzcryvbxrTwhNy1KC9yboyKpgMTahpUbDUsuQULoo0GV1EPqg==
+monaco-editor@^0.21.2:
+  version "0.21.3"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.21.3.tgz#3381b66614b64d1c5e3b77dd5564ad496d1b4e5d"
+  integrity sha512-9N7wATLpi+googstvtm6IKg97vPQ77FDYEpkow5tLriM/VJ0DaTRyUP4UVzcoH7KlPDX+e/rE7/imcOUeGkT6g==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -7973,7 +7979,7 @@ readdirp@~3.5.0:
   dependencies:
     picomatch "^2.2.1"
 
-reflect-metadata@^0.1.2:
+reflect-metadata@0.1.13, reflect-metadata@^0.1.2:
   version "0.1.13"
   resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
   integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
