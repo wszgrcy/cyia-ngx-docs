@@ -18,12 +18,6 @@ jobs:
           git config --global user.email "${GITHUB_ACTOR}@gmail.com"
       - name: pull-code
         uses: actions/checkout@v2
-      # - name: git
-      #   run: |
-      #     git clone ${REPOSITORY_PATH}${GITHUB_REPOSITORY}.git
-      # - uses: actions/checkout@v2-beta
-      #   with:
-      #     token: ${{ secrets.ACCESS_TOKEN }}
       - name: install-node
         uses: actions/setup-node@v1
         with:
@@ -31,12 +25,6 @@ jobs:
       - name: install-dependencies
         run: |
           npm i
-      # - name: unit-test
-      #   run: |
-      #     npm run test
-      # - name: e2e-test
-      #   run: |
-      #     npm run e2e
       - name: build
         run: |
           npm run build
@@ -46,6 +34,10 @@ jobs:
           rm -rf *
           cp -rp ../dist/* .
           cp ./index.html 404.html
+      - name: compress
+        uses: wszgrcy/github-action-compress-file@master
+      - name: tag
+        run: |
           git status
           git add -A
           git commit -m '页面构建'
