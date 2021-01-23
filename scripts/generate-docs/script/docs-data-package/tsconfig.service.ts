@@ -1,24 +1,25 @@
 import { CompilerOptions } from 'typescript';
 import * as fs from 'fs';
 import * as path from 'path';
-import { LIB_PATH, IMPORT_PATH } from '../const/path';
 import * as ts from 'typescript';
 import { FileInfo } from 'dgeni-packages/typescript/services/TsParser/FileInfo';
 import * as glob from 'glob';
-export function tsconfigService() {
-  return new TSconfigService();
+import { ConfigService } from './config.service';
+export function tsconfigService(configService) {
+  return new TSconfigService(configService);
 }
 /**用来查找包对应的路径 */
 export class TSconfigService {
   private compilerOptions: CompilerOptions;
   /**保存路径对应的包引用 */
   private pathMap = new Map<string, string>();
+  constructor(private configService: ConfigService) {}
   /**读库的配置文件 */
-  async read(tsconfigpath: string = 'tsconfig.lib.json') {
-    const res = ts.readConfigFile(path.resolve(LIB_PATH, tsconfigpath), (str) => {
+  async read() {
+    const res = ts.readConfigFile(this.configService.config.tsConfigPath, (str) => {
       return fs.readFileSync(str).toString();
     });
-    const config = ts.parseJsonConfigFileContent(res.config, ts.sys, LIB_PATH);
+    const config = ts.parseJsonConfigFileContent(res.config, ts.sys, this.configService.config.libraryPath);
     this.compilerOptions = config.options;
     for (const packageName in this.compilerOptions.paths) {
       if (this.compilerOptions.paths.hasOwnProperty(packageName)) {
@@ -38,9 +39,10 @@ export class TSconfigService {
       }
     }
   }
+  /** 获得包的名字 */
   getDocPackage(doc: { fileInfo: FileInfo }) {
     const realFilePath = doc.fileInfo.realFilePath;
-    let patternPath;
+    let patternPath: string;
     for (const path of this.pathMap.keys()) {
       if (realFilePath.includes(path)) {
         patternPath = path;
@@ -50,6 +52,6 @@ export class TSconfigService {
     if (patternPath) {
       return this.pathMap.get(patternPath);
     }
-    return IMPORT_PATH;
+    return this.configService.config.projectName;
   }
 }

@@ -1,0 +1,42 @@
+[
+    {
+        "selector": "flex-layout",
+        "property": {
+            "flexList": [
+                "1 1 0",
+                "0 0 130px"
+            ]
+        },
+        "children": [
+            {
+                "selector": "doc-content",
+                "children": [
+                    {
+                        "selector": "doc-tabs",
+                        "property": [
+                            {
+                                "title": "简介",
+                                "url": "module/monaco-textmate/overview",
+                                "selected": true
+                            },
+                            {
+                                "title": "接口",
+                                "url": "module/monaco-textmate/api",
+                                "selected": false
+                            },
+                            {
+                                "title": "实例",
+                                "url": "module/monaco-textmate/example",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    {
+                        "selector": "overview-markdown",
+                        "property": "<doc-code-example data-example-name=\"monaco-textmate-1\" data-example-title=\"vscode主题\"></doc-code-example>\n"
+                    }
+                ]
+            }
+        ]
+    }
+]

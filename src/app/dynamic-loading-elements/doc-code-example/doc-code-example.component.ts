@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, SimpleChanges, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { importScript } from 'cyia-ngx-common/util';
+import { importScript, importStyle } from 'cyia-ngx-common/util';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { take, map } from 'rxjs/operators';
+import { take, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'doc-code-example',
@@ -19,24 +19,36 @@ export class DocCodeExampleComponent implements OnInit {
     codeOpen: false,
   };
   extGroup = {};
-  exampleCodeGroupPromise: Promise<any>;
-  exampleShareCodeGroupPromise: Promise<any>;
+  exampleCodeGroupPromise: Promise<{ [name: string]: string }>;
+  exampleShareCodeGroupPromise: Promise<{ [name: string]: string }>;
+  exampleCodeActionGroup: { insert?: { filePath: string; content: string; position: number }[] } = {};
   constructor(private elementRef: ElementRef, private httpClient: HttpClient, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    importScript('assets/examples/scripts/main.js').then(async (result) => {
-      const fn = await (window as any).cyiaNgxDocsLoadExamples;
-      if (!fn) {
-        throw new Error('未找到全局的实例载入函数cyiaNgxDocsLoadExamples');
-      }
-      fn(this.exampleName, this.exampleComponentAnchorElementRef.nativeElement, this.destroy$);
-    });
+    this.httpClient
+      .get('assets/examples/scripts/bootstrap.json')
+      .subscribe((item: { scripts: { src: string }[]; stylesheets: { href: string }[] }) => {
+        Promise.all([
+          Promise.all(item.scripts.map(({ src }) => importScript(`assets/examples/scripts/${src}`))),
+          //todo 升级修改
+          Promise.all(item.stylesheets.map(({ href }) => importStyle(`assets/examples/scripts/${href}`))),
+        ]).then(async () => {
+          const fn = await (window as any).cyiaNgxDocsLoadExamples;
+          if (!fn) {
+            throw new Error('未找到全局的实例载入函数cyiaNgxDocsLoadExamples');
+          }
+          fn(this.exampleName, this.exampleComponentAnchorElementRef.nativeElement, this.destroy$);
+        });
+      });
+
     this.exampleCodeGroupPromise = this.httpClient
       .get(`assets/examples/codes/${this.exampleName}.json`)
       .pipe(
         take(1),
+        tap((res: any) => (this.exampleCodeActionGroup = res.action)),
         map((res: any) => {
+          res = res.file;
           for (const key in res) {
             if (Object.prototype.hasOwnProperty.call(res, key)) {
               const result = key.match(/\.([^\.]*)$/);
@@ -69,6 +81,12 @@ export class DocCodeExampleComponent implements OnInit {
   async openEditor(e) {
     const exampleCodeGroup = await this.exampleCodeGroupPromise;
     const exampleShareCodeGroup = await this.exampleShareCodeGroupPromise;
+    (this.exampleCodeActionGroup.insert || []).forEach((item) => {
+      exampleShareCodeGroup[item.filePath] =
+        exampleShareCodeGroup[item.filePath].slice(0, item.position) +
+        item.content +
+        exampleShareCodeGroup[item.filePath].slice(item.position);
+    });
     const form = document.createElement('form');
     for (const key in exampleShareCodeGroup) {
       if (Object.prototype.hasOwnProperty.call(exampleShareCodeGroup, key)) {
@@ -79,7 +97,7 @@ export class DocCodeExampleComponent implements OnInit {
     for (const key in exampleCodeGroup) {
       if (Object.prototype.hasOwnProperty.call(exampleCodeGroup, key)) {
         const value = exampleCodeGroup[key];
-        form.appendChild(this.createFormInput(`files[src/app/example-code/${key}]`, value));
+        form.appendChild(this.createFormInput(`files[src/app/${this.exampleName}/${key}]`, value));
       }
     }
     const packageJson = JSON.parse(exampleShareCodeGroup['package.json']);

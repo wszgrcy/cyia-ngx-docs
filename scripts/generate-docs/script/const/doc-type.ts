@@ -7,5 +7,4 @@ export const EXAMPLE_DOC_TYPE = 'example-doc';
 export const OVERVIEW_DOC_TYPE = 'overview-doc';
 export const API_DOC_TYPE = 'api-doc';
 export const NAVIGATION_DOC_TYPE = 'navigation-doc';
-export const LIBRARY_TSCONFIG_NAME = undefined;
 export const JSON_TYPE = 'markdown-doc';

@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import { default as md } from 'markdown-it';
 import hljs from 'highlight.js';
+/** @deprecated 最后直接一个合并json搞定 */
 export class MarkdownNunjucksExtension {
   tags = ['markdown'];
   parse(parser: any, nodes: any) {

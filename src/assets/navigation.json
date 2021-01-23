@@ -41,6 +41,27 @@
                 "contentCatalog": false
             }
         ]
+    },
+    {
+        "title": "CyiaMonacoTextmateModule",
+        "url": "module/monaco-textmate/overview",
+        "tabs": [
+            {
+                "title": "简介",
+                "url": "module/monaco-textmate/overview",
+                "contentCatalog": true
+            },
+            {
+                "title": "接口",
+                "url": "module/monaco-textmate/api",
+                "contentCatalog": true
+            },
+            {
+                "title": "实例",
+                "url": "module/monaco-textmate/example",
+                "contentCatalog": false
+            }
+        ]
     }
 ],
     "footer":{

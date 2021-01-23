@@ -1,5 +1,6 @@
 :host {
-  flex: 0 0 auto;
+  // todo 临时处理
+  flex: 0 0 auto !important;
   mat-tree {
     position: sticky;
     top: 20px;

@@ -60,6 +60,7 @@
                                 "description": "",
                                 "parameter": "CyiaLoadHintOption",
                                 "typeLink": {
+                                    "extraDocTypeList": [],
                                     "propertyList": [
                                         {
                                             "name": "container",
