@@ -5,7 +5,7 @@ import * as ts from 'typescript';
 import { DECORATOR_DOC_TYPE } from '../const/doc-type';
 import { DocBase } from './base';
 
-export class BaseDoc extends DocBase{
+export class BaseDoc extends DocBase {
   docType: string;
   name: string;
   id: string;
@@ -24,8 +24,9 @@ export class DocFunction extends BaseDoc {
   importLib: string;
 
   docParameters: DocParameter[];
-  templatename: string;
+  templatename: string = 'function';
 }
 export class DocDecorator extends DocFunction {
   readonly docType = DECORATOR_DOC_TYPE;
+  templatename = 'decorator';
 }

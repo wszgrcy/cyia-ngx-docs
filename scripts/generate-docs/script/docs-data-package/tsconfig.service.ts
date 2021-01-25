@@ -39,7 +39,9 @@ export class TSconfigService {
       }
     }
   }
-  /** 获得包的名字 */
+  /** 获得包的名字
+   * todo 需要更优雅写法
+   */
   getDocPackage(doc: { fileInfo: FileInfo }) {
     const realFilePath = doc.fileInfo.realFilePath;
     let patternPath: string;

@@ -6,12 +6,13 @@ import { DocParameter } from '../define/parameter';
 import { ParameterContainer } from 'dgeni-packages/typescript/api-doc-types/ParameterContainer';
 import { FunctionExportDoc } from 'dgeni-packages/typescript/api-doc-types/FunctionExportDoc';
 import { PropertyMemberDoc } from 'dgeni-packages/typescript/api-doc-types/PropertyMemberDoc';
-import { DocDecorator } from '../define/function';
+import { DocDecorator, DocFunction } from '../define/function';
 import { DocModule } from '../define/doc-module';
 import { TSconfigService } from './tsconfig.service';
 import { OVERVIEW_TAG, EXAMPLE_TAG } from '../const/comment-tag';
 import * as path from 'path';
 import * as ts from 'typescript';
+import { DocClass, DocComponent, DocDirective } from '../define';
 export function docsDataService(tsconfigService) {
   return new DocsDataService(tsconfigService);
 }
@@ -24,7 +25,10 @@ export class DocsDataService {
   private docServiceMap = new Map<string, DocService>();
   private docDecoratorMap = new Map<string, DocDecorator>();
   private docModuleMap = new Map<string, DocModule>();
-
+  private docDirectiveMap = new Map<string, DocDirective>();
+  private docComponentMap = new Map<string, DocComponent>();
+  private docClassMap = new Map<string, DocClass>();
+  private docFunctionMap = new Map<string, DocFunction>();
   /**由于类型的特殊性,需要全部传入递归实现 */
   setDocTypes(docs = []) {
     // todo 修改类型识别判断
@@ -86,31 +90,8 @@ export class DocsDataService {
   }
   /**ng服务 */
   addDocService(item) {
-    const docService: DocService = new DocService();
-    docService.id = item.id;
-    docService.aliases = item.aliases;
-    docService.name = item.name;
-    docService.description = item.description;
-    docService.importLib = this.tsconfigService.getDocPackage(item);
-    docService.methodList = item.members
-      .filter((member) => member instanceof MethodMemberDoc)
-      .map((member: MethodMemberDoc) => {
-        const docMethod = new DocMethod();
-        docMethod.name = member.name;
-        docMethod.description = (member as any).description;
-        docMethod.docParameters = this.handle(member as any);
-        docMethod.returnType = member.type;
-        if (!member.type) {
-          const symbol = member.symbol;
-          const checker = member.typeChecker;
-          const print = ts.createPrinter();
-          const type = checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration);
-          const typeNode = checker.typeToTypeNode(type, undefined, undefined);
-          docMethod.returnType = print.printNode(ts.EmitHint.Unspecified, (typeNode as any).type, undefined);
-        }
-        return docMethod;
-      });
-    this.docServiceMap.set(item.name, docService);
+    let instance = this.getClassData(item, new DocService());
+    this.docServiceMap.set(item.name, instance);
   }
   /**处理方法,函数(装饰器)的参数 */
   handle(docs: FunctionExportDoc) {
@@ -154,15 +135,8 @@ export class DocsDataService {
   }
   /**ts装饰器 */
   addDocDecorator(item) {
-    const docDecorator: DocDecorator = new DocDecorator();
-    docDecorator.id = item.id;
-    docDecorator.name = item.name;
-    docDecorator.description = item.description;
-    docDecorator.aliases = item.aliases;
-    docDecorator.docParameters = this.handle(item);
-    docDecorator.importLib = this.tsconfigService.getDocPackage(item);
-    docDecorator.templatename = 'decorator';
-    this.docDecoratorMap.set(item.name, docDecorator);
+    let instance = this.getFunctionData(item, new DocDecorator());
+    this.docDecoratorMap.set(item.name, instance);
   }
   /**ng模块 */
   addDocModule(item) {
@@ -186,6 +160,61 @@ export class DocsDataService {
     docModule.NgModule = docModule.decoratorParameters[0];
     docModule.folder = item.originalModule.split('/').slice(-2)[0];
     this.docModuleMap.set(item.name, docModule);
+  }
+  addComponent(item) {
+    let instance = this.getClassData(item, new DocComponent());
+    // todo
+    instance.selector = '';
+    this.docComponentMap.set(item.name, instance);
+  }
+  addDirective(item) {
+    let instance = this.getClassData(item, new DocDirective());
+    // todo
+    instance.selector = '';
+    this.docDirectiveMap.set(item.name, instance);
+  }
+  addClass(item) {
+    let instance = this.getClassData(item, new DocClass());
+    this.docClassMap.set(item.name, instance);
+  }
+  addFunction(item) {
+    let instance = this.getFunctionData(item, new DocFunction());
+    this.docFunctionMap.set(item.name, instance);
+  }
+  private getFunctionData<T extends DocFunction>(item, instance: T) {
+    instance.id = item.id;
+    instance.name = item.name;
+    instance.description = item.description;
+    instance.aliases = item.aliases;
+    instance.docParameters = this.handle(item);
+    instance.importLib = this.tsconfigService.getDocPackage(item);
+    return instance;
+  }
+  private getClassData<T extends DocClass>(item, instance: T) {
+    instance.id = item.id;
+    instance.aliases = item.aliases;
+    instance.name = item.name;
+    instance.description = item.description;
+    instance.importLib = this.tsconfigService.getDocPackage(item);
+    instance.methodList = item.members
+      .filter((member) => member instanceof MethodMemberDoc)
+      .map((member: MethodMemberDoc) => {
+        const docMethod = new DocMethod();
+        docMethod.name = member.name;
+        docMethod.description = (member as any).description;
+        docMethod.docParameters = this.handle(member as any);
+        docMethod.returnType = member.type;
+        if (!member.type) {
+          const symbol = member.symbol;
+          const checker = member.typeChecker;
+          const print = ts.createPrinter();
+          const type = checker.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration);
+          const typeNode = checker.typeToTypeNode(type, undefined, undefined);
+          docMethod.returnType = print.printNode(ts.EmitHint.Unspecified, (typeNode as any).type, undefined);
+        }
+        return docMethod;
+      });
+    return instance;
   }
   getDocServices() {
     return [...this.docServiceMap.values()];

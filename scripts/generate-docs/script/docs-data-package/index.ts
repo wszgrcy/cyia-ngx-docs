@@ -1,7 +1,7 @@
 import { Package } from 'dgeni';
 import { BasePackage } from '../base-package';
 import { docsDataProcessor } from './docs-data.processor';
-import { MODULE_TAG, SERVICE_TAG, DECORATOR_TAG, OVERVIEW_TAG, EXAMPLE_TAG } from '../const/comment-tag';
+import { ALL_EXTEND_TAG } from '../const/comment-tag';
 import { docsDataService } from './docs-data.service';
 import { tsconfigService } from './tsconfig.service';
 import { Host } from 'dgeni-packages/typescript/services/ts-host/host';
@@ -18,12 +18,6 @@ export function docsDataPackageFactory(config: GenerateDocConfig) {
       tsHost.typeFormatFlags = TypeFormatFlags.AllowUniqueESSymbolType | TypeFormatFlags.UseAliasDefinedOutsideCurrentScope;
     })
     .config(function (parseTagsProcessor: any) {
-      parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat([
-        { name: MODULE_TAG },
-        { name: SERVICE_TAG },
-        { name: DECORATOR_TAG },
-        { name: OVERVIEW_TAG },
-        { name: EXAMPLE_TAG },
-      ]);
+      parseTagsProcessor.tagDefinitions = parseTagsProcessor.tagDefinitions.concat(ALL_EXTEND_TAG.map((name) => ({ name: name })));
     });
 }
