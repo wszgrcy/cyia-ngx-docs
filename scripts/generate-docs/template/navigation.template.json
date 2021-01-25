@@ -1,4 +1,0 @@
-{
-    "sideNav":{{doc.sideNavToJson|json}},
-    "footer":{{doc.footerToJson|json}}
-}
