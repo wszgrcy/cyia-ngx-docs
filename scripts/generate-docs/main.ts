@@ -37,20 +37,27 @@ export class Main {
   }
 
   private async getInitParameter() {
-    let configPath = await inputText('请输入文档配置文件', (input) => {
-      const configPath = path.resolve(process.cwd(), input);
-      const exist = fs.existsSync(configPath);
-      if (!exist) {
-        console.warn(`\n文件路径[${configPath}]不存在`);
-        return false;
-      }
-      const stat = fs.statSync(configPath);
-      if (!stat.isFile()) {
-        console.warn(`\n该路径[${configPath}]并不是一个文件`);
-        return false;
-      }
-      return true;
-    });
+    let configPath: string;
+    if (fs.statSync(path.resolve(process.cwd(), process.argv[2])).isDirectory()) {
+      configPath = path.join(process.argv[2], 'cyia-ngx-docs.json');
+    }
+    if (configPath && this.validConfigPath(configPath)) {
+    } else {
+      configPath = await inputText('请输入文档配置文件', (input) => {
+        const configPath = path.resolve(process.cwd(), input);
+        const exist = fs.existsSync(configPath);
+        if (!exist) {
+          console.warn(`\n文件路径[${configPath}]不存在`);
+          return false;
+        }
+        const stat = fs.statSync(configPath);
+        if (!stat.isFile()) {
+          console.warn(`\n该路径[${configPath}]并不是一个文件`);
+          return false;
+        }
+        return true;
+      });
+    }
     configPath = path.resolve(process.cwd(), configPath);
     try {
       this.docConfig = JSON.parse(fs.readFileSync(configPath).toString());
@@ -72,5 +79,20 @@ export class Main {
       projectName: packageJson.name,
       generateDocFileList: this.docConfig.generateDocFileList,
     };
+  }
+
+  private validConfigPath(filePath: string) {
+    const configPath = path.resolve(process.cwd(), filePath);
+    const exist = fs.existsSync(configPath);
+    if (!exist) {
+      console.warn(`\n文件路径[${configPath}]不存在`);
+      return false;
+    }
+    const stat = fs.statSync(configPath);
+    if (!stat.isFile()) {
+      console.warn(`\n该路径[${configPath}]并不是一个文件`);
+      return false;
+    }
+    return true;
   }
 }
