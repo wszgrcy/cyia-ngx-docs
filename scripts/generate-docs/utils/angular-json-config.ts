@@ -1,4 +1,4 @@
-import { WorkspaceTargets, WorkspaceProject, WorkspaceSchema } from '@schematics/angular/utility/workspace-models';
+import { WorkspaceTargets, WorkspaceProject, WorkspaceSchema, LibraryBuilderOptions } from '@schematics/angular/utility/workspace-models';
 import * as path from 'path';
 export class AngularJsonConfig {
   project: WorkspaceProject;
@@ -31,6 +31,9 @@ export class AngularJsonConfig {
   }
   getSourceRoot() {
     return path.resolve(this.configDir, this.project.sourceRoot);
+  }
+  getProject() {
+    return path.resolve(this.configDir, ((this.getCurrentOptions() as any) as LibraryBuilderOptions).project);
   }
   getCurrentProject() {
     return this.project;

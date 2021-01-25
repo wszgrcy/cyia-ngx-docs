@@ -78,6 +78,7 @@ export class Main {
       sourcePath: angularJsonConfig.getSourceRoot(),
       projectName: packageJson.name,
       generateDocFileList: this.docConfig.generateDocFileList,
+      angularJsonConfig,
     };
   }
 

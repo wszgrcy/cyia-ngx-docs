@@ -1,3 +1,5 @@
+import { AngularJsonConfig } from '../../utils/angular-json-config';
+
 export interface GenerateDocConfig {
   tsConfigPath?: string;
   /** library路径,tsconfig使用 */
@@ -9,4 +11,5 @@ export interface GenerateDocConfig {
   /** 准备生成文档的一些文件 */
   generateDocFileList?: string[];
 
+  angularJsonConfig?: AngularJsonConfig;
 }
