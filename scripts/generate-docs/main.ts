@@ -38,8 +38,10 @@ export class Main {
 
   private async getInitParameter() {
     let configPath: string;
-    if (process.argv[2] && this.validConfigPath(process.argv[2])) {
-      configPath = process.argv[2];
+    if (fs.statSync(path.resolve(process.cwd(), process.argv[2])).isDirectory()) {
+      configPath = path.join(process.argv[2], 'cyia-ngx-docs.json');
+    }
+    if (configPath && this.validConfigPath(configPath)) {
     } else {
       configPath = await inputText('请输入文档配置文件', (input) => {
         const configPath = path.resolve(process.cwd(), input);
